@@ -492,9 +492,24 @@ body { background:#fff; color:#292929; }
 @media(max-width:700px){ .utility-nav{display:none}.primary-nav{overflow-x:auto;white-space:nowrap}.preview-note{padding:0 10px}.primary-nav a{margin-right:8px} }
 
 /* Thin scrollbars for both page and horizontally scrollable navigation. */
-.primary-nav{gap:0 5px}
-.primary-nav a{margin-right:0;padding-left:2px;padding-right:2px;font-size:15px!important}
+.primary-nav{gap:0;justify-content:space-between}
+.primary-nav a{margin-right:0;padding-left:0;padding-right:0;font-size:15px!important}
 .primary-nav a[aria-current="page"]{border-bottom-color:transparent;font-weight:500;-webkit-text-stroke:.25px currentColor}
+@media(max-width:900px){.primary-nav{gap:0 10px;justify-content:flex-start}}
+/* The lab column pairs each product photo with its related passage. */
+.column-lab-features{display:grid;gap:38px;margin:24px 0 30px}
+.column-lab-feature{display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:28px;align-items:center}
+.column-lab-feature:nth-child(even){grid-template-columns:minmax(0,1fr) minmax(0,42%)}
+.column-lab-feature figure{grid-column:1;grid-row:1;width:80%;min-width:0;margin:0}
+.column-lab-feature:nth-child(even) figure{grid-column:2;justify-self:end}
+.column-lab-feature .column-lab-copy{grid-column:2;grid-row:1;min-width:0}
+.column-lab-feature:nth-child(even) .column-lab-copy{grid-column:1}
+.column-lab-feature img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
+.column-lab-feature figcaption{margin-top:8px;color:#777;font-size:14px;line-height:1.5}
+.column-lab-copy p{margin:0 0 15px;white-space:normal}
+.column-lab-copy .post-video-reference{margin-top:14px}
+.column-lab-copy .post-video-reference img{max-width:280px;max-height:180px}
+@media(max-width:700px){.column-lab-feature,.column-lab-feature:nth-child(even){display:flex;flex-direction:column;align-items:stretch;gap:16px}.column-lab-feature figure,.column-lab-feature:nth-child(even) figure{width:80%;align-self:flex-start}.column-lab-feature:nth-child(even) figure{align-self:flex-end}.column-lab-feature img{max-height:300px}}
 *::-webkit-scrollbar{width:4px;height:4px}
 *::-webkit-scrollbar-track{background:transparent}
 *::-webkit-scrollbar-thumb{background:#aaa;border-radius:4px}
@@ -573,7 +588,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20260930-r15`);
+    const response = await fetch(`qaf-page-${name}.html?v=20260930-r22`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
     const reader = response.body?.getReader();
@@ -619,6 +634,7 @@ async function showRoute() {
     if (route.startsWith('magazines')) wireBookToolbar();
     if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); MemoryFifths.mount(); MemoryBasics.mount(); WorldScaleWheel.mount(); }
     if (route === 'band') wireBandVideos();
+    if (route === 'column/column-lab') wireLabColumn();
     if (route === 'design/qaf2') wireQaf2Gallery();
     if (route === 'viewpoints') wireViewpoints();
     const anchor = decodeURIComponent(location.hash.slice(1));
@@ -630,6 +646,38 @@ async function showRoute() {
   } catch {
     main.innerHTML = '<p class="preview-error">此頁暫時無法載入，請重新整理。</p>';
   }
+}
+
+function wireLabColumn() {
+  const article = main.querySelector('article.post-entry');
+  const gallery = article?.querySelector('.post-image-gallery');
+  const copy = article?.querySelector('.hub-copy');
+  if (!gallery || !copy) return;
+  const figures = [...gallery.querySelectorAll('figure')];
+  const paragraphs = copy.textContent.split(/\n\s*\n/).map(text => text.trim()).filter(Boolean);
+  const groups = [[0, 1], [2], [3, 4], [5]];
+  const features = document.createElement('div');
+  features.className = 'column-lab-features';
+  figures.forEach((figure, index) => {
+    const row = document.createElement('section');
+    row.className = 'column-lab-feature';
+    const text = document.createElement('div');
+    text.className = 'column-lab-copy';
+    for (const part of groups[index] || []) {
+      if (!paragraphs[part]) continue;
+      const p = document.createElement('p');
+      p.textContent = paragraphs[part];
+      text.append(p);
+    }
+    if (index === figures.length - 1) {
+      const video = article.querySelector('.post-video-reference');
+      if (video) text.append(video);
+    }
+    row.append(figure, text);
+    features.append(row);
+  });
+  gallery.replaceWith(features);
+  copy.remove();
 }
 
 function wireViewpoints() {
