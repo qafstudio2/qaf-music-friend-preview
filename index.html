@@ -366,6 +366,15 @@ body { background:#fff; color:#292929; }
 #main button[disabled], #main input[disabled], #main textarea[disabled], #main select[disabled] { cursor:default; opacity:.65; }
 #main .magazine-card[hidden] { display:none; }
 .preview-loading,.preview-error { padding:36px 8px; color:#666; }
+.preview-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:280px; text-align:center; }
+.preview-loading-label { margin:16px 0 0; font-size:13px; color:#555; }
+.preview-tuner { position:relative; width:96px; height:96px; border-radius:50%; border:3px solid #dedede; background:radial-gradient(circle at center,#fff 0 52%,transparent 53%),conic-gradient(from -60deg,#b86854 0 70deg,#498269 78deg 102deg,#b86854 110deg 180deg,#ededed 181deg); box-shadow:0 4px 18px #0001; }
+.tuner-flat,.tuner-sharp { position:absolute; top:35px; font-size:19px; font-weight:700; color:#9a5e52; }
+.tuner-flat { left:11px; }.tuner-sharp { right:11px; }
+.tuner-center { position:absolute; top:9px; left:50%; transform:translateX(-50%); font-size:13px; font-weight:700; color:#397a61; }
+.tuner-needle { position:absolute; left:calc(50% - 2px); top:23px; width:4px; height:45px; border-radius:4px; background:#397a61; transform-origin:50% 100%; animation:tuner-find-pitch 2.2s ease-in-out infinite; }
+.tuner-needle::after { content:''; position:absolute; width:10px; height:10px; border-radius:50%; background:#397a61; bottom:-4px; left:-3px; }
+@keyframes tuner-find-pitch { 0%{transform:rotate(-52deg);background:#b86854} 38%{transform:rotate(25deg);background:#b86854} 62%{transform:rotate(-9deg);background:#9a805a} 82%,100%{transform:rotate(0deg);background:#397a61} }
 .preview-progress { width:min(320px,80vw); height:5px; overflow:hidden; background:#e8e8e8; border-radius:5px; margin-top:12px; }
 .preview-progress span { display:block; width:35%; height:100%; background:#5b5b5b; border-radius:5px; animation:preview-loading-move 1.2s ease-in-out infinite alternate; }
 .preview-progress.measured span { animation:none; transition:width .2s ease; }
@@ -393,7 +402,7 @@ body { background:#fff; color:#292929; }
     <a href="#shops" data-section="shops">購物網站</a>
     <a href="#design" data-section="design">吉他設計</a>
   </nav>
-  <main id="main" aria-live="polite"><div class="preview-loading">正在載入頁面…<div class="preview-progress" role="progressbar" aria-label="正在載入"><span></span></div></div></main>
+  <main id="main" aria-live="polite"><div class="preview-loading" role="status" aria-live="polite"><div class="preview-tuner" aria-hidden="true"><span class="tuner-flat">♭</span><span class="tuner-sharp">♯</span><span class="tuner-center">準</span><i class="tuner-needle"></i></div><p class="preview-loading-label">調音中，正在載入頁面…</p><div class="preview-progress" role="progressbar" aria-label="正在載入"><span></span></div></div></main>
   <footer class="site-footer"><span>QAF · MUSIC / PRACTICE / IDEAS</span><span>朋友測試版</span></footer>
   <button id="back-to-top" type="button" aria-label="回到頂部">↑</button>
   <script>
@@ -415,6 +424,13 @@ const routes = new Map([
 const main = document.getElementById('main');
 let current = '';
 
+function loadingMarkup() {
+  return '<div class="preview-loading" role="status" aria-live="polite">'
+    + '<div class="preview-tuner" aria-hidden="true"><span class="tuner-flat">♭</span><span class="tuner-sharp">♯</span><span class="tuner-center">準</span><i class="tuner-needle"></i></div>'
+    + '<p class="preview-loading-label">調音中，正在載入頁面…</p>'
+    + '<div class="preview-progress" role="progressbar" aria-label="正在載入"><span></span></div></div>';
+}
+
 function routeFromHash() {
   const hash = decodeURIComponent(location.hash.slice(1));
   return routes.has(hash) ? hash : 'memory';
@@ -425,7 +441,7 @@ async function showRoute() {
   if (route === current) return;
   current = route;
   const name = routes.get(route);
-  main.innerHTML = '<div class="preview-loading">正在載入頁面…<div class="preview-progress" role="progressbar" aria-label="正在載入"><span></span></div></div>';
+  main.innerHTML = loadingMarkup();
   try {
     const response = await fetch(`qaf-page-${name}.html`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -441,8 +457,8 @@ async function showRoute() {
         parts.push(value);
         bytes += value.byteLength;
         if (route === current) {
-          const label = main.querySelector('.preview-loading');
-          if (label) label.firstChild.textContent = `正在載入頁面… 已接收 ${Math.round(bytes / 1024)} KB`;
+          const label = main.querySelector('.preview-loading-label');
+          if (label) label.textContent = `調音中，已載入 ${Math.round(bytes / 1024)} KB`;
           const bar = main.querySelector('.preview-progress');
           if (bar && total && !response.headers.get('content-encoding')) {
             bar.classList.add('measured');
@@ -465,10 +481,80 @@ async function showRoute() {
     document.title = `${document.querySelector('.primary-nav a[aria-current="page"]')?.textContent || 'QAF'}｜QAF 音樂學習`;
     if (route.startsWith('magazines')) wireBookToolbar();
     if (route === 'memory') wireMemoryBoard();
+    if (route === 'band') wireBandVideos();
+    if (route === 'design/qaf2') wireQaf2Gallery();
     window.scrollTo(0, 0);
   } catch {
     main.innerHTML = '<p class="preview-error">此頁暫時無法載入，請重新整理。</p>';
   }
+}
+
+function wireQaf2Gallery() {
+  const root = main.querySelector('#qaf-workbook');
+  const data = root?.querySelector('#friend-qaf2-data');
+  const grid = root?.querySelector('#app-grid');
+  if (!data || !grid) return;
+  const {catalog, selected} = JSON.parse(data.textContent);
+  const selectedIds = new Set(selected);
+  let revision = 'all', selectedOnly = false, view = 'body', page = 1;
+  const pageSize = 30;
+  const filter = root.querySelector('#revision-filter');
+  const chosen = root.querySelector('#selected-only');
+  const previous = root.querySelector('#previous');
+  const next = root.querySelector('#next');
+  filter.disabled = false;
+  chosen.disabled = false;
+  filter.value = 'all';
+  const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const art = item => `<svg viewBox="${(view === 'body' ? item.bodyBox : item.fullBox).join(' ')}" role="img" aria-label="方案 ${item.code} ${view === 'body' ? '琴身' : '完整吉他'}"><use href="#study-${item.id}"></use></svg>`;
+  const matches = item => (revision === 'all' || (revision === 'early' ? item.revision.startsWith('E') : item.revision === revision)) && (!selectedOnly || selectedIds.has(item.id));
+  function render() {
+    const items = catalog.filter(matches);
+    const pages = Math.max(1, Math.ceil(items.length / pageSize));
+    page = Math.min(page, pages);
+    const slice = items.slice((page - 1) * pageSize, page * pageSize);
+    grid.innerHTML = slice.map(item => `<article class="study ${selectedIds.has(item.id) ? 'chosen' : ''}" data-id="${item.id}"><div class="card-head"><strong class="card-number mono">${esc(item.code)}</strong><span class="old-code">${esc(item.revision)} · 原 ${esc(item.original)}</span></div><button class="art-button" data-preview-design="${item.id}" aria-label="放大方案 ${esc(item.code)}">${art(item)}</button><div class="study-meta">${esc(item.name)}</div><div class="card-bottom"><span class="friend-selection">${selectedIds.has(item.id) ? '✓ 原本已勾選' : '未勾選'} · ${esc(item.width)}</span></div></article>`).join('');
+    root.querySelector('#result-count').textContent = items.length ? `顯示 ${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, items.length)} / ${items.length} 張` : '0 張';
+    root.querySelector('#page-count').textContent = `${page} / ${pages}`;
+    previous.disabled = page <= 1;
+    next.disabled = page >= pages;
+    root.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
+  }
+  filter.addEventListener('change', () => { revision = filter.value; page = 1; render(); });
+  chosen.addEventListener('change', () => { selectedOnly = chosen.checked; page = 1; render(); });
+  root.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => { view = button.dataset.view; render(); }));
+  previous.addEventListener('click', () => { page--; render(); root.querySelector('.collection-intro').scrollIntoView(); });
+  next.addEventListener('click', () => { page++; render(); root.querySelector('.collection-intro').scrollIntoView(); });
+  grid.addEventListener('click', event => {
+    const button = event.target.closest('[data-preview-design]');
+    if (!button) return;
+    const item = catalog.find(entry => entry.id === Number(button.dataset.previewDesign));
+    if (!item) return;
+    const dialog = root.querySelector('#detail-dialog');
+    root.querySelector('#detail-title').textContent = `方案 ${item.code}`;
+    root.querySelector('#detail-subtitle').textContent = `${item.revision} · 原 ${item.original} · ${item.name}`;
+    root.querySelector('#detail-art').innerHTML = `<svg viewBox="${item.fullBox.join(' ')}" role="img" aria-label="完整吉他"><use href="#study-${item.id}"></use></svg><svg viewBox="${item.bodyBox.join(' ')}" role="img" aria-label="琴身"><use href="#study-${item.id}"></use></svg>`;
+    dialog.showModal();
+  });
+  root.querySelectorAll('#detail-dialog [data-close]').forEach(button => button.addEventListener('click', () => root.querySelector('#detail-dialog').close()));
+  render();
+}
+
+function wireBandVideos() {
+  main.querySelectorAll('.band-video-poster[data-video-id]').forEach(button => {
+    button.addEventListener('click', () => {
+      const id = button.dataset.videoId;
+      if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return;
+      const iframe = document.createElement('iframe');
+      iframe.className = 'hub-video';
+      iframe.title = `${button.dataset.videoTitle || '練團曲'} 影片`;
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      button.replaceWith(iframe);
+    });
+  });
 }
 
 function wireMemoryBoard() {
