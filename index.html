@@ -442,17 +442,25 @@ function loadingMarkup() {
 
 function routeFromHash() {
   const hash = decodeURIComponent(location.hash.slice(1));
-  return routes.has(hash) ? hash : 'memory';
+  if (routes.has(hash)) return hash;
+  if (hash && main.querySelector(`#${CSS.escape(hash)}`)) return current;
+  if (hash.startsWith('guide-')) return 'guide';
+  if (hash.startsWith('memory-')) return 'memory';
+  return 'memory';
 }
 
 async function showRoute() {
   const route = routeFromHash();
-  if (route === current) return;
+  if (route === current) {
+    const anchor = decodeURIComponent(location.hash.slice(1));
+    if (anchor && !routes.has(anchor)) document.getElementById(anchor)?.scrollIntoView();
+    return;
+  }
   current = route;
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20260930-r11`);
+    const response = await fetch(`qaf-page-${name}.html?v=20260930-r12`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = Number(response.headers.get('content-length')) || 0;
     const reader = response.body?.getReader();
@@ -493,7 +501,12 @@ async function showRoute() {
     if (route === 'band') wireBandVideos();
     if (route === 'design/qaf2') wireQaf2Gallery();
     if (route === 'viewpoints') wireViewpoints();
-    window.scrollTo(0, 0);
+    const anchor = decodeURIComponent(location.hash.slice(1));
+    if (anchor && !routes.has(anchor)) {
+      document.getElementById(anchor)?.scrollIntoView();
+    } else {
+      window.scrollTo(0, 0);
+    }
   } catch {
     main.innerHTML = '<p class="preview-error">此頁暫時無法載入，請重新整理。</p>';
   }
