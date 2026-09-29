@@ -507,8 +507,17 @@ body { background:#fff; color:#292929; }
 .column-lab-feature img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
 .column-lab-feature figcaption{margin-top:8px;color:#777;font-size:14px;line-height:1.5}
 .column-lab-copy p{margin:0 0 15px;white-space:normal}
+.column-lab-copy h4{font-size:23px;line-height:1.35;font-weight:700;margin:0 0 18px}
 #main .post-image-gallery figure.friend-qaf-first-image{width:50%!important}
+.friend-qaf-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:center;margin:26px 0 38px}
+.friend-qaf-intro .post-image-gallery{display:block;margin:0}
+#main .friend-qaf-intro .post-image-gallery figure.friend-qaf-first-image{width:100%!important}
+.friend-qaf-intro .post-image-gallery img{display:block;width:100%;height:auto;max-height:none}
+.friend-qaf-intro-copy h3{font-size:29px;font-weight:700;line-height:1.35;margin:0 0 20px}
+.friend-qaf-intro-copy p{font-size:18px;line-height:1.8;margin:0 0 18px}
+.friend-qaf-murmur-label{font-size:13px!important;font-weight:700;letter-spacing:.13em;color:#777;margin-top:28px!important;margin-bottom:6px!important}
 @media(max-width:700px){.column-lab-feature,.column-lab-feature:nth-child(even){display:flex;flex-direction:column;align-items:stretch;gap:16px}.column-lab-feature figure,.column-lab-feature:nth-child(even) figure{width:80%;align-self:flex-start}.column-lab-feature:nth-child(even) figure{align-self:flex-end}.column-lab-feature img{max-height:300px}}
+@media(max-width:700px){.friend-qaf-intro{grid-template-columns:1fr;gap:18px}.friend-qaf-intro .post-image-gallery{width:100%}.friend-qaf-intro-copy h3{font-size:25px}}
 *::-webkit-scrollbar{width:4px;height:4px}
 *::-webkit-scrollbar-track{background:transparent}
 *::-webkit-scrollbar-thumb{background:#aaa;border-radius:4px}
@@ -634,7 +643,7 @@ async function showRoute() {
     if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); MemoryFifths.mount(); MemoryBasics.mount(); WorldScaleWheel.mount(); }
     if (route === 'band') wireBandVideos();
     if (route === 'column/column-lab') wireLabColumn();
-    if (route === 'column/column-qaf') main.querySelector('article.post-entry .post-image-gallery figure')?.classList.add('friend-qaf-first-image');
+    if (route === 'column/column-qaf') wireQafColumn();
     if (route === 'design/qaf2') wireQaf2Gallery();
     if (route === 'viewpoints') wireViewpoints();
     const anchor = decodeURIComponent(location.hash.slice(1));
@@ -655,7 +664,16 @@ function wireLabColumn() {
   if (!gallery || !copy) return;
   const figures = [...gallery.querySelectorAll('figure')].filter((_, index) => index !== 1);
   const paragraphs = copy.textContent.split(/\n\s*\n/).map(text => text.trim()).filter(Boolean);
-  const groups = [[0, 1], [2, 3], [4, 5]];
+  const groups = [[1], [2, 3], [4]];
+  const titles = [paragraphs[0], '本來會暈車，現在有煞車', '可以加裝延伸踏板'];
+  const rubberneck = figures[1];
+  const rubberneckImage = rubberneck?.querySelector('img');
+  if (rubberneckImage) {
+    rubberneckImage.src = 'assets/dod-rubberneck-official.jpg';
+    rubberneckImage.alt = 'DOD Rubberneck 類比延遲效果器正面，圖片來源：DOD／DigiTech';
+    const caption = rubberneck.querySelector('figcaption');
+    if (caption) caption.textContent = 'DOD Rubberneck 正面｜圖片來源：DOD／DigiTech';
+  }
   const features = document.createElement('div');
   features.className = 'column-lab-features';
   figures.forEach((figure, index) => {
@@ -663,17 +681,54 @@ function wireLabColumn() {
     row.className = 'column-lab-feature';
     const text = document.createElement('div');
     text.className = 'column-lab-copy';
+    const heading = document.createElement('h4');
+    heading.textContent = titles[index];
+    text.append(heading);
     for (const part of groups[index] || []) {
       if (!paragraphs[part]) continue;
       const p = document.createElement('p');
       p.textContent = paragraphs[part];
       text.append(p);
     }
+    if (index === 2) {
+      const extension = document.createElement('p');
+      extension.textContent = '想把這場飆車玩得更順手，還可以接上選購的 DigiTech FS3X 三鍵延伸踏板。Tap Tempo、Curve 開關與 Friction 操作都能交給腳下；原廠附的磁吸面板貼上去，連踏板都像一起進了維修站。';
+      const invitation = document.createElement('p');
+      invitation.textContent = '快來聽吧。';
+      text.append(extension, invitation);
+    }
     row.append(figure, text);
     features.append(row);
   });
   gallery.replaceWith(features);
   copy.remove();
+}
+
+function wireQafColumn() {
+  const article = main.querySelector('article.post-entry');
+  const gallery = article?.querySelector('.post-image-gallery');
+  const titleCopy = gallery?.nextElementSibling;
+  const leadCopy = titleCopy?.nextElementSibling;
+  if (!gallery || !titleCopy?.classList.contains('hub-copy') || !leadCopy?.classList.contains('hub-copy')) return;
+  gallery.querySelector('figure')?.classList.add('friend-qaf-first-image');
+  const intro = document.createElement('div');
+  intro.className = 'friend-qaf-intro';
+  const text = document.createElement('div');
+  text.className = 'friend-qaf-intro-copy';
+  const heading = document.createElement('h3');
+  heading.textContent = titleCopy.textContent.trim();
+  const lead = document.createElement('p');
+  lead.textContent = leadCopy.textContent.trim();
+  const murmurLabel = document.createElement('p');
+  murmurLabel.className = 'friend-qaf-murmur-label';
+  murmurLabel.textContent = 'MURMUR';
+  const murmur = document.createElement('p');
+  murmur.textContent = '畫圖時想的是造型，練團時想的卻是手能不能在下一拍找到那個聲音。QAF.1 的電路，就是從這個小小的任性長出來的。';
+  text.append(heading, lead, murmurLabel, murmur);
+  gallery.replaceWith(intro);
+  intro.append(gallery, text);
+  titleCopy.remove();
+  leadCopy.remove();
 }
 
 function wireViewpoints() {
