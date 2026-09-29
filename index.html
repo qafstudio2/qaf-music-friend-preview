@@ -365,6 +365,15 @@ body { background:#fff; color:#292929; }
 #main a:not([href]) { color:inherit; text-decoration:none; cursor:default; }
 #main button[disabled], #main input[disabled], #main textarea[disabled], #main select[disabled] { cursor:default; opacity:.65; }
 #main .magazine-card[hidden] { display:none; }
+#main #viewpoint-cards article[hidden] { display:none; }
+.preview-view-count { margin:12px 0 20px; }
+.preview-score-dialog { border:1px solid #ddd; border-radius:8px; padding:28px; width:min(800px,90vw); max-height:85vh; color:#333; }
+.preview-score-dialog::backdrop { background:#0009; }
+.preview-score-close { float:right; border:0; background:none; font-size:27px; line-height:1; cursor:pointer; }
+.preview-score-content { display:grid; grid-template-columns:minmax(180px,1fr) minmax(180px,1fr); gap:28px; align-items:start; clear:both; }
+.preview-score-content img { display:block; width:100%; max-height:68vh; object-fit:contain; }
+.preview-score-content p { color:#666; }
+@media(max-width:600px){.preview-score-content{grid-template-columns:1fr}.preview-score-content img{max-height:45vh}}
 .preview-loading,.preview-error { padding:36px 8px; color:#666; }
 .preview-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:280px; text-align:center; }
 .preview-loading-label { margin:16px 0 0; font-size:13px; color:#555; }
@@ -443,7 +452,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20260930-r6`);
+    const response = await fetch(`qaf-page-${name}.html?v=20260930-r9`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = Number(response.headers.get('content-length')) || 0;
     const reader = response.body?.getReader();
@@ -483,10 +492,36 @@ async function showRoute() {
     if (route === 'memory') wireMemoryBoard();
     if (route === 'band') wireBandVideos();
     if (route === 'design/qaf2') wireQaf2Gallery();
+    if (route === 'viewpoints') wireViewpoints();
     window.scrollTo(0, 0);
   } catch {
     main.innerHTML = '<p class="preview-error">此頁暫時無法載入，請重新整理。</p>';
   }
+}
+
+function wireViewpoints() {
+  const select = main.querySelector('#view-category');
+  const container = main.querySelector('#viewpoint-cards');
+  if (!select || !container) return;
+  const cards = [...container.querySelectorAll('article')];
+  const categories = [...new Set(cards.map(card => card.querySelector('.badge')?.textContent.trim()).filter(Boolean))];
+  for (const category of categories) {
+    if (![...select.options].some(option => option.value === category)) select.add(new Option(category, category));
+  }
+  const count = document.createElement('p');
+  count.className = 'preview-view-count muted';
+  container.before(count);
+  const filter = () => {
+    const wanted = select.value;
+    let visible = 0;
+    for (const card of cards) {
+      card.hidden = wanted !== '全部' && card.querySelector('.badge')?.textContent.trim() !== wanted;
+      if (!card.hidden) visible++;
+    }
+    count.textContent = `顯示 ${visible} / ${cards.length} 則觀點`;
+  };
+  select.addEventListener('change', filter);
+  filter();
 }
 
 function wireQaf2Gallery() {
@@ -643,6 +678,53 @@ function wireBookToolbar() {
       card.hidden = term && !card.textContent.toLocaleLowerCase().includes(term);
     });
   });
+  if (current === 'magazines/score') wireScorePreview();
+}
+
+function wireScorePreview() {
+  const cards = [...main.querySelectorAll('#books-grid .magazine-card')];
+  const count = main.querySelector('#books-count');
+  const pager = main.querySelector('#books-pages');
+  if (count) count.textContent = `樂譜展示 · ${cards.length} 本封面（正式庫共 48 本）`;
+  if (pager) pager.innerHTML = '<span>展示版僅提供封面與書目；原始樂譜留在私人資料庫。</span>';
+  const dialog = document.createElement('dialog');
+  dialog.className = 'preview-score-dialog';
+  dialog.innerHTML = '<button type="button" class="preview-score-close" aria-label="關閉預覽">×</button><div class="preview-score-content"></div>';
+  main.append(dialog);
+  dialog.querySelector('button').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  for (const card of cards) {
+    const cover = card.querySelector('a[data-read]');
+    if (!cover) continue;
+    cover.href = '#';
+    cover.removeAttribute('target');
+    cover.setAttribute('aria-label', `預覽 ${card.querySelector('h3')?.textContent || '樂譜'} 的封面`);
+    cover.addEventListener('click', event => {
+      event.preventDefault();
+      const image = card.querySelector('img');
+      const title = card.querySelector('h3')?.textContent || '樂譜';
+      const details = [...card.querySelectorAll('small')].map(node => node.textContent).filter(Boolean);
+      const content = dialog.querySelector('.preview-score-content');
+      content.replaceChildren();
+      const picture = document.createElement('img');
+      picture.src = image.src;
+      picture.alt = `${title} 封面預覽`;
+      const info = document.createElement('div');
+      const heading = document.createElement('h3');
+      heading.textContent = title;
+      info.append(heading);
+      for (const detail of details) {
+        const line = document.createElement('p');
+        line.textContent = detail;
+        info.append(line);
+      }
+      const note = document.createElement('p');
+      note.textContent = '朋友展示版不提供原始 PDF。';
+      info.append(note);
+      content.append(picture, info);
+      dialog.showModal();
+    });
+  }
 }
 
 window.addEventListener('hashchange', showRoute);
