@@ -452,7 +452,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20260930-r9`);
+    const response = await fetch(`qaf-page-${name}.html?v=20260930-r10`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = Number(response.headers.get('content-length')) || 0;
     const reader = response.body?.getReader();
@@ -664,7 +664,7 @@ function wireMemoryBoard() {
 }
 
 function wireBookToolbar() {
-  const categories = {magazine:'magazine', textbook:'book', score:'score', video:'video'};
+  const categories = {magazine:'magazine', textbook:'book', scores:'score', video:'video'};
   main.querySelectorAll('[data-category]').forEach(button => {
     button.addEventListener('click', () => {
       const next = categories[button.dataset.category];
