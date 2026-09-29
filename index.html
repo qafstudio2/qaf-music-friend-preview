@@ -507,6 +507,7 @@ body { background:#fff; color:#292929; }
 .column-lab-feature img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
 .column-lab-feature figcaption{margin-top:8px;color:#777;font-size:14px;line-height:1.5}
 .column-lab-copy p{margin:0 0 15px;white-space:normal}
+#main .post-image-gallery figure.friend-qaf-first-image{width:50%!important}
 @media(max-width:700px){.column-lab-feature,.column-lab-feature:nth-child(even){display:flex;flex-direction:column;align-items:stretch;gap:16px}.column-lab-feature figure,.column-lab-feature:nth-child(even) figure{width:80%;align-self:flex-start}.column-lab-feature:nth-child(even) figure{align-self:flex-end}.column-lab-feature img{max-height:300px}}
 *::-webkit-scrollbar{width:4px;height:4px}
 *::-webkit-scrollbar-track{background:transparent}
@@ -633,6 +634,7 @@ async function showRoute() {
     if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); MemoryFifths.mount(); MemoryBasics.mount(); WorldScaleWheel.mount(); }
     if (route === 'band') wireBandVideos();
     if (route === 'column/column-lab') wireLabColumn();
+    if (route === 'column/column-qaf') main.querySelector('article.post-entry .post-image-gallery figure')?.classList.add('friend-qaf-first-image');
     if (route === 'design/qaf2') wireQaf2Gallery();
     if (route === 'viewpoints') wireViewpoints();
     const anchor = decodeURIComponent(location.hash.slice(1));
