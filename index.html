@@ -507,8 +507,6 @@ body { background:#fff; color:#292929; }
 .column-lab-feature img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
 .column-lab-feature figcaption{margin-top:8px;color:#777;font-size:14px;line-height:1.5}
 .column-lab-copy p{margin:0 0 15px;white-space:normal}
-.column-lab-copy .post-video-reference{margin-top:14px}
-.column-lab-copy .post-video-reference img{max-width:280px;max-height:180px}
 @media(max-width:700px){.column-lab-feature,.column-lab-feature:nth-child(even){display:flex;flex-direction:column;align-items:stretch;gap:16px}.column-lab-feature figure,.column-lab-feature:nth-child(even) figure{width:80%;align-self:flex-start}.column-lab-feature:nth-child(even) figure{align-self:flex-end}.column-lab-feature img{max-height:300px}}
 *::-webkit-scrollbar{width:4px;height:4px}
 *::-webkit-scrollbar-track{background:transparent}
@@ -653,9 +651,9 @@ function wireLabColumn() {
   const gallery = article?.querySelector('.post-image-gallery');
   const copy = article?.querySelector('.hub-copy');
   if (!gallery || !copy) return;
-  const figures = [...gallery.querySelectorAll('figure')];
+  const figures = [...gallery.querySelectorAll('figure')].filter((_, index) => index !== 1);
   const paragraphs = copy.textContent.split(/\n\s*\n/).map(text => text.trim()).filter(Boolean);
-  const groups = [[0, 1], [2], [3, 4], [5]];
+  const groups = [[0, 1], [2, 3], [4, 5]];
   const features = document.createElement('div');
   features.className = 'column-lab-features';
   figures.forEach((figure, index) => {
@@ -668,10 +666,6 @@ function wireLabColumn() {
       const p = document.createElement('p');
       p.textContent = paragraphs[part];
       text.append(p);
-    }
-    if (index === figures.length - 1) {
-      const video = article.querySelector('.post-video-reference');
-      if (video) text.append(video);
     }
     row.append(figure, text);
     features.append(row);
