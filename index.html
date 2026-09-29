@@ -452,7 +452,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20260930-r10`);
+    const response = await fetch(`qaf-page-${name}.html?v=20260930-r11`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = Number(response.headers.get('content-length')) || 0;
     const reader = response.body?.getReader();
@@ -489,7 +489,7 @@ async function showRoute() {
     }
     document.title = `${document.querySelector('.primary-nav a[aria-current="page"]')?.textContent || 'QAF'}｜QAF 音樂學習`;
     if (route.startsWith('magazines')) wireBookToolbar();
-    if (route === 'memory') wireMemoryBoard();
+    if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); }
     if (route === 'band') wireBandVideos();
     if (route === 'design/qaf2') wireQaf2Gallery();
     if (route === 'viewpoints') wireViewpoints();
@@ -590,6 +590,56 @@ function wireBandVideos() {
       button.replaceWith(iframe);
     });
   });
+}
+
+function wireMemoryNotes() {
+  const select = main.querySelector('#memory-note');
+  const hide = main.querySelector('#memory-hide');
+  const board = main.querySelector('#memory-board');
+  const answer = main.querySelector('#memory-answer');
+  if (!select || !hide || !board || !answer) return;
+  const opens = [4, 11, 7, 2, 9, 4];
+  const labels = ['1弦 E', '2弦 B', '3弦 G', '4弦 D', '5弦 A', '6弦 E'];
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const add = (parent, tag, attributes, content) => {
+    const node = document.createElementNS(svgNS, tag);
+    for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, String(value));
+    if (content !== undefined) node.textContent = content;
+    parent.append(node);
+  };
+  function redraw() {
+    const pitch = Number(select.value);
+    const hidden = hide.checked;
+    if (!Number.isInteger(pitch) || pitch < 0 || pitch > 11) return;
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 790 230');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', `標準調弦 0 到 12 品的 ${select.selectedOptions[0].textContent} 位置，第一弦在上`);
+    add(svg, 'rect', {x:70, y:35, width:690, height:160, rx:8, fill:'#f4ece0'});
+    for (let fret = 0; fret <= 12; fret++) {
+      const x = 90 + fret * 54;
+      add(svg, 'text', {x, y:22, 'text-anchor':'middle', 'font-size':13}, fret);
+      if (fret) add(svg, 'line', {x1:x-27, y1:35, x2:x-27, y2:195, stroke:'#bdb4a5'});
+    }
+    for (let string = 0; string < 6; string++) {
+      const y = 48 + string * 27;
+      add(svg, 'text', {x:4, y:y+5, 'font-size':13}, labels[string]);
+      add(svg, 'line', {x1:75, y1:y, x2:760, y2:y, stroke:'#8d958d', 'stroke-width':1+string*.2});
+      if (hidden) continue;
+      for (let fret = 0; fret <= 12; fret++) {
+        if ((opens[string] + fret) % 12 !== pitch) continue;
+        const x = 90 + fret * 54;
+        add(svg, 'circle', {cx:x, cy:y, r:12, fill:'#267461'});
+        add(svg, 'text', {x, y:y+4, 'text-anchor':'middle', fill:'white', 'font-size':11}, fret);
+      }
+    }
+    board.replaceChildren(svg);
+    answer.textContent = hidden ? '已遮住答案：先彈，再在紙上畫出，最後取消勾選核對。'
+      : '0–12品位置（六弦→一弦）：' + [...opens].reverse().map((open, index) => `${6-index}弦 ${Array.from({length:13}, (_, fret) => fret).filter(fret => (open+fret)%12 === pitch).join('/')}品`).join('；');
+  }
+  select.addEventListener('change', redraw);
+  hide.addEventListener('change', redraw);
+  redraw();
 }
 
 function wireMemoryBoard() {
