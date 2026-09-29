@@ -491,6 +491,12 @@ body { background:#fff; color:#292929; }
 #back-to-top { position:fixed; right:22px; bottom:22px; width:39px; height:39px; border:1px solid #ddd; border-radius:50%; background:#fff; color:#444; box-shadow:0 2px 8px #0001; cursor:pointer; z-index:10; }
 @media(max-width:700px){ .utility-nav{display:none}.primary-nav{overflow-x:auto;white-space:nowrap}.preview-note{padding:0 10px}.primary-nav a{margin-right:8px} }
 
+/* Thin scrollbars for both page and horizontally scrollable navigation. */
+*::-webkit-scrollbar{width:4px;height:4px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:#aaa;border-radius:4px}
+*::-webkit-scrollbar-thumb:hover{background:#777}
+@supports (-moz-appearance:none){*{scrollbar-width:thin;scrollbar-color:#aaa transparent}}
 </style>
 </head>
 <body>
@@ -564,7 +570,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20260930-r13`);
+    const response = await fetch(`qaf-page-${name}.html?v=20260930-r15`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
     const reader = response.body?.getReader();
@@ -602,6 +608,7 @@ async function showRoute() {
     await new Promise(resolve => requestAnimationFrame(resolve));
     if (route !== current) return;
     main.innerHTML = markup;
+    main.querySelectorAll('figure.preview-authentic-image').forEach(figure => figure.remove());
     for (const link of document.querySelectorAll('.primary-nav a')) {
       link.setAttribute('aria-current', route === link.dataset.section || route.startsWith(link.dataset.section + '/') ? 'page' : 'false');
     }
