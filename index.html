@@ -443,7 +443,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html`);
+    const response = await fetch(`qaf-page-${name}.html?v=20260930-r6`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = Number(response.headers.get('content-length')) || 0;
     const reader = response.body?.getReader();
