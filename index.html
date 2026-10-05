@@ -570,7 +570,7 @@ body { background:#fff; color:#292929; }
 <script src="friend-memory.js?v=20261001-memory2"></script>
 <link rel="stylesheet" href="friend-memory.css?v=20261001-memory2">
   <script>
-const pageSizes = {"band":7780,"column-lab":225451,"column-qaf":177156,"columns":310822,"design-instagram":1837474,"design-qaf1":43528,"design-qaf2":1873079,"design-setup":469,"design-wiring":148180,"design":727,"guide":22138,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":163998,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
+const pageSizes = {"band":7780,"column-lab":225451,"column-qaf":45238,"columns":310820,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1873079,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":163998,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
 const routes = new Map([
   ['home','home'], ['my-music','my-music'], ['overview','overview'],
   ['memory','memory'], ['nodes','nodes'], ['guide','guide'],
@@ -616,7 +616,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20261001-memory2`);
+    const response = await fetch(`qaf-page-${name}.html?v=20261005-qaf-sync`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
     const reader = response.body?.getReader();
@@ -977,5 +977,5 @@ showRoute();
 
 </script>
   <script src="friend-mobile.js"></script>
-</body>
+<style id="friend-qaf-sync-style">#friend-qaf1-model{margin:20px 0 42px;padding:18px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd}.friend-model-heading{display:flex;align-items:start;justify-content:space-between;gap:18px}.friend-model-heading h2{margin:0 0 5px}.friend-model-heading p{margin:0 0 10px}.friend-model-tabs{display:flex;gap:18px;flex-wrap:wrap;padding:10px 0}.friend-model-tabs button,.column-tabs button{border:0;background:none;color:#555;padding:5px 0;border-radius:0}.friend-model-tabs button[aria-pressed=true],.column-tabs button[aria-pressed=true]{font-weight:750;color:#111}.friend-model-tabs button:hover,.column-tabs button:hover{background:none;color:#111}#friend-qaf1-frame{display:block;width:100%;height:min(850px,80vh);min-height:520px;border:1px solid #bbb;background:#fff}.column-tabs{display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid #ddd;padding:8px 0}.post-entry[hidden]{display:none!important}@media(max-width:700px){.friend-model-heading{display:block}#friend-qaf1-frame{height:72vh;min-height:480px}}</style><script id="friend-qaf-sync-script">document.addEventListener('click',event=>{const model=event.target.closest('[data-friend-model]');if(model){const page=model.dataset.friendModel;if(!['model.html','index.html','render.html'].includes(page))return;const frame=document.getElementById('friend-qaf1-frame');if(frame)frame.src='qaf1-model/'+page;document.querySelectorAll('[data-friend-model]').forEach(button=>button.setAttribute('aria-pressed',String(button===model)));return}const category=event.target.closest('[data-friend-category]');if(category){const selected=category.dataset.friendCategory;document.querySelectorAll('[data-friend-category]').forEach(button=>button.setAttribute('aria-pressed',String(button===category)));let shown=0;document.querySelectorAll('#main .post-entry[data-category]').forEach(article=>{article.hidden=!!selected&&article.dataset.category!==selected;if(!article.hidden)shown++});const count=document.querySelector('#main .column-count');if(count)count.textContent=(selected||'最新文章')+' · '+shown+' 篇'}});</script></body>
 </html>
