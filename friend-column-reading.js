@@ -102,6 +102,12 @@
     }
     window.scrollTo(0,0);
   };
+  let suppressImageClickUntil = 0;
+  document.addEventListener('pointerdown', event => {
+    if (!event.target.closest?.('.column-image-close')) return;
+    suppressImageClickUntil = Date.now() + 400;
+    document.getElementById('column-image-lightbox')?.close();
+  }, true);
   document.addEventListener('click', event => {
     const button = event.target.closest('[data-lab-category]');
     if (!button) return;
@@ -114,6 +120,7 @@
   new MutationObserver(routeReady).observe(main, {childList:true});
   routeReady();
   document.addEventListener('click', event => {
+    if (Date.now() < suppressImageClickUntil) return;
     const image = event.target.closest('#main article.post-entry figure img');
     if (!image || image.closest('.post-video-reference')) return;
     const link = image.closest('a');
@@ -125,8 +132,8 @@
       dialog.id = 'column-image-lightbox';
       dialog.className = 'column-image-lightbox';
       dialog.innerHTML = '<form method="dialog"><button type="submit" aria-label="關閉圖片" class="column-image-close">×</button></form><img alt=""><p></p>';
-      dialog.querySelector('button').addEventListener('click', e => { e.preventDefault(); e.stopImmediatePropagation(); dialog.close(); }, true);
-      dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+      dialog.querySelector('button').addEventListener('click', e => { e.preventDefault(); e.stopImmediatePropagation(); suppressImageClickUntil = Date.now() + 400; dialog.close(); }, true);
+      dialog.addEventListener('click', e => { if (e.target === dialog) { suppressImageClickUntil = Date.now() + 400; dialog.close(); } });
       document.body.append(dialog);
     }
     dialog.querySelector('img').src = link?.href || image.currentSrc || image.src;
