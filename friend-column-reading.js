@@ -58,4 +58,10 @@
     if (!button) return;
     document.querySelectorAll('[data-lab-category]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
   });
+  const main = document.getElementById('main');
+  const routeReady = () => {
+    if (location.hash.startsWith('#column/column-lab/') && main.querySelector('#friend-column-reader')) window.friendLabRoute();
+  };
+  new MutationObserver(routeReady).observe(main, {childList:true});
+  routeReady();
 })();
