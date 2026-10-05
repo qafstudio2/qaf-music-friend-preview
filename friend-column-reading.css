@@ -7,7 +7,18 @@
 .column-article-badges{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 10px}
 .column-article-badges span{background:#a61921;color:#fff;font-size:13px;font-weight:700;padding:3px 9px}
 .column-article-badges span+span{background:#171717}
-.column-article-toc{display:flex;flex-direction:column;align-items:flex-start;gap:7px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:16px 0;margin:20px 0 28px}
-.column-article-toc strong{margin-bottom:3px}.column-article-toc a{color:#333;text-decoration:none}.column-article-toc a:hover{text-decoration:underline}
+.column-article-toc{background:#fff;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:13px 0;margin:20px 0 28px}
+.column-article-toc summary{cursor:pointer;font-weight:700;list-style:none}.column-article-toc summary::-webkit-details-marker{display:none}
+.column-article-toc summary::before{content:'▸';display:inline-block;margin-right:8px}.column-article-toc[open] summary::before{content:'▾'}
+.column-article-toc summary span{font-weight:400;color:#777;font-size:14px;margin-left:8px}
+.column-article-toc nav{display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:14px 0 4px;background:#fff}
+.column-article-toc a{color:#333;text-decoration:none}.column-article-toc a:hover{text-decoration:underline}
+.column-reader-recommendations{margin:50px 0 20px}.column-reader-recommendations h3{font-size:24px;margin:0 0 12px}
 .post-entry h4,.post-entry h5{scroll-margin-top:120px}
 .friend-column-grid:has(>.friend-column-card:only-child){grid-template-columns:minmax(0,330px)}
+.column-image-lightbox{position:fixed;inset:0;width:100vw;max-width:none;height:100vh;max-height:none;margin:0;padding:24px;border:0;background:#141414;color:#fff;box-sizing:border-box;text-align:center}
+.column-image-lightbox::backdrop{background:#000d}
+.column-image-lightbox img{display:block;max-width:100%;max-height:calc(100vh - 92px);object-fit:contain;margin:auto}
+.column-image-lightbox p{margin:8px auto 0;max-width:70em;font-size:14px;color:#ddd}
+.column-image-close{position:fixed;right:24px;top:20px;width:46px;height:46px;padding:0;border:1px solid #fff;border-radius:50%;background:#161616;color:#fff;font-size:31px;line-height:1;cursor:pointer;z-index:1}
+@media(max-width:600px){.column-image-lightbox{padding:62px 12px 14px}.column-image-close{right:14px;top:12px}}
