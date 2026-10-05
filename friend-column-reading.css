@@ -1,6 +1,7 @@
 #main .column-tabs{background:#fff!important;border:0!important}
 #main .column-tabs button,#main .column-tabs button:hover,#main .column-tabs button[aria-pressed=true]{background:transparent!important;border:0!important;box-shadow:none!important}
 #main .column-tabs button[aria-pressed=true]{font-weight:700!important}
+#main .friend-reader-tabs,#main .column-article-toc{background:#fff!important}
 #main .friend-reader-tabs a,#main .friend-reader-tabs a[aria-current=page]{background:transparent;border:0;padding:7px 0}
 #main .friend-reader-tabs a[aria-current=page]{font-weight:700;color:#111}
 .column-article-badges{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 10px}
