@@ -973,16 +973,46 @@ window.addEventListener('hashchange', showRoute);
 document.getElementById('back-to-top').addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 const friendTraffic = document.getElementById('friend-traffic');
 if (location.hostname === 'qafstudio2.github.io') {
-  const badge = document.createElement('img');
-  badge.alt = '來訪序號';
-  badge.decoding = 'async';
-  badge.onload = () => friendTraffic.replaceChildren(document.createTextNode('你是第 '),badge,document.createTextNode(' 次來訪的測試朋友，謝謝你。'));
-  badge.onerror = () => {
-    friendTraffic.dataset.status = 'error';
-    friendTraffic.textContent = '朋友測試版，謝謝你來訪。';
-  };
-  const params = new URLSearchParams({label:' ',style:'flat-square',color:'#000',labelColor:'#000',view:'total',refresh:String(Date.now())});
-  badge.src = 'https://hits.sh/qafstudio2.github.io/qaf-music-friend-preview.svg?' + params;
+  let trafficPending = false;
+  let trafficRequest = 0;
+  function loadFriendTraffic() {
+    if (trafficPending) return;
+    trafficPending = true;
+    const request = ++trafficRequest;
+    friendTraffic.dataset.status = 'loading';
+    friendTraffic.textContent = '正在讀取來訪次數…';
+    const badge = document.createElement('img');
+    badge.alt = '累計來訪次數';
+    badge.decoding = 'async';
+    let finished = false;
+    const timeout = setTimeout(failed, 15000);
+    function failed() {
+      if (finished || request !== trafficRequest) return;
+      finished = true;
+      clearTimeout(timeout);
+      trafficPending = false;
+      friendTraffic.dataset.status = 'error';
+      const retry = document.createElement('button');
+      retry.type = 'button';
+      retry.textContent = '重試';
+      retry.style.cssText = 'margin-left:8px;padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer';
+      retry.onclick = loadFriendTraffic;
+      friendTraffic.replaceChildren(document.createTextNode('來訪次數暫時無法讀取 · '), retry);
+    }
+    badge.onload = () => {
+      if (request !== trafficRequest) return;
+      // A slow response may still recover after the timeout notice.
+      clearTimeout(timeout);
+      finished = true;
+      trafficPending = false;
+      friendTraffic.dataset.status = 'ready';
+      friendTraffic.replaceChildren(document.createTextNode('你是第 '),badge,document.createTextNode(' 次來訪的測試朋友，謝謝你。'));
+    };
+    badge.onerror = failed;
+    const params = new URLSearchParams({label:' ',style:'flat-square',color:'#000',labelColor:'#000',view:'total',refresh:String(Date.now())});
+    badge.src = 'https://hits.sh/qafstudio2.github.io/qaf-music-friend-preview.svg?' + params;
+  }
+  loadFriendTraffic();
 }
 showRoute();
 
