@@ -541,6 +541,7 @@ body { background:#fff; color:#292929; }
 .friend-traffic[data-status="error"]{color:#888}
 </style>
   <link rel="stylesheet" href="friend-mobile.css?v=20261001-memory2">
+  <link rel="stylesheet" href="friend-qafdot.css?v=20261006a">
 </head>
 <body>
   <header class="site-header">
@@ -569,8 +570,9 @@ body { background:#fff; color:#292929; }
   <script src="memory-interactive.js?v=20261001-memory2"></script>
 <script src="friend-memory.js?v=20261001-memory2"></script>
 <link rel="stylesheet" href="friend-memory.css?v=20261001-memory2">
+  <script src="friend-qafdot.js?v=20261006a"></script>
   <script>
-const pageSizes = {"band":7780,"column-lab":226708,"column-qaf":48375,"columns":310820,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":163998,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
+const pageSizes = {"column-qafdot":56786,"band":7780,"column-lab":226708,"column-qaf":48375,"columns":311331,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":163998,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
 const routes = new Map([
   ['home','home'], ['my-music','my-music'], ['overview','overview'],
   ['memory','memory'], ['nodes','nodes'], ['guide','guide'],
@@ -581,6 +583,7 @@ const routes = new Map([
   ['magazines/score','magazines-score'],
   ['magazines/video','magazines-video'],
   ['columns','columns'], ['column/column-qaf','column-qaf'],
+  ['column/column-qafdot','column-qafdot'],
   ['column/column-lab','column-lab'], ['news','news'],
   ['shops','shops'], ['design','design'],
   ['design/qaf1','design-qaf1'], ['design/qaf2','design-qaf2'],
@@ -600,6 +603,7 @@ function routeFromHash() {
   const hash = decodeURIComponent(location.hash.slice(1));
   if (routes.has(hash)) return hash;
   if (hash.startsWith('column/column-qaf/')) return 'column/column-qaf';
+  if (hash.startsWith('column/column-qafdot/')) return 'column/column-qafdot';
   if (hash.startsWith('column/column-lab/')) return 'column/column-lab';
   if (hash && main.querySelector(`#${CSS.escape(hash)}`)) return current;
   if (hash.startsWith('guide-')) return 'guide';
@@ -611,6 +615,7 @@ async function showRoute() {
   const route = routeFromHash();
   if (route === current) {
     if (route === 'column/column-qaf') window.friendColumnRoute?.();
+    if (route === 'column/column-qafdot') window.friendQafdotRoute?.();
     if (route === 'column/column-lab') window.friendLabRoute?.();
     const anchor = decodeURIComponent(location.hash.slice(1));
     if (anchor && !routes.has(anchor)) document.getElementById(anchor)?.scrollIntoView();
@@ -620,7 +625,8 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const response = await fetch(`qaf-page-${name}.html?v=20261005-column-reader`);
+    const pageVersion = name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
     const reader = response.body?.getReader();
@@ -668,6 +674,7 @@ async function showRoute() {
     if (route === 'band') wireBandVideos();
     if (route === 'column/column-lab') { wireLabColumn(); window.friendLabRoute?.(); }
     if (route === 'column/column-qaf') window.friendColumnRoute?.();
+    if (route === 'column/column-qafdot') window.friendQafdotRoute?.();
     if (route === 'design/qaf2') wireQaf2Gallery();
     if (route === 'viewpoints') wireViewpoints();
     const anchor = decodeURIComponent(location.hash.slice(1));
