@@ -1,4 +1,6 @@
 /* QAF dot additions are scoped so existing columns and articles are unchanged. */
+.qafdot-article .column-article-badges span { background:#8f4b64; color:#fff; }
+.qafdot-article .column-article-badges span + span { background:#282426; }
 .qafdot-column-entry .column-link { max-width: 250px; }
 .qafdot-column-entry .qafdot-column-logo { display:block; width:100%; max-width:220px; height:auto; margin:0 0 18px; }
 .qafdot-column-entry p { max-width:28em; margin:0; }
