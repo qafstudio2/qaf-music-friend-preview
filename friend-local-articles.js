@@ -21,7 +21,16 @@
     const f=el('figure');f.dataset.placement=b.placement||'center';const i=el('img');i.src=b.value;i.alt=b.caption||p.title;i.loading='lazy';f.append(i);if(b.caption)f.append(el('figcaption',b.caption));const gallery=el('div',null,'post-image-gallery');gallery.append(f);a.append(gallery);
    }else if(b.type==='text'){
     const box=el('div',null,'hub-copy');
-    for(const line of b.value.split(/\n/)){
+    const lines=b.value.split(/\n/),cells=line=>line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(s=>s.trim());
+    for(let index=0;index<lines.length;index++){
+     const line=lines[index];
+     if(line.includes('|')&&index+1<lines.length&&cells(lines[index+1]).length===cells(line).length&&cells(lines[index+1]).every(s=>/^:?-{3,}:?$/.test(s))){
+      const headings=cells(line),wrapper=el('div',null,'column-table-scroll'),table=el('table',null,'column-data-table'),head=el('thead'),body=el('tbody'),row=el('tr');
+      wrapper.tabIndex=0;wrapper.setAttribute('role','region');wrapper.setAttribute('aria-label',headings.join('、')+'表格');
+      headings.forEach(text=>{const cell=el('th',text);cell.scope='col';row.append(cell)});head.append(row);index++;
+      while(index+1<lines.length&&lines[index+1].includes('|')&&cells(lines[index+1]).length===headings.length){const values=cells(lines[++index]),r=el('tr');values.forEach((text,i)=>{const cell=el(i===0?'th':'td',text);if(i===0)cell.scope='row';r.append(cell)});body.append(r)}
+      table.append(head,body);wrapper.append(table);box.append(wrapper);continue;
+     }
      if(!line.trim())continue;const match=line.match(/^#{1,4}\s+(.+)/);
      if(match){const h=el('h4',match[1]);h.id='local-section-'+p.id+'-'+(++count);box.append(h);const link=el('a',match[1]);link.href='#'+h.id;link.onclick=e=>{e.preventDefault();h.scrollIntoView({behavior:'smooth'})};links.append(link)}
      else{const para=el('p');let cursor=0;const regex=/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*/g;for(const m of line.matchAll(regex)){para.append(document.createTextNode(line.slice(cursor,m.index)));if(m[3])para.append(el('strong',m[3]));else{const link=el('a',m[1]);link.href=m[2];link.target='_blank';link.rel='noopener noreferrer';para.append(link)}cursor=m.index+m[0].length}para.append(document.createTextNode(line.slice(cursor)));box.append(para)}
