@@ -572,7 +572,7 @@ body { background:#fff; color:#292929; }
 <link rel="stylesheet" href="friend-memory.css?v=20261001-memory2">
   <script src="friend-qafdot.js?v=20261006a"></script>
   <script>
-const pageSizes = {"column-qafdot":56786,"band":7780,"column-lab":226708,"column-qaf":48375,"columns":311331,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":163998,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
+const pageSizes = {"column-qafdot":56786,"band":7780,"column-lab":226708,"column-qaf":48375,"columns":311331,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":171714,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
 const routes = new Map([
   ['home','home'], ['my-music','my-music'], ['overview','overview'],
   ['memory','memory'], ['nodes','nodes'], ['guide','guide'],
@@ -625,7 +625,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'news' ? '20261008-pedal-digest' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -670,6 +670,7 @@ async function showRoute() {
     }
     document.title = `${document.querySelector('.primary-nav a[aria-current="page"]')?.textContent || 'QAF'}｜QAF 音樂學習`;
     if (route.startsWith('magazines')) wireBookToolbar();
+    if (route === 'news') wireNewsCatalogue();
     if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); MemoryFifths.mount(); MemoryBasics.mount(); WorldScaleWheel.mount(); }
     if (route === 'band') wireBandVideos();
     if (route === 'column/column-lab') { wireLabColumn(); window.friendLabRoute?.(); }
@@ -686,6 +687,107 @@ async function showRoute() {
   } catch {
     main.innerHTML = '<p class="preview-error">此頁暫時無法載入，請重新整理。</p>';
   }
+}
+
+function wireNewsCatalogue() {
+  const section = main.querySelector('#news-digest');
+  if (!section) return;
+  const dateSelect = section.querySelector('#digest-date');
+  const grid = section.querySelector('#digest-grid');
+  const empty = section.querySelector('#digest-empty');
+  const count = section.querySelector('#digest-count');
+  let data;
+  try {
+    data = JSON.parse(main.querySelector('#news-digest-data').textContent);
+  } catch {
+    count.textContent = '文摘暫時無法載入，請重新整理。';
+    dateSelect.disabled = true;
+    return;
+  }
+  const today = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Taipei', year:'numeric', month:'2-digit', day:'2-digit'}).format(new Date());
+  const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '');
+  const safeLink = value => {
+    try { const url = new URL(value); return /^https?:$/.test(url.protocol) ? url.href : null; }
+    catch { return null; }
+  };
+  // A digest date must equal the actual source publication date. Never fill a day with older news.
+  const seen = new Set();
+  const items = (Array.isArray(data.items) ? data.items : []).filter(item => {
+    if (!item || !item.id || seen.has(item.id) || !validDate(item.digestDate) || item.digestDate !== item.articleDate || item.digestDate > today || !safeLink(item.articleUrl)) return false;
+    if (Array.from(String(item.function || '') + String(item.features || '')).length > 100) return false;
+    seen.add(item.id);
+    return true;
+  });
+  const dates = [...new Set([today, ...items.map(item => item.digestDate)])].sort().reverse();
+  dateSelect.replaceChildren(...dates.map(date => {
+    const option = document.createElement('option');
+    option.value = date;
+    option.textContent = `${date === today ? '今天 · ' : ''}${date.replaceAll('-', '.')}`;
+    return option;
+  }));
+  dateSelect.value = today;
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function link(text, href, className) {
+    const node = element('a', className, text);
+    const url = safeLink(href);
+    if (url) { node.href = url; node.target = '_blank'; node.rel = 'noopener noreferrer'; }
+    return node;
+  }
+  function field(label, value, valueClass) {
+    const row = element('p');
+    row.append(element('span', 'digest-label', label), element('span', valueClass, value));
+    return row;
+  }
+  function render() {
+    const selectedDate = dateSelect.value;
+    const selected = items.filter(item => item.digestDate === selectedDate).slice(0, 10);
+    grid.replaceChildren();
+    empty.hidden = selected.length > 0;
+    count.textContent = `${selectedDate.replaceAll('-', '.')} · ${selected.length} 則${selectedDate === today ? '當日文摘' : '歷史文摘'} · 每日最多 10 則`;
+    selected.forEach(item => {
+      const card = element('article', 'digest-card');
+      card.dataset.digestId = item.id;
+      const date = element('time', 'digest-date', item.digestDate.replaceAll('-', '.'));
+      date.dateTime = item.digestDate;
+      date.title = '文摘與原文刊登日期；非產品上市日';
+      const photo = link(undefined, item.officialUrl, 'digest-image');
+      photo.setAttribute('aria-label', `${item.brand} ${item.product} 原廠產品頁`);
+      if (item.image && /^assets\/news-[a-z0-9-]+\.(png|jpe?g|webp)$/.test(item.image.src)) {
+        const image = element('img');
+        image.src = item.image.src;
+        image.alt = item.image.alt || `${item.brand} ${item.product} 正面產品圖`;
+        image.width = 1600; image.height = 1600; image.loading = 'lazy'; image.decoding = 'async';
+        photo.append(image);
+      }
+      card.append(date, photo, element('span', 'digest-brand', item.brand), element('h4', '', item.product), field('功能', item.function));
+      const verifiedBadges = (Array.isArray(item.badges) ? item.badges : []).filter(badge => badge.verified === true && ['classicCircuit', 'rareIC'].includes(badge.type) && badge.name && safeLink(badge.sourceUrl));
+      if (verifiedBadges.length) {
+        const badges = element('div', 'digest-badges');
+        verifiedBadges.forEach(badge => badges.append(link(`${badge.type === 'classicCircuit' ? '經典電路' : '稀有晶片'}：${badge.name}`, badge.sourceUrl)));
+        card.append(badges);
+      }
+      card.append(field('特色', item.features));
+      if (Number.isFinite(item.funScore) && item.funScore >= 0 && item.funScore <= 5) card.append(field('好玩程度', `${item.funScore} / 5`, 'digest-score'));
+      const price = item.price;
+      if (price?.display_currency === 'TWD' && Number.isFinite(price.amount_twd) && price.amount_twd >= 0) {
+        const priceRow = field('參考價格', `約 NT$${price.amount_twd.toLocaleString('zh-TW')}`, 'digest-price');
+        priceRow.append(link(price.note_zh_tw || '海外參考價換算，非台灣售價', price.price_source_url, 'digest-price-note'));
+        card.append(priceRow);
+      } else card.append(field('參考價格', '價格待查'));
+      const links = element('div', 'digest-links');
+      links.append(link('閱讀原文 ↗', item.articleUrl), link('原廠／圖片 ↗', item.officialUrl));
+      links.lastChild.title = item.image?.credit || '原廠產品頁';
+      card.append(links);
+      grid.append(card);
+    });
+  }
+  dateSelect.addEventListener('change', render);
+  render();
 }
 
 function wireLabColumn() {
@@ -1020,3 +1122,4 @@ showRoute();
   <script src="friend-mobile.js"></script>
 <style id="friend-qaf-sync-style">#friend-qaf1-model{margin:20px 0 42px;padding:18px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd}.friend-model-heading{display:flex;align-items:start;justify-content:space-between;gap:18px}.friend-model-heading h2{margin:0 0 5px}.friend-model-heading p{margin:0 0 10px}.friend-model-tabs{display:flex;gap:18px;flex-wrap:wrap;padding:10px 0}.friend-model-tabs button,.column-tabs button{border:0;background:none;color:#555;padding:5px 0;border-radius:0}.friend-model-tabs button[aria-pressed=true],.column-tabs button[aria-pressed=true]{font-weight:750;color:#111}.friend-model-tabs button:hover,.column-tabs button:hover{background:none;color:#111}#friend-qaf1-frame{display:block;width:100%;height:min(850px,80vh);min-height:520px;border:1px solid #bbb;background:#fff}.column-tabs{display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid #ddd;padding:8px 0}.friend-column-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:22px 0 52px}.friend-column-card{min-width:0;text-decoration:none;color:#111;border-top:1px solid #bbb;padding-top:14px;display:flex;flex-direction:column;gap:8px}.friend-column-cover{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;background:#f4f4f4;overflow:hidden;margin-bottom:8px}.friend-column-cover img{width:100%;height:100%;object-fit:contain}.friend-column-card[hidden]{display:none!important}.friend-column-card strong{font-size:21px;line-height:1.45;font-weight:600}.friend-column-card time{font-size:13px;color:#777}.friend-column-read{margin-top:auto;padding-top:10px;font-size:14px}.friend-column-card:hover .friend-column-read{text-decoration:underline}.friend-reader-tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 0 18px;border-bottom:1px solid #ddd}.friend-reader-tabs a{min-width:155px;max-width:240px;flex:1;padding:10px 12px;text-decoration:none;border:1px solid #ddd;color:#555}.friend-reader-tabs a[aria-current=page]{border-color:#222;color:#111;font-weight:700}.friend-reader-tabs small,.friend-reader-tabs span{display:block}.friend-reader-tabs small{color:#888;font-size:11px}.friend-reader-tabs span{font-size:14px;line-height:1.35}.friend-column-back{display:inline-block;margin:12px 0}.friend-reader-footer{border-top:1px solid #ddd;margin:40px 0 20px;padding-top:15px}.friend-reader-footer p{margin:0}.post-entry[hidden],#friend-column-reader[hidden],#friend-column-overview[hidden]{display:none!important}@media(max-width:900px){.friend-column-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.friend-model-heading{display:block}#friend-qaf1-frame{height:72vh;min-height:480px}.friend-column-grid{grid-template-columns:1fr;gap:28px}.friend-column-cover{aspect-ratio:16/10}.friend-reader-tabs a{flex:0 0 160px}}</style><script id="friend-qaf-sync-script">window.friendColumnRoute=function(){const overview=document.getElementById('friend-column-overview'),reader=document.getElementById('friend-column-reader');if(!overview||!reader)return;const match=decodeURIComponent(location.hash).match(/^#column\/column-qaf\/(post-[A-Za-z0-9_-]+)$/),article=match?reader.querySelector('[data-post-id="'+match[1]+'"]'):null;overview.hidden=!!article;reader.hidden=!article;reader.querySelectorAll('.post-entry').forEach(item=>item.hidden=item!==article);reader.querySelectorAll('[data-reader-post]').forEach(link=>link.setAttribute('aria-current',article&&link.dataset.readerPost===article.dataset.postId?'page':'false'));if(article){document.title=article.querySelector('h3').textContent+'｜QAF 專欄';window.scrollTo(0,0)}else if(location.hash==='#column/column-qaf'){window.scrollTo(0,0)}};document.addEventListener('click',event=>{const model=event.target.closest('[data-friend-model]');if(model){const page=model.dataset.friendModel;if(!['model.html','index.html','render.html'].includes(page))return;const frame=document.getElementById('friend-qaf1-frame');if(frame)frame.src='qaf1-model/'+page;document.querySelectorAll('[data-friend-model]').forEach(button=>button.setAttribute('aria-pressed',String(button===model)));return}const category=event.target.closest('[data-friend-category]');if(category){const selected=category.dataset.friendCategory;document.querySelectorAll('[data-friend-category]').forEach(button=>button.setAttribute('aria-pressed',String(button===category)));let shown=0;document.querySelectorAll('#main .friend-column-card[data-category]').forEach(card=>{card.hidden=!!selected&&card.dataset.category!==selected;if(!card.hidden)shown++});const count=document.querySelector('#main .column-count');if(count)count.textContent=(selected||'最新文章')+' · '+shown+' 篇'}});</script><link rel="stylesheet" href="friend-column-reading.css?v=20261008b"><script src="friend-column-reading.js?v=20261005i"></script><script src="friend-local-articles.js?v=20261008b"></script></body>
 </html>
+
