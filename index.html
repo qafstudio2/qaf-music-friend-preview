@@ -569,7 +569,7 @@ body { background:#fff; color:#292929; }
   <button id="back-to-top" type="button" aria-label="回到頂部"><span class="qaf-back-top-chevron" aria-hidden="true"></span></button>
   <script src="memory-interactive.js?v=20261001-memory2"></script>
 <script src="friend-memory.js?v=20261001-memory2"></script>
-<script src="friend-games.js?v=20261009-games1"></script>
+<script src="friend-games.js?v=20261010-nut5"></script>
 <link rel="stylesheet" href="friend-memory.css?v=20261001-memory2">
   <script src="friend-qafdot.js?v=20261006a"></script>
   <script>
@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-object-fit-v13' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-object-fit-v13' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
