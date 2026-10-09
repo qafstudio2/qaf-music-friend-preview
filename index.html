@@ -617,7 +617,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261010-pedal-digest-v7${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261010-pedal-copy-v8${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -668,7 +668,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-digest-v7' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-copy-v8' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -878,22 +878,77 @@ function wireNewsCatalogue() {
   dialog.setAttribute('aria-modal', 'true');
   const readerHeader = element('header', 'digest-reader-header');
   const readerLabel = element('span', 'digest-reader-label', '效果器完整分析');
+  const copyButton = element('button', 'digest-reader-copy', '複製全文');
+  copyButton.type = 'button';
   const closeButton = element('button', 'digest-reader-close', '×');
   closeButton.type = 'button';
   closeButton.setAttribute('aria-label', '關閉分析，回到效果器列表');
   readerHeader.append(readerLabel, closeButton);
+  const copyPanel = element('div', 'digest-reader-copy-panel');
+  copyPanel.hidden = true;
+  const copyStatus = element('span', 'digest-reader-copy-status');
+  copyStatus.setAttribute('role', 'status');
+  copyStatus.setAttribute('aria-live', 'polite');
+  const copyText = element('textarea', 'digest-reader-copy-text');
+  copyText.readOnly = true;
+  copyText.rows = 5;
+  copyText.hidden = true;
+  copyText.setAttribute('aria-label', '完整分析純文字；可全選後複製');
+  copyPanel.append(copyStatus, copyText);
   const readerBody = element('div', 'digest-reader-body');
-  dialog.append(readerHeader, readerBody);
+  dialog.append(readerHeader, copyPanel, readerBody);
   const fallbackBackdrop = element('div', 'digest-reader-backdrop');
   fallbackBackdrop.hidden = true;
   fallbackBackdrop.setAttribute('aria-hidden', 'true');
   section.append(fallbackBackdrop, dialog);
   fallbackBackdrop.addEventListener('click', () => closeReader());
 
+  function copied(saved) {
+    if (readerState !== saved) return;
+    copyText.hidden = true;
+    copyText.value = '';
+    copyStatus.textContent = '已複製全文，可以貼到 Facebook。';
+    copyButton.disabled = false;
+    copyButton.focus({preventScroll:true});
+  }
+  function fallbackCopy(saved) {
+    if (readerState !== saved) return;
+    copyText.value = saved.copyText;
+    copyText.hidden = false;
+    copyStatus.textContent = '無法自動複製。請在下方文字框全選並複製，再貼到 Facebook。';
+    copyButton.disabled = false;
+    copyText.focus({preventScroll:true});
+    try {
+      copyText.select();
+      copyText.setSelectionRange(0, copyText.value.length);
+      if (typeof document.execCommand === 'function' && document.execCommand('copy') === true) copied(saved);
+    } catch { /* Keep the selected text available for manual copying. */ }
+  }
+  copyButton.addEventListener('click', async () => {
+    const saved = readerState;
+    if (!saved?.copyText || copyButton.disabled) return;
+    copyButton.disabled = true;
+    copyPanel.hidden = false;
+    copyText.hidden = true;
+    copyStatus.textContent = '正在複製…';
+    try {
+      if (typeof window.navigator?.clipboard?.writeText === 'function') {
+        await window.navigator.clipboard.writeText(saved.copyText);
+        copied(saved);
+        return;
+      }
+    } catch { /* Safari or a denied write may still allow selected-text copying. */ }
+    fallbackCopy(saved);
+  });
+
   function finishClose(restorePosition = true) {
     if (!readerState) return;
     const saved = readerState;
     readerState = null;
+    copyPanel.hidden = true;
+    copyText.hidden = true;
+    copyText.value = '';
+    copyStatus.textContent = '';
     fallbackBackdrop.hidden = true;
     (saved.fallbackNodes || []).forEach(({node, inert, ariaHidden}) => {
       node.inert = inert;
@@ -924,7 +979,7 @@ function wireNewsCatalogue() {
   dialog.addEventListener('keydown', event => {
     if (event.key === 'Escape') { event.preventDefault(); closeReader(); return; }
     if (event.key !== 'Tab') return;
-    const focusable = [...dialog.querySelectorAll('button, a[href], [tabindex="0"]')].filter(node => !node.disabled);
+    const focusable = [...dialog.querySelectorAll('button, a[href], textarea, [tabindex="0"]')].filter(node => !node.disabled && !node.hidden);
     const first = focusable[0], last = focusable[focusable.length - 1];
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
@@ -933,7 +988,16 @@ function wireNewsCatalogue() {
 
   function openReader(item, trigger) {
     if (readerState) return;
+    const canCopy = item.id === 'zoom-neurig-20261010';
+    readerHeader.replaceChildren(readerLabel, ...(canCopy ? [copyButton] : []), closeButton);
+    copyButton.disabled = false;
+    copyPanel.hidden = true;
+    copyText.hidden = true;
+    copyText.value = '';
+    copyStatus.textContent = '';
     readerBody.replaceChildren();
+    // Export only the public article fields rendered below, never modal/UI or page text.
+    const plainText = [`${item.brand} ${item.product}`, `文摘收錄：${item.digestDate}\n原文刊登：${item.articleDate}`];
     const headline = element('h2', '', `${item.brand} ${item.product}`);
     headline.id = 'digest-reader-title';
     readerBody.append(element('p', 'digest-reader-kicker', 'DAILY PEDAL DIGEST'), headline,
@@ -949,11 +1013,19 @@ function wireNewsCatalogue() {
       intro.append(figure);
     }
     const summary = element('div', 'digest-reader-summary');
-    summary.append(element('p', 'digest-reader-lead', item.analysis?.lead || `${item.function}${item.features}`));
-    if (Number.isFinite(item.funScore) && item.funScore >= 0 && item.funScore <= 5) summary.append(field('主觀好玩程度', `${item.funScore} / 5，依公開功能評估，未經實機試奏`));
+    const lead = item.analysis?.lead || `${item.function}${item.features}`;
+    summary.append(element('p', 'digest-reader-lead', lead));
+    plainText.push(lead);
+    if (Number.isFinite(item.funScore) && item.funScore >= 0 && item.funScore <= 5) {
+      const score = `${item.funScore} / 5，依公開功能評估，未經實機試奏`;
+      summary.append(field('主觀好玩程度', score));
+      plainText.push(`主觀好玩程度：${score}`);
+    }
     if (item.price?.display_currency === 'TWD' && Number.isFinite(item.price.amount_twd) && item.price.amount_twd >= 0) {
-      summary.append(field('台幣參考價', `約 NT$${item.price.amount_twd.toLocaleString('zh-TW')}`),
-        element('p', 'digest-reader-price-note', item.price.note_zh_tw || '海外標價換算，未含運稅，非台灣售價'));
+      const price = `約 NT$${item.price.amount_twd.toLocaleString('zh-TW')}`;
+      const priceNote = item.price.note_zh_tw || '海外標價換算，未含運稅，非台灣售價';
+      summary.append(field('台幣參考價', price), element('p', 'digest-reader-price-note', priceNote));
+      plainText.push(`台幣參考價：${price}\n${priceNote}`);
     }
     intro.append(summary);
     readerBody.append(intro);
@@ -966,6 +1038,7 @@ function wireNewsCatalogue() {
         element('p', 'digest-reader-demo-channel', `${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}`),
         link('在 YouTube 聽示範 ↗（另開分頁）', demoUrl, 'digest-reader-demo-link'));
       readerBody.append(demoSection);
+      plainText.push(`YouTube 音色示範\n${demo.title || `${item.brand} ${item.product} 示範`}\n${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}\n${demoUrl}`);
     }
     const analysis = item.analysis;
     const sections = Array.isArray(analysis?.sections) ? analysis.sections : [
@@ -982,6 +1055,8 @@ function wireNewsCatalogue() {
         block.append(list);
       }
       readerBody.append(block);
+      plainText.push(part.title, ...(Array.isArray(part.paragraphs) ? part.paragraphs : []));
+      if (Array.isArray(part.bullets) && part.bullets.length) plainText.push(part.bullets.map(text => `• ${text}`).join('\n'));
     });
     const sources = element('section', 'digest-reader-section digest-reader-sources');
     sources.append(element('h3', '', '資料來源與閱讀延伸'));
@@ -993,17 +1068,21 @@ function wireNewsCatalogue() {
       {label:'圖片來源', url:item.image?.sourcePage || item.image?.sourceUrl}
     ];
     const usedSources = new Set();
+    plainText.push('資料來源與閱讀延伸');
     sourceItems.forEach(source => {
       const url = safeLink(source.url);
       if (!url || usedSources.has(url)) return;
       usedSources.add(url);
       const row = element('li'); row.append(link(`${source.label} ↗`, url)); sourceList.append(row);
+      plainText.push(`${source.label}\n${url}`);
     });
-    sources.append(sourceList, element('p', 'digest-reader-evidence', analysis?.evidenceNote || '功能資料與主觀玩法分開呈現；未取得可核對的電路圖或晶片資料時，不加上經典電路／稀有晶片標籤。'));
+    const evidenceNote = analysis?.evidenceNote || '功能資料與主觀玩法分開呈現；未取得可核對的電路圖或晶片資料時，不加上經典電路／稀有晶片標籤。';
+    sources.append(sourceList, element('p', 'digest-reader-evidence', evidenceNote));
+    plainText.push(evidenceNote);
     readerBody.append(sources);
     const bodyStyle = {};
     ['position','top','left','width','overflow','paddingRight','boxSizing'].forEach(key => { bodyStyle[key] = document.body.style[key]; });
-    readerState = {x:window.scrollX, y:window.scrollY, trigger, bodyStyle, scrollBehavior:document.documentElement.style.scrollBehavior};
+    readerState = {x:window.scrollX, y:window.scrollY, trigger, bodyStyle, scrollBehavior:document.documentElement.style.scrollBehavior, copyText:canCopy ? plainText.join('\n\n') : ''};
     const scrollbar = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
     const currentPadding = parseFloat(window.getComputedStyle(document.body).paddingRight) || 0;
     Object.assign(document.body.style, {position:'fixed', top:`-${readerState.y}px`, left:`-${readerState.x}px`, width:'100%', boxSizing:'border-box', overflow:'hidden', paddingRight:`${currentPadding + scrollbar}px`});
