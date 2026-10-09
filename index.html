@@ -620,7 +620,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261010-pedal-share-url-v10${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261010-all-pedal-share-v11${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-share-url-v10' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-all-pedal-share-v11' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -881,8 +881,7 @@ function wireNewsCatalogue() {
   let shareAttempt = null;
   let clipboardPending = false;
   let shareInteraction = 0;
-  const articleId = 'zoom-neurig-20261010';
-  const articleHash = `#news/${articleId}`;
+  const articleHashFor = id => `#news/${encodeURIComponent(id)}`;
   const previousScrollRestoration = window.history.scrollRestoration;
   window.history.scrollRestoration = 'manual';
   function setNewsHash(hash, replace = false) {
@@ -1085,7 +1084,7 @@ function wireNewsCatalogue() {
     document.documentElement.style.scrollBehavior = saved.scrollBehavior;
   }
   function closeReader(restorePosition = true, updateRoute = true) {
-    if (updateRoute && readerState?.articleId === articleId && location.hash === articleHash) setNewsHash('#news');
+    if (updateRoute && readerState?.articleId && location.hash === articleHashFor(readerState.articleId)) setNewsHash('#news');
     if (dialog.open && typeof dialog.close === 'function') dialog.close();
     else dialog.removeAttribute('open');
     finishClose(restorePosition);
@@ -1108,17 +1107,19 @@ function wireNewsCatalogue() {
   });
   function syncNewsRoute() {
     if (disposed) return;
-    if (location.hash === articleHash) {
-      if (readerState?.articleId === articleId) return;
+    if (location.hash.startsWith('#news/')) {
+      let articleId;
+      try { articleId = decodeURIComponent(location.hash.slice('#news/'.length)); }
+      catch { articleId = ''; }
+      const item = items.find(item => item.id === articleId && item.analysis);
+      if (item && readerState?.articleId === articleId) return;
       closeReader(true, false);
-      const item = items.find(item => item.id === articleId);
       if (item) {
         const card = [...grid.children].find(card => card.dataset.digestId === articleId);
         openReader(item, card?.querySelector('.digest-read'), false);
       } else setNewsHash('#news', true);
-    } else if (location.hash === '#news' || location.hash.startsWith('#news/')) {
-      if (readerState?.articleId === articleId || location.hash !== '#news') closeReader(true, false);
-      if (location.hash !== '#news') setNewsHash('#news', true);
+    } else if (location.hash === '#news') {
+      closeReader(true, false);
     }
   }
   window.friendNewsRoute = syncNewsRoute;
@@ -1132,7 +1133,8 @@ function wireNewsCatalogue() {
 
   function openReader(item, trigger, updateRoute = true) {
     if (readerState) return;
-    const canCopy = item.id === 'zoom-neurig-20261010';
+    const canCopy = Boolean(item.analysis);
+    const articleHash = articleHashFor(item.id);
     readerHeader.className = `digest-reader-header${canCopy ? ' has-share' : ''}`;
     readerHeader.replaceChildren(readerLabel, ...(canCopy ? [shareButton, copyButton] : []), closeButton);
     shareButton.disabled = Boolean(shareAttempt) || clipboardPending;
