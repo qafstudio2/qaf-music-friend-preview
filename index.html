@@ -611,6 +611,7 @@ function routeFromHash() {
   return 'home';
 }
 
+let routeRequestId = 0;
 async function showRoute() {
   const route = routeFromHash();
   if (route === current) {
@@ -621,11 +622,14 @@ async function showRoute() {
     if (anchor && !routes.has(anchor)) document.getElementById(anchor)?.scrollIntoView();
     return;
   }
+  const requestId = ++routeRequestId;
+  disposeNewsCatalogue?.();
+  disposeNewsCatalogue = null;
   current = route;
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'news' ? '20261008-pedal-digest' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'news' ? '20261009-pedal-reader-v2' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -639,7 +643,7 @@ async function showRoute() {
         if (done) break;
         parts.push(value);
         bytes += value.byteLength;
-        if (route === current) {
+        if (requestId === routeRequestId) {
           const percent = Math.min(99, Math.round(bytes / total * 100));
           const label = main.querySelector('.preview-percent');
           if (label) label.textContent = `${percent}%`;
@@ -657,20 +661,48 @@ async function showRoute() {
     } else {
       markup = await response.text();
     }
+    if (requestId !== routeRequestId) return;
+    let publicDigestMarkup = null;
+    if (name === 'news') {
+      try {
+        const digestResponse = await fetch('friend-news-digest.html?v=20261009-pedal-reader-v2');
+        if (!digestResponse.ok) throw new Error(`HTTP ${digestResponse.status}`);
+        publicDigestMarkup = await digestResponse.text();
+      } catch { /* Keep the existing news page usable if the new digest asset is temporarily unavailable. */ }
+      if (requestId !== routeRequestId) return;
+    }
     const percent = main.querySelector('.preview-percent');
     const bar = main.querySelector('.preview-progress');
     if (percent) percent.textContent = '100%';
     if (bar) { bar.firstElementChild.style.width = '100%'; bar.setAttribute('aria-valuenow', '100'); }
     await new Promise(resolve => requestAnimationFrame(resolve));
-    if (route !== current) return;
+    if (requestId !== routeRequestId) return;
+    disposeNewsCatalogue?.();
+    disposeNewsCatalogue = null;
     main.innerHTML = markup;
+    if (publicDigestMarkup) {
+      const digestTemplate = document.createElement('template');
+      digestTemplate.innerHTML = publicDigestMarkup;
+      const originalDigest = main.querySelector('#news-digest');
+      if (originalDigest && digestTemplate.content.querySelector('#news-digest')) {
+        main.querySelector('#friend-news-catalogue-style')?.remove();
+        main.querySelector('#news-digest-data')?.remove();
+        originalDigest.replaceWith(digestTemplate.content);
+      }
+    }
     main.querySelectorAll('figure.preview-authentic-image').forEach(figure => figure.remove());
     for (const link of document.querySelectorAll('.primary-nav a')) {
       link.setAttribute('aria-current', route === link.dataset.section || route.startsWith(link.dataset.section + '/') ? 'page' : 'false');
     }
     document.title = `${document.querySelector('.primary-nav a[aria-current="page"]')?.textContent || 'QAF'}｜QAF 音樂學習`;
     if (route.startsWith('magazines')) wireBookToolbar();
-    if (route === 'news') wireNewsCatalogue();
+    if (route === 'news') {
+      wireNewsCatalogue();
+      if (!publicDigestMarkup) {
+        const status = main.querySelector('#digest-count');
+        if (status) status.append(document.createTextNode(' · 最新文摘暫時無法載入，請稍後重新整理。'));
+      }
+    }
     if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); MemoryFifths.mount(); MemoryBasics.mount(); WorldScaleWheel.mount(); }
     if (route === 'band') wireBandVideos();
     if (route === 'column/column-lab') { wireLabColumn(); window.friendLabRoute?.(); }
@@ -685,13 +717,17 @@ async function showRoute() {
       window.scrollTo(0, 0);
     }
   } catch {
+    if (requestId !== routeRequestId) return;
     main.innerHTML = '<p class="preview-error">此頁暫時無法載入，請重新整理。</p>';
   }
 }
 
+let disposeNewsCatalogue = null;
+
 function wireNewsCatalogue() {
   const section = main.querySelector('#news-digest');
-  if (!section) return;
+  if (!section || section.dataset.digestWired === 'true') return;
+  section.dataset.digestWired = 'true';
   const dateSelect = section.querySelector('#digest-date');
   const grid = section.querySelector('#digest-grid');
   const empty = section.querySelector('#digest-empty');
@@ -710,10 +746,11 @@ function wireNewsCatalogue() {
     try { const url = new URL(value); return /^https?:$/.test(url.protocol) ? url.href : null; }
     catch { return null; }
   };
-  // A digest date must equal the actual source publication date. Never fill a day with older news.
+  // The digest date is the collection date. Older, previously uncovered articles are eligible.
+  // Keep the original publication date separate; neither date may be in the future.
   const seen = new Set();
   const items = (Array.isArray(data.items) ? data.items : []).filter(item => {
-    if (!item || !item.id || seen.has(item.id) || !validDate(item.digestDate) || item.digestDate !== item.articleDate || item.digestDate > today || !safeLink(item.articleUrl)) return false;
+    if (!item || !item.id || seen.has(item.id) || !validDate(item.digestDate) || !validDate(item.articleDate) || item.articleDate > item.digestDate || item.digestDate > today || !safeLink(item.articleUrl)) return false;
     if (Array.from(String(item.function || '') + String(item.features || '')).length > 100) return false;
     seen.add(item.id);
     return true;
@@ -743,20 +780,168 @@ function wireNewsCatalogue() {
     row.append(element('span', 'digest-label', label), element('span', valueClass, value));
     return row;
   }
+  let readerState = null;
+  const dialog = element('dialog', 'digest-reader');
+  dialog.id = 'digest-reader';
+  dialog.setAttribute('aria-labelledby', 'digest-reader-title');
+  dialog.setAttribute('aria-modal', 'true');
+  const readerHeader = element('header', 'digest-reader-header');
+  const readerLabel = element('span', 'digest-reader-label', '效果器完整分析');
+  const closeButton = element('button', 'digest-reader-close', '×');
+  closeButton.type = 'button';
+  closeButton.setAttribute('aria-label', '關閉分析，回到效果器列表');
+  readerHeader.append(readerLabel, closeButton);
+  const readerBody = element('div', 'digest-reader-body');
+  dialog.append(readerHeader, readerBody);
+  const fallbackBackdrop = element('div', 'digest-reader-backdrop');
+  fallbackBackdrop.hidden = true;
+  fallbackBackdrop.setAttribute('aria-hidden', 'true');
+  section.append(fallbackBackdrop, dialog);
+  fallbackBackdrop.addEventListener('click', () => closeReader());
+
+  function finishClose(restorePosition = true) {
+    if (!readerState) return;
+    const saved = readerState;
+    readerState = null;
+    fallbackBackdrop.hidden = true;
+    (saved.fallbackNodes || []).forEach(({node, inert, ariaHidden}) => {
+      node.inert = inert;
+      if (ariaHidden === null) node.removeAttribute('aria-hidden');
+      else node.setAttribute('aria-hidden', ariaHidden);
+    });
+    Object.entries(saved.bodyStyle).forEach(([key, value]) => { document.body.style[key] = value; });
+    document.documentElement.style.scrollBehavior = 'auto';
+    if (restorePosition) {
+      window.scrollTo(saved.x, saved.y);
+      if (saved.trigger?.isConnected) saved.trigger.focus({preventScroll:true});
+    }
+    document.documentElement.style.scrollBehavior = saved.scrollBehavior;
+  }
+  function closeReader(restorePosition = true) {
+    if (dialog.open && typeof dialog.close === 'function') dialog.close();
+    else dialog.removeAttribute('open');
+    finishClose(restorePosition);
+  }
+  closeButton.addEventListener('click', () => closeReader());
+  dialog.addEventListener('cancel', event => { event.preventDefault(); closeReader(); });
+  dialog.addEventListener('close', () => { if (!dialog.open) finishClose(); });
+  dialog.addEventListener('click', event => {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeReader();
+  });
+  dialog.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { event.preventDefault(); closeReader(); return; }
+    if (event.key !== 'Tab') return;
+    const focusable = [...dialog.querySelectorAll('button, a[href], [tabindex="0"]')].filter(node => !node.disabled);
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+  disposeNewsCatalogue = () => { closeReader(false); dialog.remove(); fallbackBackdrop.remove(); section.dataset.digestWired = ''; };
+
+  function openReader(item, trigger) {
+    if (readerState) return;
+    readerBody.replaceChildren();
+    const headline = element('h2', '', `${item.brand} ${item.product}`);
+    headline.id = 'digest-reader-title';
+    readerBody.append(element('p', 'digest-reader-kicker', 'DAILY PEDAL DIGEST'), headline,
+      element('p', 'digest-reader-dates', `文摘收錄 ${item.digestDate} · 原文刊登 ${item.articleDate}`));
+    const intro = element('div', 'digest-reader-intro');
+    if (item.image && /^assets\/news-[a-z0-9-]+\.(png|jpe?g|webp)$/.test(item.image.src)) {
+      const figure = element('figure');
+      const image = element('img');
+      image.src = item.image.src;
+      image.alt = item.image.alt || `${item.brand} ${item.product} 正面產品圖`;
+      image.decoding = 'async';
+      figure.append(image, element('figcaption', '', item.image.credit || '產品圖片'));
+      intro.append(figure);
+    }
+    const summary = element('div', 'digest-reader-summary');
+    summary.append(element('p', 'digest-reader-lead', item.analysis?.lead || `${item.function}${item.features}`));
+    if (Number.isFinite(item.funScore) && item.funScore >= 0 && item.funScore <= 5) summary.append(field('主觀好玩程度', `${item.funScore} / 5，依公開功能評估，未經實機試奏`));
+    if (item.price?.display_currency === 'TWD' && Number.isFinite(item.price.amount_twd) && item.price.amount_twd >= 0) {
+      summary.append(field('台幣參考價', `約 NT$${item.price.amount_twd.toLocaleString('zh-TW')}`),
+        element('p', 'digest-reader-price-note', item.price.note_zh_tw || '海外標價換算，未含運稅，非台灣售價'));
+    }
+    intro.append(summary);
+    readerBody.append(intro);
+    const analysis = item.analysis;
+    const sections = Array.isArray(analysis?.sections) ? analysis.sections : [
+      {title:'功能與特色', paragraphs:[item.function, item.features]},
+      {title:'證據與限制', paragraphs:['本卡目前只有可核對的公開功能摘要，尚未補完深入分析；電路型號、稀有晶片與實際音色表現不作推定。']}
+    ];
+    sections.forEach(part => {
+      const block = element('section', 'digest-reader-section');
+      block.append(element('h3', '', part.title));
+      (Array.isArray(part.paragraphs) ? part.paragraphs : []).forEach(text => block.append(element('p', '', text)));
+      if (Array.isArray(part.bullets) && part.bullets.length) {
+        const list = element('ul');
+        part.bullets.forEach(text => list.append(element('li', '', text)));
+        block.append(list);
+      }
+      readerBody.append(block);
+    });
+    const sources = element('section', 'digest-reader-section digest-reader-sources');
+    sources.append(element('h3', '', '資料來源與閱讀延伸'));
+    const sourceList = element('ul');
+    const sourceItems = [
+      {label:'原始報導', url:item.articleUrl}, {label:'官方產品頁', url:item.officialUrl},
+      ...(Array.isArray(analysis?.sources) ? analysis.sources : []),
+      {label:'價格來源', url:item.price?.price_source_url},
+      {label:'圖片來源', url:item.image?.sourcePage || item.image?.sourceUrl}
+    ];
+    const usedSources = new Set();
+    sourceItems.forEach(source => {
+      const url = safeLink(source.url);
+      if (!url || usedSources.has(url)) return;
+      usedSources.add(url);
+      const row = element('li'); row.append(link(`${source.label} ↗`, url)); sourceList.append(row);
+    });
+    sources.append(sourceList, element('p', 'digest-reader-evidence', analysis?.evidenceNote || '功能資料與主觀玩法分開呈現；未取得可核對的電路圖或晶片資料時，不加上經典電路／稀有晶片標籤。'));
+    readerBody.append(sources);
+    const bodyStyle = {};
+    ['position','top','left','width','overflow','paddingRight','boxSizing'].forEach(key => { bodyStyle[key] = document.body.style[key]; });
+    readerState = {x:window.scrollX, y:window.scrollY, trigger, bodyStyle, scrollBehavior:document.documentElement.style.scrollBehavior};
+    const scrollbar = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+    const currentPadding = parseFloat(window.getComputedStyle(document.body).paddingRight) || 0;
+    Object.assign(document.body.style, {position:'fixed', top:`-${readerState.y}px`, left:`-${readerState.x}px`, width:'100%', boxSizing:'border-box', overflow:'hidden', paddingRight:`${currentPadding + scrollbar}px`});
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else {
+      fallbackBackdrop.hidden = false;
+      readerState.fallbackNodes = [];
+      let branch = dialog;
+      while (branch.parentElement) {
+        [...branch.parentElement.children].forEach(node => {
+          if (node === branch || node === fallbackBackdrop || ['SCRIPT','STYLE','LINK'].includes(node.tagName)) return;
+          readerState.fallbackNodes.push({node, inert:node.inert, ariaHidden:node.getAttribute('aria-hidden')});
+          node.inert = true;
+          node.setAttribute('aria-hidden', 'true');
+        });
+        branch = branch.parentElement;
+        if (branch === document.body) break;
+      }
+      dialog.setAttribute('open', '');
+      dialog.setAttribute('role', 'dialog');
+    }
+    dialog.scrollTop = 0;
+    readerBody.scrollTop = 0;
+    closeButton.focus({preventScroll:true});
+  }
+
   function render() {
     const selectedDate = dateSelect.value;
-    const selected = items.filter(item => item.digestDate === selectedDate).slice(0, 10);
+    const selected = items.filter(item => item.digestDate === selectedDate).slice(0, 3);
     grid.replaceChildren();
     empty.hidden = selected.length > 0;
-    count.textContent = `${selectedDate.replaceAll('-', '.')} · ${selected.length} 則${selectedDate === today ? '當日文摘' : '歷史文摘'} · 每日最多 10 則`;
+    count.textContent = `${selectedDate.replaceAll('-', '.')} · ${selected.length} 則${selectedDate === today ? '當日文摘' : '歷史文摘'} · 每日最多 3 則`;
     selected.forEach(item => {
       const card = element('article', 'digest-card');
       card.dataset.digestId = item.id;
       const date = element('time', 'digest-date', item.digestDate.replaceAll('-', '.'));
       date.dateTime = item.digestDate;
-      date.title = '文摘與原文刊登日期；非產品上市日';
-      const photo = link(undefined, item.officialUrl, 'digest-image');
-      photo.setAttribute('aria-label', `${item.brand} ${item.product} 原廠產品頁`);
+      date.title = `文摘收錄日期；原文刊登：${item.articleDate}，非產品上市日`;
+      const photo = element('div', 'digest-image');
       if (item.image && /^assets\/news-[a-z0-9-]+\.(png|jpe?g|webp)$/.test(item.image.src)) {
         const image = element('img');
         image.src = item.image.src;
@@ -764,7 +949,7 @@ function wireNewsCatalogue() {
         image.width = 1600; image.height = 1600; image.loading = 'lazy'; image.decoding = 'async';
         photo.append(image);
       }
-      card.append(date, photo, element('span', 'digest-brand', item.brand), element('h4', '', item.product), field('功能', item.function));
+      card.append(date, element('span', 'digest-original-date', `原文 ${item.articleDate}`), photo, element('span', 'digest-brand', item.brand), element('h4', '', item.product), field('功能', item.function));
       const verifiedBadges = (Array.isArray(item.badges) ? item.badges : []).filter(badge => badge.verified === true && ['classicCircuit', 'rareIC'].includes(badge.type) && badge.name && safeLink(badge.sourceUrl));
       if (verifiedBadges.length) {
         const badges = element('div', 'digest-badges');
@@ -780,9 +965,20 @@ function wireNewsCatalogue() {
         card.append(priceRow);
       } else card.append(field('參考價格', '價格待查'));
       const links = element('div', 'digest-links');
-      links.append(link('閱讀原文 ↗', item.articleUrl), link('原廠／圖片 ↗', item.officialUrl));
+      const separateImageSource = safeLink(item.image?.sourcePage) && item.image.sourcePage !== item.officialUrl;
+      links.append(link('閱讀原文 ↗', item.articleUrl), link(separateImageSource ? '原廠 ↗' : '原廠／圖片 ↗', item.officialUrl));
+      if (separateImageSource) links.append(link('圖片 ↗', item.image.sourcePage));
       links.lastChild.title = item.image?.credit || '原廠產品頁';
-      card.append(links);
+      const readButton = element('button', 'digest-read', '閱讀完整分析 →');
+      readButton.type = 'button';
+      readButton.setAttribute('aria-label', `閱讀 ${item.brand} ${item.product} 完整分析`);
+      readButton.setAttribute('aria-haspopup', 'dialog');
+      readButton.setAttribute('aria-controls', 'digest-reader');
+      readButton.addEventListener('click', () => openReader(item, readButton));
+      card.addEventListener('click', event => {
+        if (!event.target.closest('a,button,input,select,textarea')) openReader(item, readButton);
+      });
+      card.append(readButton, links);
       grid.append(card);
     });
   }
@@ -1122,4 +1318,5 @@ showRoute();
   <script src="friend-mobile.js"></script>
 <style id="friend-qaf-sync-style">#friend-qaf1-model{margin:20px 0 42px;padding:18px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd}.friend-model-heading{display:flex;align-items:start;justify-content:space-between;gap:18px}.friend-model-heading h2{margin:0 0 5px}.friend-model-heading p{margin:0 0 10px}.friend-model-tabs{display:flex;gap:18px;flex-wrap:wrap;padding:10px 0}.friend-model-tabs button,.column-tabs button{border:0;background:none;color:#555;padding:5px 0;border-radius:0}.friend-model-tabs button[aria-pressed=true],.column-tabs button[aria-pressed=true]{font-weight:750;color:#111}.friend-model-tabs button:hover,.column-tabs button:hover{background:none;color:#111}#friend-qaf1-frame{display:block;width:100%;height:min(850px,80vh);min-height:520px;border:1px solid #bbb;background:#fff}.column-tabs{display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid #ddd;padding:8px 0}.friend-column-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:22px 0 52px}.friend-column-card{min-width:0;text-decoration:none;color:#111;border-top:1px solid #bbb;padding-top:14px;display:flex;flex-direction:column;gap:8px}.friend-column-cover{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;background:#f4f4f4;overflow:hidden;margin-bottom:8px}.friend-column-cover img{width:100%;height:100%;object-fit:contain}.friend-column-card[hidden]{display:none!important}.friend-column-card strong{font-size:21px;line-height:1.45;font-weight:600}.friend-column-card time{font-size:13px;color:#777}.friend-column-read{margin-top:auto;padding-top:10px;font-size:14px}.friend-column-card:hover .friend-column-read{text-decoration:underline}.friend-reader-tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 0 18px;border-bottom:1px solid #ddd}.friend-reader-tabs a{min-width:155px;max-width:240px;flex:1;padding:10px 12px;text-decoration:none;border:1px solid #ddd;color:#555}.friend-reader-tabs a[aria-current=page]{border-color:#222;color:#111;font-weight:700}.friend-reader-tabs small,.friend-reader-tabs span{display:block}.friend-reader-tabs small{color:#888;font-size:11px}.friend-reader-tabs span{font-size:14px;line-height:1.35}.friend-column-back{display:inline-block;margin:12px 0}.friend-reader-footer{border-top:1px solid #ddd;margin:40px 0 20px;padding-top:15px}.friend-reader-footer p{margin:0}.post-entry[hidden],#friend-column-reader[hidden],#friend-column-overview[hidden]{display:none!important}@media(max-width:900px){.friend-column-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.friend-model-heading{display:block}#friend-qaf1-frame{height:72vh;min-height:480px}.friend-column-grid{grid-template-columns:1fr;gap:28px}.friend-column-cover{aspect-ratio:16/10}.friend-reader-tabs a{flex:0 0 160px}}</style><script id="friend-qaf-sync-script">window.friendColumnRoute=function(){const overview=document.getElementById('friend-column-overview'),reader=document.getElementById('friend-column-reader');if(!overview||!reader)return;const match=decodeURIComponent(location.hash).match(/^#column\/column-qaf\/(post-[A-Za-z0-9_-]+)$/),article=match?reader.querySelector('[data-post-id="'+match[1]+'"]'):null;overview.hidden=!!article;reader.hidden=!article;reader.querySelectorAll('.post-entry').forEach(item=>item.hidden=item!==article);reader.querySelectorAll('[data-reader-post]').forEach(link=>link.setAttribute('aria-current',article&&link.dataset.readerPost===article.dataset.postId?'page':'false'));if(article){document.title=article.querySelector('h3').textContent+'｜QAF 專欄';window.scrollTo(0,0)}else if(location.hash==='#column/column-qaf'){window.scrollTo(0,0)}};document.addEventListener('click',event=>{const model=event.target.closest('[data-friend-model]');if(model){const page=model.dataset.friendModel;if(!['model.html','index.html','render.html'].includes(page))return;const frame=document.getElementById('friend-qaf1-frame');if(frame)frame.src='qaf1-model/'+page;document.querySelectorAll('[data-friend-model]').forEach(button=>button.setAttribute('aria-pressed',String(button===model)));return}const category=event.target.closest('[data-friend-category]');if(category){const selected=category.dataset.friendCategory;document.querySelectorAll('[data-friend-category]').forEach(button=>button.setAttribute('aria-pressed',String(button===category)));let shown=0;document.querySelectorAll('#main .friend-column-card[data-category]').forEach(card=>{card.hidden=!!selected&&card.dataset.category!==selected;if(!card.hidden)shown++});const count=document.querySelector('#main .column-count');if(count)count.textContent=(selected||'最新文章')+' · '+shown+' 篇'}});</script><link rel="stylesheet" href="friend-column-reading.css?v=20261008b"><script src="friend-column-reading.js?v=20261005i"></script><script src="friend-local-articles.js?v=20261008b"></script></body>
 </html>
+
 
