@@ -620,7 +620,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261010-onward-pedal-share-v12${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261010-pedal-object-fit-v13${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-onward-pedal-share-v12' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-object-fit-v13' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -787,6 +787,7 @@ function wireNewsCatalogue() {
   const part = type => dateParts.find(value => value.type === type)?.value;
   const today = `${part('year')}-${part('month')}-${part('day')}`;
   const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '');
+  const productDateLabel = item => validDate(item.articleDate) ? item.articleDate : '未提供';
   const safeLink = value => {
     try { const url = new URL(value); return /^https?:$/.test(url.protocol) ? url.href : null; }
     catch { return null; }
@@ -795,7 +796,7 @@ function wireNewsCatalogue() {
   // Keep the original publication date separate; neither date may be in the future.
   const seen = new Set();
   const items = (Array.isArray(data.items) ? data.items : []).filter(item => {
-    if (!item || !item.id || seen.has(item.id) || !validDate(item.digestDate) || !validDate(item.articleDate) || item.articleDate > item.digestDate || item.digestDate > today || !safeLink(item.articleUrl)) return false;
+    if (!item || !item.id || seen.has(item.id) || !validDate(item.digestDate) || (item.articleDate && !validDate(item.articleDate)) || (validDate(item.articleDate) && item.articleDate > item.digestDate) || item.digestDate > today || !safeLink(item.articleUrl)) return false;
     if (Array.from(String(item.function || '') + String(item.features || '')).length > 100) return false;
     seen.add(item.id);
     return true;
@@ -804,8 +805,8 @@ function wireNewsCatalogue() {
     .filter(category => category && /^[a-z][a-z0-9-]*$/.test(category.id) && category.label && items.some(item => Array.isArray(item.categories) && item.categories.includes(category.id)))
     .map(category => ({value:category.id, label:String(category.label)}))];
   const sortOptions = [
-    {value:'date-desc', label:'日期：新到舊'}, {value:'date-asc', label:'日期：舊到新'},
-    {value:'price-asc', label:'價格：低到高'}, {value:'price-desc', label:'價格：高到低'}
+    {value:'product-date-desc', label:'產品新到舊'}, {value:'product-date-asc', label:'產品舊到新'},
+    {value:'price-asc', label:'價格低到高'}, {value:'price-desc', label:'價格高到低'}
   ];
   function setOptions(select, choices, initial) {
     select.replaceChildren(...choices.map(choice => {
@@ -814,7 +815,7 @@ function wireNewsCatalogue() {
     select.value = initial;
   }
   setOptions(categorySelect, categoryOptions, 'all');
-  setOptions(sortSelect, sortOptions, 'date-desc');
+  setOptions(sortSelect, sortOptions, 'product-date-desc');
   const dates = [...new Set(items.map(item => item.digestDate))].sort().reverse();
   const dateOptions = [
     {value:'all', label:'全部日期'},
@@ -848,8 +849,10 @@ function wireNewsCatalogue() {
     return categorySelect.value === 'all' || (Array.isArray(item.categories) && item.categories.includes(categorySelect.value));
   }
   function compareItems(a, b) {
-    const newestFirst = b.digestDate.localeCompare(a.digestDate);
-    if (sortSelect.value === 'date-asc') return -newestFirst;
+    const aDate = validDate(a.articleDate) ? a.articleDate : '';
+    const bDate = validDate(b.articleDate) ? b.articleDate : '';
+    const newestFirst = aDate && bDate ? bDate.localeCompare(aDate) : aDate ? -1 : bDate ? 1 : 0;
+    if (sortSelect.value === 'product-date-asc') return aDate && bDate ? -newestFirst : newestFirst;
     if (!sortSelect.value.startsWith('price-')) return newestFirst;
     const aKnown = a.price?.display_currency === 'TWD' && Number.isFinite(a.price.amount_twd) && a.price.amount_twd >= 0;
     const bKnown = b.price?.display_currency === 'TWD' && Number.isFinite(b.price.amount_twd) && b.price.amount_twd >= 0;
@@ -1149,11 +1152,11 @@ function wireNewsCatalogue() {
     copyStatus.textContent = '';
     readerBody.replaceChildren();
     // Export only the public article fields rendered below, never modal/UI or page text.
-    const plainText = [`${item.brand} ${item.product}`, `文摘收錄：${item.digestDate}\n原文刊登：${item.articleDate}`];
+    const plainText = [`${item.brand} ${item.product}`, `文摘日期：${item.digestDate}\n產品新聞發布日期：${productDateLabel(item)}`];
     const headline = element('h2', '', `${item.brand} ${item.product}`);
     headline.id = 'digest-reader-title';
     readerBody.append(element('p', 'digest-reader-kicker', 'DAILY PEDAL DIGEST'), headline,
-      element('p', 'digest-reader-dates', `文摘收錄 ${item.digestDate} · 原文刊登 ${item.articleDate}`));
+      element('p', 'digest-reader-dates', `文摘日期 ${item.digestDate} · 產品新聞發布日期 ${productDateLabel(item)}`));
     const intro = element('div', 'digest-reader-intro');
     if (item.image && /^assets\/news-[a-z0-9-]+\.(png|jpe?g|webp)$/.test(item.image.src)) {
       const figure = element('figure');
@@ -1265,6 +1268,36 @@ function wireNewsCatalogue() {
     closeButton.focus({preventScroll:true});
   }
 
+  // Present unchanged source pixels through a tight, inspected product viewport.
+  // All thumbnails share the same square frame and 8px CSS inset; meet never crops or stretches hardware.
+  const catalogueImageViewports = {"news-chase-bliss-onward-cutout-v1.png":[1300,1300,373,158,557,956],"news-hologram-chroma-console-front-v2.png":[1445,1445,359,301,729,845],"news-zoom-neurig-front.png":[1505,1536,72,441,1351,661],"news-obne-parting-front.webp":[1500,1000,337,22,834,929],"news-behringer-zentara-front.jpg":[750,660,3,3,747,653],"news-strymon-la-brea-front.png":[663,1024,10,11,643,1003],"news-collision-snack-modulation-cutout-v1.png":[1055,1491,318,223,417,1094],"news-klowra-south-zoo-front.png":[1600,1600,506,194,587,1211],"news-dod-drag-front.jpg":[1200,1200,272,56,656,1088]};
+  function catalogueImage(item) {
+    const alt = item.image.alt || `${item.brand} ${item.product} 正面產品圖`;
+    const bounds = catalogueImageViewports[item.image.src.replace(/^assets\//, '')];
+    if (!bounds || typeof document.createElementNS !== 'function') {
+      const image = element('img');
+      image.src = item.image.src; image.alt = alt;
+      image.loading = 'lazy'; image.decoding = 'async';
+      return image;
+    }
+    const [sourceWidth, sourceHeight, x, y, width, height] = bounds;
+    const ns = 'http://www.w3.org/2000/svg';
+    const viewport = document.createElementNS(ns, 'svg');
+    viewport.setAttribute('class', 'digest-product-viewport');
+    viewport.setAttribute('viewBox', `${x} ${y} ${width} ${height}`);
+    viewport.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    viewport.setAttribute('role', 'img');
+    viewport.setAttribute('aria-label', alt);
+    viewport.setAttribute('focusable', 'false');
+    const image = document.createElementNS(ns, 'image');
+    image.setAttribute('href', item.image.src);
+    image.setAttribute('x', '0'); image.setAttribute('y', '0');
+    image.setAttribute('width', String(sourceWidth)); image.setAttribute('height', String(sourceHeight));
+    image.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    viewport.append(image);
+    return viewport;
+  }
+
   function render() {
     const rangeLabel = dateOptions.find(choice => choice.value === dateSelect.value)?.label || '全部日期';
     const categoryLabel = categoryOptions.find(choice => choice.value === categorySelect.value)?.label || '全部類別';
@@ -1276,18 +1309,14 @@ function wireNewsCatalogue() {
     selected.forEach(item => {
       const card = element('article', 'digest-card');
       card.dataset.digestId = item.id;
-      const date = element('time', 'digest-date', item.digestDate.replaceAll('-', '.'));
+      const date = element('time', 'digest-date', `文摘日期 ${item.digestDate.replaceAll('-', '.')}`);
       date.dateTime = item.digestDate;
-      date.title = `文摘收錄日期；原文刊登：${item.articleDate}，非產品上市日`;
+      date.title = `文摘日期；產品新聞發布日期：${productDateLabel(item)}，非產品上市日`;
       const photo = element('div', 'digest-image');
       if (item.image && /^assets\/news-[a-z0-9-]+\.(png|jpe?g|webp)$/.test(item.image.src)) {
-        const image = element('img');
-        image.src = item.image.src;
-        image.alt = item.image.alt || `${item.brand} ${item.product} 正面產品圖`;
-        image.width = 1600; image.height = 1600; image.loading = 'lazy'; image.decoding = 'async';
-        photo.append(image);
+        photo.append(catalogueImage(item));
       }
-      card.append(date, element('span', 'digest-original-date', `原文 ${item.articleDate}`), photo, element('span', 'digest-brand', item.brand), element('h4', '', item.product), field('功能', item.function));
+      card.append(date, element('span', 'digest-original-date', `產品新聞發布日期 ${productDateLabel(item)}`), photo, element('span', 'digest-brand', item.brand), element('h4', '', item.product), field('功能', item.function));
       const verifiedBadges = (Array.isArray(item.badges) ? item.badges : []).filter(badge => badge.verified === true && ['classicCircuit', 'rareIC'].includes(badge.type) && badge.name && safeLink(badge.sourceUrl));
       if (verifiedBadges.length) {
         const badges = element('div', 'digest-badges');

@@ -11,8 +11,9 @@
 #news-digest .digest-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:32px 22px;align-items:start}
 #news-digest .digest-card{min-width:0;padding:0;margin:0;background:#fff;border:0;border-radius:0;box-shadow:none;text-align:left}
 #news-digest .digest-date{display:inline-block;font-size:12px!important;line-height:1.5!important;letter-spacing:.05em;color:#666!important;background:#f4f4f2;padding:4px 7px;border:0}
-#news-digest .digest-image{display:flex;align-items:center;justify-content:center;width:100%;height:226px;margin:12px 0 16px;text-decoration:none;background:#fff}
-#news-digest .digest-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:#fff}
+#news-digest .digest-image{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;height:auto;aspect-ratio:1 / 1;padding:8px;margin:12px 0 16px;text-decoration:none;background:#fff}
+#news-digest .digest-image img,#news-digest .digest-product-viewport{display:block;box-sizing:border-box;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain;object-position:center;background:#fff}
+#news-digest .digest-product-viewport{overflow:hidden}
 #news-digest .digest-brand{display:block;font-size:12px;letter-spacing:.12em;color:#6b6b6b;margin:0 0 5px}
 #news-digest .digest-card h4{font-size:21px;font-weight:600;line-height:1.25;letter-spacing:-.02em;margin:0 0 17px;overflow-wrap:anywhere}
 #news-digest .digest-card p{font-size:16px!important;line-height:1.6!important;margin:0 0 13px}
@@ -35,8 +36,8 @@
 .news-archive .archive-note{font-size:14px!important;color:#737373;margin:7px 0 22px}
 @media(max-width:1100px){#news-digest .digest-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:900px){#news-digest .digest-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:680px){#news-digest .digest-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 20px}#news-digest .digest-image{height:220px}}
-@media(max-width:420px){#news-digest .digest-grid{grid-template-columns:1fr}#news-digest .digest-card{max-width:310px}#news-digest .digest-image{height:300px}#news-digest .digest-heading{align-items:flex-start}}
+@media(max-width:680px){#news-digest .digest-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 20px}}
+@media(max-width:420px){#news-digest .digest-grid{grid-template-columns:1fr}#news-digest .digest-card{max-width:310px}#news-digest .digest-heading{align-items:flex-start}}
 /* A same-page reader; the catalogue remains mounted underneath. */
 #news-digest .digest-card{cursor:pointer}
 #news-digest .digest-card:focus-within h4,#news-digest .digest-card:hover h4{text-decoration:underline;text-underline-offset:4px}
@@ -101,10 +102,10 @@
 </style>
 <section id="news-digest" aria-labelledby="news-digest-title">
   <header class="digest-heading">
-    <div><p class="digest-kicker">DAILY PEDAL DIGEST</p><h3 id="news-digest-title">每日效果器文摘</h3><p class="digest-intro">預設顯示全部文摘，最新日期在前。可依類別、日期篩選，再按日期或價格排列。</p></div>
+    <div><p class="digest-kicker">DAILY PEDAL DIGEST</p><h3 id="news-digest-title">每日效果器文摘</h3><p class="digest-intro">預設顯示全部文摘，依產品新聞發布日期由新到舊。可依類別、文摘日期篩選，或按價格排列。</p></div>
     <div class="digest-filters" aria-label="文摘篩選與排序">
       <label class="digest-filter">類別 <select id="digest-category" aria-label="選擇效果器類別"></select></label>
-      <label class="digest-filter">日期 <select id="digest-date" aria-label="選擇文摘日期範圍"></select></label>
+      <label class="digest-filter">文摘日期 <select id="digest-date" aria-label="選擇文摘日期範圍"></select></label>
       <label class="digest-filter">排列方式 <select id="digest-sort" aria-label="選擇文摘排列方式"></select></label>
     </div>
   </header>
