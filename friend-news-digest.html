@@ -78,6 +78,12 @@
 #news-digest .digest-filter{display:grid;gap:5px;flex:1 1 165px;min-width:0;font-size:12px;color:#666}
 #news-digest .digest-filter select{box-sizing:border-box;width:100%;min-height:44px;margin:0;padding:8px 10px;font-size:16px!important}
 @media(max-width:560px){#news-digest .digest-filter{flex-basis:100%}}
+#news-digest .digest-reader-demo{margin:0 0 36px;padding:20px 0;border-top:1px solid #e5e5e1;border-bottom:1px solid #e5e5e1}
+#news-digest .digest-reader .digest-reader-demo h3{margin:0 0 12px}
+#news-digest .digest-reader .digest-reader-demo-title{font-weight:600;overflow-wrap:anywhere;margin:0 0 7px}
+#news-digest .digest-reader .digest-reader-demo-channel{font-size:13px!important;color:#666;margin:0 0 12px}
+#news-digest .digest-reader .digest-reader-demo-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid #444;border-radius:3px;text-decoration:none;font-size:15px;line-height:1.5;box-sizing:border-box;max-width:100%;overflow-wrap:anywhere}
+#news-digest .digest-reader .digest-reader-demo-link:hover,#news-digest .digest-reader .digest-reader-demo-link:focus-visible{background:#f3f3f0;outline-offset:3px}
 </style>
 <section id="news-digest" aria-labelledby="news-digest-title">
   <header class="digest-heading">
@@ -93,8 +99,7 @@
   <div id="digest-empty" class="digest-empty" hidden><p>這個日期範圍沒有收錄文摘。</p><p>每天最多新增 3 顆，優先近期消息，也收錄先前未介紹的有趣文章；沒有合適的，就留白。</p></div>
   <p class="digest-disclaimer">好玩程度為編輯依公開功能評估的主觀分數，滿分 5 分，未經實機試奏。標籤日期為文摘收錄日，原文刊登日另行保留，不代表產品上市日；價格為台幣參考估算。</p>
 </section>
-<script id="news-digest-data" type="application/json">
-{
+<script id="news-digest-data" type="application/json">{
   "schemaVersion": 4,
   "timeZone": "Asia/Taipei",
   "maxPerDay": 3,
@@ -222,7 +227,17 @@
       "categories": [
         "drive",
         "boost"
-      ]
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=E2PTo895-ac",
+        "title": "Behringer Zentara Guitar Pedal Demo",
+        "channel": "Grays Guitars",
+        "official": false,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
     },
     {
       "id": "strymon-la-brea-20261009",
@@ -347,7 +362,17 @@
       "categories": [
         "drive",
         "boost"
-      ]
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=9jsbQmvRweA",
+        "title": "Official La Brea Analog Tape Drive Sound Samples | Strymon",
+        "channel": "strymon",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
     },
     {
       "id": "collision-devices-snack-modulation-20261009",
@@ -474,7 +499,17 @@
       },
       "categories": [
         "modulation"
-      ]
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=8GcUzOmnjkQ",
+        "title": "SNACK SERIES - MODULATION : TECHNICAL DEMO",
+        "channel": "Collision Devices",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
     },
     {
       "id": "klowra-south-zoo-20261008",
@@ -600,7 +635,17 @@
       "categories": [
         "synth",
         "pitch"
-      ]
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=2eDLgxgVv8E",
+        "title": "South Zoo Voice Synth - Exploring Demo | KLOWRA",
+        "channel": "KLOWRA",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
     },
     {
       "id": "dod-drag-20260928",
@@ -737,7 +782,17 @@
         "delay",
         "pitch",
         "modulation"
-      ]
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=EsDC-Yp05b4",
+        "title": "This Is Not Your Typical Analog Delay | DOD DRAG",
+        "channel": "DigiTech",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
     }
   ],
   "digestDateMeaning": "collection date",
@@ -768,5 +823,4 @@
       "label": "合成／特殊音色"
     }
   ]
-}
-</script>
+}</script>
