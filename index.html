@@ -611,10 +611,47 @@ function routeFromHash() {
   return 'home';
 }
 
+// Always request the public catalogue afresh. Never render the one-card legacy fallback as the full list.
+async function loadPublicNewsDigest() {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const refresh = attempt ? `&refresh=${Date.now()}` : '';
+      const response = await fetch(`friend-news-digest.html?v=20261009-pedal-filters-v4${refresh}`, {cache:'no-store'});
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const markup = await response.text();
+      const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
+      const data = match && JSON.parse(match[1]);
+      if (!data || !Number.isInteger(data.schemaVersion) || data.schemaVersion < 4 || !Array.isArray(data.items) || !['news-digest','friend-news-catalogue-style','digest-category','digest-date','digest-sort'].every(id => markup.includes(`id="${id}"`))) throw new Error('Incomplete catalogue response');
+      return markup;
+    } catch { /* A single fresh retry also rejects an outdated cached fragment. */ }
+  }
+  return null;
+}
+function hideLegacyDodPreview() {
+  const legacyDod = main.querySelector('#news-ca398d2ec054485c91aad4e9a72c6a00');
+  if (legacyDod) legacyDod.hidden = true;
+  const archive = main.querySelector('.news-archive');
+  if (archive && ![...archive.querySelectorAll('.news-card')].some(article => !article.hidden)) archive.hidden = true;
+}
+function showNewsLoadError() {
+  const oldDigest = main.querySelector('#news-digest');
+  const error = document.createElement('section');
+  error.id = 'news-digest';
+  error.setAttribute('role', 'status');
+  const heading = document.createElement('h3'); heading.textContent = '文摘暫時無法載入';
+  const copy = document.createElement('p'); copy.textContent = '連線未完成，請按重試載入全部文摘。';
+  const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = '重試載入文摘';
+  retry.addEventListener('click', () => showRoute(true));
+  error.append(heading, copy, retry);
+  main.querySelector('#news-digest-data')?.remove();
+  if (oldDigest) oldDigest.replaceWith(error);
+  else main.prepend(error);
+  hideLegacyDodPreview();
+}
 let routeRequestId = 0;
-async function showRoute() {
+async function showRoute(forceReload = false) {
   const route = routeFromHash();
-  if (route === current) {
+  if (route === current && forceReload !== true) {
     if (route === 'column/column-qaf') window.friendColumnRoute?.();
     if (route === 'column/column-qafdot') window.friendQafdotRoute?.();
     if (route === 'column/column-lab') window.friendLabRoute?.();
@@ -629,7 +666,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'news' ? '20261009-pedal-reader-all-v3' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'news' ? '20261009-pedal-filters-v4' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -664,11 +701,7 @@ async function showRoute() {
     if (requestId !== routeRequestId) return;
     let publicDigestMarkup = null;
     if (name === 'news') {
-      try {
-        const digestResponse = await fetch('friend-news-digest.html?v=20261009-pedal-reader-all-v3');
-        if (!digestResponse.ok) throw new Error(`HTTP ${digestResponse.status}`);
-        publicDigestMarkup = await digestResponse.text();
-      } catch { /* Keep the existing news page usable if the new digest asset is temporarily unavailable. */ }
+      publicDigestMarkup = await loadPublicNewsDigest();
       if (requestId !== routeRequestId) return;
     }
     const percent = main.querySelector('.preview-percent');
@@ -680,6 +713,7 @@ async function showRoute() {
     disposeNewsCatalogue?.();
     disposeNewsCatalogue = null;
     main.innerHTML = markup;
+    let publicDigestMounted = false;
     if (publicDigestMarkup) {
       const digestTemplate = document.createElement('template');
       digestTemplate.innerHTML = publicDigestMarkup;
@@ -688,6 +722,7 @@ async function showRoute() {
         main.querySelector('#friend-news-catalogue-style')?.remove();
         main.querySelector('#news-digest-data')?.remove();
         originalDigest.replaceWith(digestTemplate.content);
+        publicDigestMounted = true;
       }
     }
     main.querySelectorAll('figure.preview-authentic-image').forEach(figure => figure.remove());
@@ -697,11 +732,8 @@ async function showRoute() {
     document.title = `${document.querySelector('.primary-nav a[aria-current="page"]')?.textContent || 'QAF'}｜QAF 音樂學習`;
     if (route.startsWith('magazines')) wireBookToolbar();
     if (route === 'news') {
-      wireNewsCatalogue();
-      if (!publicDigestMarkup) {
-        const status = main.querySelector('#digest-count');
-        if (status) status.append(document.createTextNode(' · 最新文摘暫時無法載入，請稍後重新整理。'));
-      }
+      if (publicDigestMounted) wireNewsCatalogue();
+      else showNewsLoadError();
     }
     if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); MemoryFifths.mount(); MemoryBasics.mount(); WorldScaleWheel.mount(); }
     if (route === 'band') wireBandVideos();
@@ -728,19 +760,24 @@ function wireNewsCatalogue() {
   const section = main.querySelector('#news-digest');
   if (!section || section.dataset.digestWired === 'true') return;
   section.dataset.digestWired = 'true';
+  const categorySelect = section.querySelector('#digest-category');
   const dateSelect = section.querySelector('#digest-date');
+  const sortSelect = section.querySelector('#digest-sort');
   const grid = section.querySelector('#digest-grid');
   const empty = section.querySelector('#digest-empty');
   const count = section.querySelector('#digest-count');
+  if (!categorySelect || !dateSelect || !sortSelect || !grid || !empty || !count) { showNewsLoadError(); return; }
   let data;
   try {
     data = JSON.parse(main.querySelector('#news-digest-data').textContent);
   } catch {
     count.textContent = '文摘暫時無法載入，請重新整理。';
-    dateSelect.disabled = true;
+    categorySelect.disabled = dateSelect.disabled = sortSelect.disabled = true;
     return;
   }
-  const today = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Taipei', year:'numeric', month:'2-digit', day:'2-digit'}).format(new Date());
+  const dateParts = new Intl.DateTimeFormat('en-US-u-ca-gregory-nu-latn', {timeZone:'Asia/Taipei', year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(new Date());
+  const part = type => dateParts.find(value => value.type === type)?.value;
+  const today = `${part('year')}-${part('month')}-${part('day')}`;
   const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '');
   const safeLink = value => {
     try { const url = new URL(value); return /^https?:$/.test(url.protocol) ? url.href : null; }
@@ -755,8 +792,22 @@ function wireNewsCatalogue() {
     seen.add(item.id);
     return true;
   });
-  items.sort((a, b) => b.digestDate.localeCompare(a.digestDate));
-  const dates = [...new Set(items.map(item => item.digestDate))];
+  const categoryOptions = [{value:'all', label:'全部類別'}, ...(Array.isArray(data.categories) ? data.categories : [])
+    .filter(category => category && /^[a-z][a-z0-9-]*$/.test(category.id) && category.label && items.some(item => Array.isArray(item.categories) && item.categories.includes(category.id)))
+    .map(category => ({value:category.id, label:String(category.label)}))];
+  const sortOptions = [
+    {value:'date-desc', label:'日期：新到舊'}, {value:'date-asc', label:'日期：舊到新'},
+    {value:'price-asc', label:'價格：低到高'}, {value:'price-desc', label:'價格：高到低'}
+  ];
+  function setOptions(select, choices, initial) {
+    select.replaceChildren(...choices.map(choice => {
+      const option = document.createElement('option'); option.value = choice.value; option.textContent = choice.label; return option;
+    }));
+    select.value = initial;
+  }
+  setOptions(categorySelect, categoryOptions, 'all');
+  setOptions(sortSelect, sortOptions, 'date-desc');
+  const dates = [...new Set(items.map(item => item.digestDate))].sort().reverse();
   const dateOptions = [
     {value:'all', label:'全部日期'},
     {value:'today', label:'今日'},
@@ -783,12 +834,22 @@ function wireNewsCatalogue() {
     if (range === 'last7' || range === 'last30') return item.digestDate >= startOfRange(range === 'last7' ? 7 : 30) && item.digestDate <= today;
     return range.startsWith('day:') && item.digestDate === range.slice(4);
   }
-  // The public DOD card replaces only its legacy article display; no legacy copy enters the reader.
-  if (items.some(item => item.id === 'dod-drag-20260928' && item.analysis)) {
-    const legacyDod = main.querySelector('#news-ca398d2ec054485c91aad4e9a72c6a00');
-    if (legacyDod) legacyDod.hidden = true;
-    const archive = main.querySelector('.news-archive');
-    if (archive && ![...archive.querySelectorAll('.news-card')].some(article => !article.hidden)) archive.hidden = true;
+  // Only the public DOD card is read by the modal; legacy private copy is never copied into it.
+  if (items.some(item => item.id === 'dod-drag-20260928' && item.analysis)) hideLegacyDodPreview();
+  function inSelectedCategory(item) {
+    return categorySelect.value === 'all' || (Array.isArray(item.categories) && item.categories.includes(categorySelect.value));
+  }
+  function compareItems(a, b) {
+    const newestFirst = b.digestDate.localeCompare(a.digestDate);
+    if (sortSelect.value === 'date-asc') return -newestFirst;
+    if (!sortSelect.value.startsWith('price-')) return newestFirst;
+    const aKnown = a.price?.display_currency === 'TWD' && Number.isFinite(a.price.amount_twd) && a.price.amount_twd >= 0;
+    const bKnown = b.price?.display_currency === 'TWD' && Number.isFinite(b.price.amount_twd) && b.price.amount_twd >= 0;
+    if (!aKnown && !bKnown) return newestFirst;
+    if (!aKnown) return 1;
+    if (!bKnown) return -1;
+    const difference = a.price.amount_twd - b.price.amount_twd;
+    return (sortSelect.value === 'price-desc' ? -difference : difference) || newestFirst;
   }
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -958,10 +1019,11 @@ function wireNewsCatalogue() {
 
   function render() {
     const rangeLabel = dateOptions.find(choice => choice.value === dateSelect.value)?.label || '全部日期';
-    const selected = items.filter(inSelectedRange);
+    const categoryLabel = categoryOptions.find(choice => choice.value === categorySelect.value)?.label || '全部類別';
+    const selected = items.filter(inSelectedCategory).filter(inSelectedRange).sort(compareItems);
     grid.replaceChildren();
     empty.hidden = selected.length > 0;
-    count.textContent = `${rangeLabel} · ${selected.length} 顆 · 最新日期在前 · 每日最多新增 3 顆`;
+    count.textContent = `${categoryLabel} · ${rangeLabel} · ${selected.length} 顆 · 每日最多新增 3 顆`;
     selected.forEach(item => {
       const card = element('article', 'digest-card');
       card.dataset.digestId = item.id;
@@ -1009,7 +1071,9 @@ function wireNewsCatalogue() {
       grid.append(card);
     });
   }
+  categorySelect.addEventListener('change', render);
   dateSelect.addEventListener('change', render);
+  sortSelect.addEventListener('change', render);
   render();
 }
 
@@ -1295,6 +1359,15 @@ function wireScorePreview() {
 }
 
 window.addEventListener('hashchange', showRoute);
+// Re-entering the same news tab is an explicit reset to the complete, freshly loaded catalogue.
+document.addEventListener('click', event => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  const link = event.target.closest?.('a[href]');
+  if (link?.getAttribute('href') === '#news' && routeFromHash() === 'news') { event.preventDefault(); showRoute(true); }
+});
+window.addEventListener('pageshow', event => {
+  if (event.persisted && routeFromHash() === 'news' && !main.querySelector('.digest-reader[open]')) showRoute(true);
+});
 document.getElementById('back-to-top').addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 const friendTraffic = document.getElementById('friend-traffic');
 if (location.hostname === 'qafstudio2.github.io') {

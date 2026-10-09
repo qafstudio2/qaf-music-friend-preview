@@ -76,11 +76,19 @@
 @media(max-width:600px){#news-digest .digest-reader{width:100%;height:100%;max-height:100%;border:0;border-radius:0}#news-digest .digest-reader-header{padding:calc(8px + env(safe-area-inset-top)) 14px 8px 20px}#news-digest .digest-reader-body{padding:24px 22px calc(38px + env(safe-area-inset-bottom))}#news-digest .digest-reader-intro{grid-template-columns:1fr;gap:20px}#news-digest .digest-reader figure img{height:240px}#news-digest .digest-reader p,#news-digest .digest-reader li{font-size:17px!important;line-height:1.9!important}#news-digest .digest-reader-section h3{font-size:22px}}
 
 #main .news-archive[hidden]{display:none!important}
+#news-digest .digest-filters{display:flex;flex-wrap:wrap;gap:12px;width:100%;margin-top:4px}
+#news-digest .digest-filter{display:grid;gap:5px;flex:1 1 165px;min-width:0;font-size:12px;color:#666}
+#news-digest .digest-filter select{box-sizing:border-box;width:100%;min-height:44px;margin:0;padding:8px 10px;font-size:16px!important}
+@media(max-width:560px){#news-digest .digest-filter{flex-basis:100%}}
 </style>
 <section id="news-digest" aria-labelledby="news-digest-title">
   <header class="digest-heading">
-    <div><p class="digest-kicker">DAILY PEDAL DIGEST</p><h3 id="news-digest-title">每日效果器文摘</h3><p class="digest-intro">所有文摘都在這裡，最新日期在前；每天最多新增三顆。點卡片讀完整分析。</p></div>
-    <label class="digest-date-control">日期範圍 <select id="digest-date" aria-label="選擇文摘日期範圍"></select></label>
+    <div><p class="digest-kicker">DAILY PEDAL DIGEST</p><h3 id="news-digest-title">每日效果器文摘</h3><p class="digest-intro">預設顯示全部文摘，最新日期在前。可依類別、日期篩選，再按日期或價格排列。</p></div>
+    <div class="digest-filters" aria-label="文摘篩選與排序">
+      <label class="digest-filter">類別 <select id="digest-category" aria-label="選擇效果器類別"></select></label>
+      <label class="digest-filter">日期 <select id="digest-date" aria-label="選擇文摘日期範圍"></select></label>
+      <label class="digest-filter">排列方式 <select id="digest-sort" aria-label="選擇文摘排列方式"></select></label>
+    </div>
   </header>
   <p id="digest-count" class="digest-count" role="status"></p>
   <div id="digest-grid" class="digest-grid"></div>
@@ -89,7 +97,7 @@
 </section>
 <script id="news-digest-data" type="application/json">
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "timeZone": "Asia/Taipei",
   "maxPerDay": 3,
   "items": [
@@ -212,7 +220,11 @@
           }
         ],
         "evidenceNote": "依免費可讀的原廠資料及已標示的價格來源整理。玩法與適用性為編輯推論，未實機試奏；不以廠商音色形容詞作為獨立實測結論。"
-      }
+      },
+      "categories": [
+        "drive",
+        "boost"
+      ]
     },
     {
       "id": "strymon-la-brea-20261009",
@@ -333,7 +345,11 @@
           }
         ],
         "evidenceNote": "規格與接線要求以官方產品頁及 Rev A 手冊為主。玩法與取捨是編輯推論，未實機試奏。官方支援頁與產品頁的尺寸不同，本分析因此不引用尺寸。"
-      }
+      },
+      "categories": [
+        "drive",
+        "boost"
+      ]
     },
     {
       "id": "collision-devices-snack-modulation-20261009",
@@ -455,7 +471,10 @@
           }
         ],
         "evidenceNote": "以官方產品頁及品牌首頁核實功能。玩法為編輯推論，未實機試奏；未取得可獨立核實的 DSP 型號或完整電路。首頁內容可能隨新品更換，故保留產品頁與手冊入口。"
-      }
+      },
+      "categories": [
+        "modulation"
+      ]
     },
     {
       "id": "klowra-south-zoo-20261008",
@@ -577,7 +596,11 @@
           }
         ],
         "evidenceNote": "依原廠與日本代理商公開資料整理，玩法為推論，未實機試奏。官網音色與追蹤形容屬廠商宣稱，未當成獨立測試結果。"
-      }
+      },
+      "categories": [
+        "synth",
+        "pitch"
+      ]
     },
     {
       "id": "dod-drag-20260928",
@@ -709,10 +732,41 @@
           }
         ],
         "evidenceNote": "規格與 Evade 恢復方式以官方 Rev B 手冊為主；玩法及趣味評分為編輯推論，未實機試奏。價格為歷史海外報價換算，非台灣實售價。"
-      }
+      },
+      "categories": [
+        "delay",
+        "pitch",
+        "modulation"
+      ]
     }
   ],
   "digestDateMeaning": "collection date",
-  "articleDateMeaning": "original source publication date"
+  "articleDateMeaning": "original source publication date",
+  "categories": [
+    {
+      "id": "drive",
+      "label": "破音／飽和"
+    },
+    {
+      "id": "boost",
+      "label": "乾淨推升"
+    },
+    {
+      "id": "modulation",
+      "label": "調變"
+    },
+    {
+      "id": "delay",
+      "label": "延遲"
+    },
+    {
+      "id": "pitch",
+      "label": "變調／音高"
+    },
+    {
+      "id": "synth",
+      "label": "合成／特殊音色"
+    }
+  ]
 }
 </script>
