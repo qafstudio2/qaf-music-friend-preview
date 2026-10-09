@@ -629,7 +629,7 @@ async function showRoute() {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'news' ? '20261009-pedal-reader-v2' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'news' ? '20261009-pedal-reader-all-v3' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -665,7 +665,7 @@ async function showRoute() {
     let publicDigestMarkup = null;
     if (name === 'news') {
       try {
-        const digestResponse = await fetch('friend-news-digest.html?v=20261009-pedal-reader-v2');
+        const digestResponse = await fetch('friend-news-digest.html?v=20261009-pedal-reader-all-v3');
         if (!digestResponse.ok) throw new Error(`HTTP ${digestResponse.status}`);
         publicDigestMarkup = await digestResponse.text();
       } catch { /* Keep the existing news page usable if the new digest asset is temporarily unavailable. */ }
@@ -755,14 +755,41 @@ function wireNewsCatalogue() {
     seen.add(item.id);
     return true;
   });
-  const dates = [...new Set([today, ...items.map(item => item.digestDate)])].sort().reverse();
-  dateSelect.replaceChildren(...dates.map(date => {
+  items.sort((a, b) => b.digestDate.localeCompare(a.digestDate));
+  const dates = [...new Set(items.map(item => item.digestDate))];
+  const dateOptions = [
+    {value:'all', label:'全部日期'},
+    {value:'today', label:'今日'},
+    {value:'last7', label:'近 7 日'},
+    {value:'last30', label:'近 30 日'},
+    ...dates.map(date => ({value:`day:${date}`, label:date.replaceAll('-', '.')}))
+  ];
+  dateSelect.replaceChildren(...dateOptions.map(choice => {
     const option = document.createElement('option');
-    option.value = date;
-    option.textContent = `${date === today ? '今天 · ' : ''}${date.replaceAll('-', '.')}`;
+    option.value = choice.value;
+    option.textContent = choice.label;
     return option;
   }));
-  dateSelect.value = today;
+  dateSelect.value = 'all';
+  function startOfRange(days) {
+    const date = new Date(`${today}T12:00:00Z`);
+    date.setUTCDate(date.getUTCDate() - days + 1);
+    return date.toISOString().slice(0, 10);
+  }
+  function inSelectedRange(item) {
+    const range = dateSelect.value;
+    if (range === 'all') return true;
+    if (range === 'today') return item.digestDate === today;
+    if (range === 'last7' || range === 'last30') return item.digestDate >= startOfRange(range === 'last7' ? 7 : 30) && item.digestDate <= today;
+    return range.startsWith('day:') && item.digestDate === range.slice(4);
+  }
+  // The public DOD card replaces only its legacy article display; no legacy copy enters the reader.
+  if (items.some(item => item.id === 'dod-drag-20260928' && item.analysis)) {
+    const legacyDod = main.querySelector('#news-ca398d2ec054485c91aad4e9a72c6a00');
+    if (legacyDod) legacyDod.hidden = true;
+    const archive = main.querySelector('.news-archive');
+    if (archive && ![...archive.querySelectorAll('.news-card')].some(article => !article.hidden)) archive.hidden = true;
+  }
   function element(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -930,11 +957,11 @@ function wireNewsCatalogue() {
   }
 
   function render() {
-    const selectedDate = dateSelect.value;
-    const selected = items.filter(item => item.digestDate === selectedDate).slice(0, 3);
+    const rangeLabel = dateOptions.find(choice => choice.value === dateSelect.value)?.label || '全部日期';
+    const selected = items.filter(inSelectedRange);
     grid.replaceChildren();
     empty.hidden = selected.length > 0;
-    count.textContent = `${selectedDate.replaceAll('-', '.')} · ${selected.length} 則${selectedDate === today ? '當日文摘' : '歷史文摘'} · 每日最多 3 則`;
+    count.textContent = `${rangeLabel} · ${selected.length} 顆 · 最新日期在前 · 每日最多新增 3 顆`;
     selected.forEach(item => {
       const card = element('article', 'digest-card');
       card.dataset.digestId = item.id;

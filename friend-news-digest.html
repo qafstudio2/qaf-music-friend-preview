@@ -75,15 +75,16 @@
 @media(max-width:900px){#news-digest .digest-reader-body{padding:28px 30px 40px}#news-digest .digest-reader-intro{grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:24px}}
 @media(max-width:600px){#news-digest .digest-reader{width:100%;height:100%;max-height:100%;border:0;border-radius:0}#news-digest .digest-reader-header{padding:calc(8px + env(safe-area-inset-top)) 14px 8px 20px}#news-digest .digest-reader-body{padding:24px 22px calc(38px + env(safe-area-inset-bottom))}#news-digest .digest-reader-intro{grid-template-columns:1fr;gap:20px}#news-digest .digest-reader figure img{height:240px}#news-digest .digest-reader p,#news-digest .digest-reader li{font-size:17px!important;line-height:1.9!important}#news-digest .digest-reader-section h3{font-size:22px}}
 
+#main .news-archive[hidden]{display:none!important}
 </style>
 <section id="news-digest" aria-labelledby="news-digest-title">
   <header class="digest-heading">
-    <div><p class="digest-kicker">DAILY PEDAL DIGEST</p><h3 id="news-digest-title">每日效果器文摘</h3><p class="digest-intro">每天最多三顆。點卡片，留在這裡讀完整分析。</p></div>
-    <label class="digest-date-control">文摘日期 <select id="digest-date" aria-label="選擇文摘日期"></select></label>
+    <div><p class="digest-kicker">DAILY PEDAL DIGEST</p><h3 id="news-digest-title">每日效果器文摘</h3><p class="digest-intro">所有文摘都在這裡，最新日期在前；每天最多新增三顆。點卡片讀完整分析。</p></div>
+    <label class="digest-date-control">日期範圍 <select id="digest-date" aria-label="選擇文摘日期範圍"></select></label>
   </header>
   <p id="digest-count" class="digest-count" role="status"></p>
   <div id="digest-grid" class="digest-grid"></div>
-  <div id="digest-empty" class="digest-empty" hidden><p>這一天還沒有收錄文摘。</p><p>每天最多 3 則，優先近期消息，也收錄先前未介紹的有趣文章；沒有合適的，就留白。</p></div>
+  <div id="digest-empty" class="digest-empty" hidden><p>這個日期範圍沒有收錄文摘。</p><p>每天最多新增 3 顆，優先近期消息，也收錄先前未介紹的有趣文章；沒有合適的，就留白。</p></div>
   <p class="digest-disclaimer">好玩程度為編輯依公開功能評估的主觀分數，滿分 5 分，未經實機試奏。標籤日期為文摘收錄日，原文刊登日另行保留，不代表產品上市日；價格為台幣參考估算。</p>
 </section>
 <script id="news-digest-data" type="application/json">
@@ -576,6 +577,138 @@
           }
         ],
         "evidenceNote": "依原廠與日本代理商公開資料整理，玩法為推論，未實機試奏。官網音色與追蹤形容屬廠商宣稱，未當成獨立測試結果。"
+      }
+    },
+    {
+      "id": "dod-drag-20260928",
+      "brand": "DOD",
+      "product": "DRAG",
+      "digestDate": "2026-09-28",
+      "articleDate": "2026-09-28",
+      "articlePublishedAt": "2026-09-28",
+      "articleType": "新品介紹",
+      "articleUrl": "https://guitarmagazine.jp/news/2026-0928-dod-drag/",
+      "officialUrl": "https://digitech.com/dp/drag/",
+      "function": "BBD 類比延遲與變速音高效果。",
+      "features": "三類 Friction 變速、停轉與八度彎音，搭配四種調變波形；Evade 可選放開恢復或自動恢復。",
+      "badges": [],
+      "funScore": 4.5,
+      "image": {
+        "src": "assets/news-dod-drag-front.jpg",
+        "alt": "DOD DRAG 類比延遲效果器正面官方產品圖",
+        "credit": "圖片來源：DigiTech／DOD 官方網站",
+        "sourceUrl": "https://eadn-wc05-7545739.nxedge.io/wp-content/uploads/2026/08/DRAG_gallery01.jpg",
+        "sourcePage": "https://digitech.com/dp/drag/"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$8,540",
+        "display_currency": "TWD",
+        "amount_twd": 8540,
+        "converted_amount_twd_unrounded": 8535.56,
+        "rounding": "nearest 10 TWD",
+        "note_zh_tw": "日本歷史參考價換算，非台灣到手價",
+        "original_amount": 41800,
+        "original_currency": "JPY",
+        "market_country": "日本",
+        "original_tax_included": true,
+        "original_price_note": "2026-09-28 報導所列日本含稅預估售價，非本次即時店家報價；採既有2026-10-08匯率換算。",
+        "price_source_url": "https://guitarmagazine.jp/news/2026-0928-dod-drag/",
+        "price_source_type": "publication",
+        "price_source_published_on": "2026-09-28",
+        "price_reference_rechecked_on": "2026-10-09",
+        "fx": {
+          "rate": 0.2042,
+          "unit": "TWD per JPY",
+          "rate_type": "臺灣銀行日圓即期賣出牌告匯率",
+          "quoted_at": "2026-10-08T17:01:00+08:00",
+          "checked_on": "2026-10-08",
+          "source_name": "臺灣銀行牌告匯率",
+          "source_url": "https://rate.bot.com.tw/xrt?Lang=zh-TW",
+          "note": "沿用已於2026-10-08查核的參考匯率，非本次新查；非實際交易匯率，未含刷卡費、跨境運費及進口稅費。"
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://digitech.com/dp/drag/",
+        "https://eadn-wc05-7545739.nxedge.io/wp-content/uploads/2026/08/ARTW-0072_RevB_IndividualWebsite.pdf",
+        "https://digitech.com/dp/rubberneck/"
+      ],
+      "analysis": {
+        "lead": "以類比延遲為底，把回聲的減速、停轉與重新加速變成可用腳演奏的聲音。",
+        "sections": [
+          {
+            "title": "產品脈絡",
+            "paragraphs": [
+              "DRAG 延續 2017 年 Rubberneck 的變速延遲構想，加入新的踩踏表現方式與窄身頂置接口。前作另有獨立調變速度／深度、內建踩拍與回授迴路接口，不能把 DRAG 當成原功能原封不動縮小。收錄及原報導日均保留 2026 年 9 月 28 日。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能與電路白話",
+            "paragraphs": [
+              "BBD 類比延遲約 60–750ms；FILTER 修整回授高頻，DRIFT 連動調變速度與深度，支援四種波形。FRICTION 操作延遲時脈，讓速度與音高一起變化。SlideStop 踩住減速停止、放開重啟；Rubberneck 可升降八度。Evade 的 HopStop 放開才恢復，Slide-n-Go 則短暫按住觸發後自動恢復，兩者不能混寫。",
+              "BBD 可想成一排接力的小電容，用時脈將類比電荷往後傳；它按時間取樣，但不把聲音編碼成數位資料。變速過程可帶出音高滑動，也更考驗前後濾波與雜訊控制。晶片相同，不代表周邊電路或整台效果器的音色就相同。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "可試玩法",
+            "paragraphs": [
+              "以下為控制邏輯推導，未實機試奏：先用低回授、低效果量的短延遲，再比較兩種 Evade 的恢復節奏；加上慢速正弦調變後，逐步提高回授。自激可能突然變大聲，先降低監聽音量。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "取捨與接線提醒",
+            "paragraphs": [
+              "適合把延遲當成演奏動作的人。需要腳控踩拍時，須另購 FS3X；3.5mm 接口是腳踏控制，並非音訊輸入。單聲道，9V 中心負極供電，典型耗電低於 120mA；可選硬線旁通或保留尾音。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "已確認與未證實",
+            "paragraphs": [
+              "原廠確認 BBD 類比引擎，但未找到可靠晶片料號證據，不標成已確認 MN3005 或稀有 IC。極端變速的雜訊、爆音及失真是手冊明示的可能現象；趣味 4.5／5 為主觀評分。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "按原報導的日本含稅預估價換算，參考約 NT$8,540。這是歷史報價的台幣估算，非台灣到手價；跨境運費、進口費用及刷卡費另計，匯率與實際售價可能變動。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "DigiTech／DOD 官方 DRAG 產品頁",
+            "url": "https://digitech.com/dp/drag/",
+            "kind": "official"
+          },
+          {
+            "label": "DRAG 官方手冊 Rev B（模式操作見第7–10頁）",
+            "url": "https://eadn-wc05-7545739.nxedge.io/wp-content/uploads/2026/08/ARTW-0072_RevB_IndividualWebsite.pdf",
+            "kind": "official"
+          },
+          {
+            "label": "DOD Rubberneck 官方前作規格",
+            "url": "https://digitech.com/dp/rubberneck/",
+            "kind": "official"
+          },
+          {
+            "label": "Guitar Magazine 9/28 原報導與日本參考價",
+            "url": "https://guitarmagazine.jp/news/2026-0928-dod-drag/",
+            "kind": "publication"
+          },
+          {
+            "label": "BBD 原理參考：Xvive MN3005 資料表（非 DRAG 料號證據）",
+            "url": "https://xvive.com/audio/wp-content/uploads/sites/2/2021/11/Xvive_MN3005_BBD_DATASHEET.pdf",
+            "kind": "technical_reference"
+          }
+        ],
+        "evidenceNote": "規格與 Evade 恢復方式以官方 Rev B 手冊為主；玩法及趣味評分為編輯推論，未實機試奏。價格為歷史海外報價換算，非台灣實售價。"
       }
     }
   ],
