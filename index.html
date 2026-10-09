@@ -601,8 +601,11 @@ function loadingMarkup() {
 }
 
 function routeFromHash() {
-  const hash = decodeURIComponent(location.hash.slice(1));
+  let hash;
+  try { hash = decodeURIComponent(location.hash.slice(1)); }
+  catch { return location.hash.startsWith('#news/') ? 'news' : 'home'; }
   if (routes.has(hash)) return hash;
+  if (hash.startsWith('news/')) return 'news';
   if (hash.startsWith('column/column-qaf/')) return 'column/column-qaf';
   if (hash.startsWith('column/column-qafdot/')) return 'column/column-qafdot';
   if (hash.startsWith('column/column-lab/')) return 'column/column-lab';
@@ -617,7 +620,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261010-pedal-copy-v8${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261010-pedal-share-url-v10${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -653,6 +656,7 @@ let routeRequestId = 0;
 async function showRoute(forceReload = false) {
   const route = routeFromHash();
   if (route === current && forceReload !== true) {
+    if (route === 'news' && (location.hash === '#news' || location.hash.startsWith('#news/'))) { window.friendNewsRoute?.(); return; }
     if (route === 'column/column-qaf') window.friendColumnRoute?.();
     if (route === 'column/column-qafdot') window.friendQafdotRoute?.();
     if (route === 'column/column-lab') window.friendLabRoute?.();
@@ -668,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-copy-v8' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-share-url-v10' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -735,7 +739,7 @@ async function showRoute(forceReload = false) {
     if (route === 'games') window.friendGamesMount?.();
     if (route.startsWith('magazines')) wireBookToolbar();
     if (route === 'news') {
-      if (publicDigestMounted) wireNewsCatalogue();
+      if (publicDigestMounted) { window.scrollTo(0, 0); wireNewsCatalogue(); }
       else showNewsLoadError();
     }
     if (route === 'memory') { wireMemoryNotes(); wireMemoryBoard(); MemoryFifths.mount(); MemoryBasics.mount(); WorldScaleWheel.mount(); }
@@ -745,8 +749,9 @@ async function showRoute(forceReload = false) {
     if (route === 'column/column-qafdot') window.friendQafdotRoute?.();
     if (route === 'design/qaf2') wireQaf2Gallery();
     if (route === 'viewpoints') wireViewpoints();
-    const anchor = decodeURIComponent(location.hash.slice(1));
-    if (anchor && !routes.has(anchor)) {
+    const anchor = route === 'news' ? '' : decodeURIComponent(location.hash.slice(1));
+    if (route === 'news') { /* Preserve the reader's locked list position. */ }
+    else if (anchor && !routes.has(anchor)) {
       document.getElementById(anchor)?.scrollIntoView();
     } else {
       window.scrollTo(0, 0);
@@ -872,18 +877,42 @@ function wireNewsCatalogue() {
     return row;
   }
   let readerState = null;
+  let disposed = false;
+  let shareAttempt = null;
+  let clipboardPending = false;
+  let shareInteraction = 0;
+  const articleId = 'zoom-neurig-20261010';
+  const articleHash = `#news/${articleId}`;
+  const previousScrollRestoration = window.history.scrollRestoration;
+  window.history.scrollRestoration = 'manual';
+  function setNewsHash(hash, replace = false) {
+    if (location.hash !== hash) window.history[replace ? 'replaceState' : 'pushState'](window.history.state, '', hash);
+  }
   const dialog = element('dialog', 'digest-reader');
   dialog.id = 'digest-reader';
   dialog.setAttribute('aria-labelledby', 'digest-reader-title');
   dialog.setAttribute('aria-modal', 'true');
   const readerHeader = element('header', 'digest-reader-header');
   const readerLabel = element('span', 'digest-reader-label', '效果器完整分析');
+  const shareButton = element('button', 'digest-reader-share', '分享文章網址');
+  shareButton.type = 'button';
   const copyButton = element('button', 'digest-reader-copy', '複製全文');
   copyButton.type = 'button';
   const closeButton = element('button', 'digest-reader-close', '×');
   closeButton.type = 'button';
   closeButton.setAttribute('aria-label', '關閉分析，回到效果器列表');
   readerHeader.append(readerLabel, closeButton);
+  const sharePanel = element('div', 'digest-reader-share-panel');
+  sharePanel.hidden = true;
+  const shareStatus = element('span', 'digest-reader-share-status');
+  shareStatus.setAttribute('role', 'status');
+  shareStatus.setAttribute('aria-live', 'polite');
+  const shareText = element('textarea', 'digest-reader-share-text');
+  shareText.readOnly = true;
+  shareText.rows = 2;
+  shareText.hidden = true;
+  shareText.setAttribute('aria-label', '文章網址；可全選後複製');
+  sharePanel.append(shareStatus, shareText);
   const copyPanel = element('div', 'digest-reader-copy-panel');
   copyPanel.hidden = true;
   const copyStatus = element('span', 'digest-reader-copy-status');
@@ -896,12 +925,25 @@ function wireNewsCatalogue() {
   copyText.setAttribute('aria-label', '完整分析純文字；可全選後複製');
   copyPanel.append(copyStatus, copyText);
   const readerBody = element('div', 'digest-reader-body');
-  dialog.append(readerHeader, copyPanel, readerBody);
+  dialog.append(readerHeader, sharePanel, copyPanel, readerBody);
   const fallbackBackdrop = element('div', 'digest-reader-backdrop');
   fallbackBackdrop.hidden = true;
   fallbackBackdrop.setAttribute('aria-hidden', 'true');
   section.append(fallbackBackdrop, dialog);
   fallbackBackdrop.addEventListener('click', () => closeReader());
+
+  function refreshCopyActions() {
+    if (disposed) return;
+    copyButton.disabled = clipboardPending;
+    shareButton.disabled = Boolean(shareAttempt) || clipboardPending;
+  }
+  async function writeClipboard(text) {
+    clipboardPending = true;
+    refreshCopyActions();
+    try { await window.navigator.clipboard.writeText(text); }
+    finally { clipboardPending = false; refreshCopyActions(); }
+  }
+  copyButton.addEventListener('click', () => { shareInteraction++; });
 
   function copied(saved) {
     if (readerState !== saved) return;
@@ -909,6 +951,7 @@ function wireNewsCatalogue() {
     copyText.value = '';
     copyStatus.textContent = '已複製全文，可以貼到 Facebook。';
     copyButton.disabled = false;
+    shareButton.disabled = Boolean(shareAttempt);
     copyButton.focus({preventScroll:true});
   }
   function fallbackCopy(saved) {
@@ -917,6 +960,7 @@ function wireNewsCatalogue() {
     copyText.hidden = false;
     copyStatus.textContent = '無法自動複製。請在下方文字框全選並複製，再貼到 Facebook。';
     copyButton.disabled = false;
+    shareButton.disabled = Boolean(shareAttempt);
     copyText.focus({preventScroll:true});
     try {
       copyText.select();
@@ -928,12 +972,13 @@ function wireNewsCatalogue() {
     const saved = readerState;
     if (!saved?.copyText || copyButton.disabled) return;
     copyButton.disabled = true;
+    shareButton.disabled = true;
     copyPanel.hidden = false;
     copyText.hidden = true;
     copyStatus.textContent = '正在複製…';
     try {
       if (typeof window.navigator?.clipboard?.writeText === 'function') {
-        await window.navigator.clipboard.writeText(saved.copyText);
+        await writeClipboard(saved.copyText);
         copied(saved);
         return;
       }
@@ -941,10 +986,86 @@ function wireNewsCatalogue() {
     fallbackCopy(saved);
   });
 
+  function activeShare(attempt) {
+    return !disposed && readerState === attempt.saved && shareAttempt === attempt;
+  }
+  function showShareUrl(attempt, message, select = true) {
+    if (!activeShare(attempt)) return;
+    shareText.value = attempt.saved.shareUrl;
+    shareText.hidden = false;
+    shareStatus.textContent = message;
+    if (select) {
+      shareText.focus({preventScroll:true});
+      try { shareText.select(); shareText.setSelectionRange(0, shareText.value.length); } catch { /* The URL remains visible. */ }
+    }
+  }
+  function urlCopied(attempt) {
+    if (!activeShare(attempt)) return;
+    shareText.hidden = true;
+    shareText.value = '';
+    shareStatus.textContent = '已複製文章網址，可以貼到想分享的 App。';
+    if (shareInteraction === attempt.interaction) shareButton.focus({preventScroll:true});
+  }
+  async function copyShareUrl(attempt) {
+    if (!activeShare(attempt)) return;
+    // A newer full-text copy takes precedence over an older native-share rejection.
+    if (shareInteraction !== attempt.interaction) {
+      showShareUrl(attempt, '請複製下方文章網址；剛才的全文複製不受影響。', false);
+      return;
+    }
+    shareStatus.textContent = '正在複製文章網址…';
+    try {
+      if (typeof window.navigator?.clipboard?.writeText === 'function') {
+        await writeClipboard(attempt.saved.shareUrl);
+        urlCopied(attempt);
+        return;
+      }
+    } catch { /* Keep the article URL available if clipboard access is denied. */ }
+    if (!activeShare(attempt)) return;
+    const latest = shareInteraction === attempt.interaction;
+    showShareUrl(attempt, '無法自動複製文章網址。請在下方文字框全選並複製。', latest);
+    if (!latest) return;
+    try {
+      if (typeof document.execCommand === 'function' && document.execCommand('copy') === true) urlCopied(attempt);
+    } catch { /* Never claim a copy succeeded without confirmation. */ }
+  }
+  shareButton.addEventListener('click', async () => {
+    const saved = readerState;
+    if (!saved?.shareUrl || shareAttempt || copyButton.disabled) return;
+    const attempt = {saved, interaction:++shareInteraction};
+    shareAttempt = attempt;
+    shareButton.disabled = true;
+    sharePanel.hidden = false;
+    shareText.hidden = true;
+    shareText.value = '';
+    try {
+      if (typeof window.navigator?.share === 'function') {
+        shareStatus.textContent = '請在系統選單選擇分享對象…';
+        try {
+          // Only this user click invokes native sharing; the payload never includes the article text.
+          await window.navigator.share({title:saved.shareTitle, url:saved.shareUrl});
+          if (activeShare(attempt)) shareStatus.textContent = '已交由系統分享；是否送出請在所選 App 確認。';
+          return;
+        } catch (error) {
+          if (!activeShare(attempt)) return;
+          if (error?.name === 'AbortError') { shareStatus.textContent = '已取消分享。'; return; }
+        }
+      }
+      await copyShareUrl(attempt);
+    } finally {
+      if (shareAttempt === attempt) shareAttempt = null;
+      refreshCopyActions();
+    }
+  });
+
   function finishClose(restorePosition = true) {
     if (!readerState) return;
     const saved = readerState;
     readerState = null;
+    sharePanel.hidden = true;
+    shareText.hidden = true;
+    shareText.value = '';
+    shareStatus.textContent = '';
     copyPanel.hidden = true;
     copyText.hidden = true;
     copyText.value = '';
@@ -963,14 +1084,15 @@ function wireNewsCatalogue() {
     }
     document.documentElement.style.scrollBehavior = saved.scrollBehavior;
   }
-  function closeReader(restorePosition = true) {
+  function closeReader(restorePosition = true, updateRoute = true) {
+    if (updateRoute && readerState?.articleId === articleId && location.hash === articleHash) setNewsHash('#news');
     if (dialog.open && typeof dialog.close === 'function') dialog.close();
     else dialog.removeAttribute('open');
     finishClose(restorePosition);
   }
   closeButton.addEventListener('click', () => closeReader());
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeReader(); });
-  dialog.addEventListener('close', () => { if (!dialog.open) finishClose(); });
+  dialog.addEventListener('close', () => { if (!dialog.open) closeReader(); });
   dialog.addEventListener('click', event => {
     if (event.target !== dialog) return;
     const bounds = dialog.getBoundingClientRect();
@@ -984,13 +1106,41 @@ function wireNewsCatalogue() {
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
-  disposeNewsCatalogue = () => { closeReader(false); dialog.remove(); fallbackBackdrop.remove(); section.dataset.digestWired = ''; };
+  function syncNewsRoute() {
+    if (disposed) return;
+    if (location.hash === articleHash) {
+      if (readerState?.articleId === articleId) return;
+      closeReader(true, false);
+      const item = items.find(item => item.id === articleId);
+      if (item) {
+        const card = [...grid.children].find(card => card.dataset.digestId === articleId);
+        openReader(item, card?.querySelector('.digest-read'), false);
+      } else setNewsHash('#news', true);
+    } else if (location.hash === '#news' || location.hash.startsWith('#news/')) {
+      if (readerState?.articleId === articleId || location.hash !== '#news') closeReader(true, false);
+      if (location.hash !== '#news') setNewsHash('#news', true);
+    }
+  }
+  window.friendNewsRoute = syncNewsRoute;
+  disposeNewsCatalogue = () => {
+    disposed = true;
+    if (window.friendNewsRoute === syncNewsRoute) window.friendNewsRoute = null;
+    window.history.scrollRestoration = previousScrollRestoration;
+    closeReader(false, false);
+    dialog.remove(); fallbackBackdrop.remove(); section.dataset.digestWired = '';
+  };
 
-  function openReader(item, trigger) {
+  function openReader(item, trigger, updateRoute = true) {
     if (readerState) return;
     const canCopy = item.id === 'zoom-neurig-20261010';
-    readerHeader.replaceChildren(readerLabel, ...(canCopy ? [copyButton] : []), closeButton);
-    copyButton.disabled = false;
+    readerHeader.className = `digest-reader-header${canCopy ? ' has-share' : ''}`;
+    readerHeader.replaceChildren(readerLabel, ...(canCopy ? [shareButton, copyButton] : []), closeButton);
+    shareButton.disabled = Boolean(shareAttempt) || clipboardPending;
+    sharePanel.hidden = true;
+    shareText.hidden = true;
+    shareText.value = '';
+    shareStatus.textContent = '';
+    copyButton.disabled = clipboardPending;
     copyPanel.hidden = true;
     copyText.hidden = true;
     copyText.value = '';
@@ -1082,7 +1232,11 @@ function wireNewsCatalogue() {
     readerBody.append(sources);
     const bodyStyle = {};
     ['position','top','left','width','overflow','paddingRight','boxSizing'].forEach(key => { bodyStyle[key] = document.body.style[key]; });
-    readerState = {x:window.scrollX, y:window.scrollY, trigger, bodyStyle, scrollBehavior:document.documentElement.style.scrollBehavior, copyText:canCopy ? plainText.join('\n\n') : ''};
+    const shareUrl = new URL(location.href);
+    shareUrl.search = '';
+    shareUrl.hash = articleHash;
+    readerState = {x:window.scrollX, y:window.scrollY, trigger, bodyStyle, scrollBehavior:document.documentElement.style.scrollBehavior, copyText:canCopy ? plainText.join('\n\n') : '', articleId:item.id, shareTitle:canCopy ? `${item.brand} ${item.product}｜完整分析` : '', shareUrl:canCopy ? shareUrl.href : ''};
+    if (canCopy && updateRoute) setNewsHash(articleHash);
     const scrollbar = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
     const currentPadding = parseFloat(window.getComputedStyle(document.body).paddingRight) || 0;
     Object.assign(document.body.style, {position:'fixed', top:`-${readerState.y}px`, left:`-${readerState.x}px`, width:'100%', boxSizing:'border-box', overflow:'hidden', paddingRight:`${currentPadding + scrollbar}px`});
@@ -1167,6 +1321,7 @@ function wireNewsCatalogue() {
   dateSelect.addEventListener('change', render);
   sortSelect.addEventListener('change', render);
   render();
+  syncNewsRoute();
 }
 
 function wireLabColumn() {
@@ -1455,7 +1610,11 @@ window.addEventListener('hashchange', showRoute);
 document.addEventListener('click', event => {
   if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
   const link = event.target.closest?.('a[href]');
-  if (link?.getAttribute('href') === '#news' && routeFromHash() === 'news') { event.preventDefault(); showRoute(true); }
+  if (link?.getAttribute('href') === '#news' && routeFromHash() === 'news') {
+    event.preventDefault();
+    if (location.hash !== '#news') window.history.pushState(window.history.state, '', '#news');
+    showRoute(true);
+  }
 });
 window.addEventListener('pageshow', event => {
   if (event.persisted && routeFromHash() === 'news' && !main.querySelector('.digest-reader[open]')) showRoute(true);

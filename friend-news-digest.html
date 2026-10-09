@@ -51,6 +51,14 @@
 #news-digest .digest-reader::backdrop{background:#121212a8}
 #news-digest .digest-reader-header{display:flex;align-items:center;justify-content:space-between;flex:none;gap:16px;padding:10px 18px 10px 28px;background:#fff;border-bottom:1px solid #e6e6e2;z-index:1}
 #news-digest .digest-reader-label{font-size:13px;letter-spacing:.08em;color:#777}
+#news-digest .digest-reader-share{box-sizing:border-box;flex-shrink:0;min-height:44px;padding:7px 12px;border:1px solid #dededb;border-radius:3px;background:#fff;color:#222;font:inherit;font-size:14px;cursor:pointer;touch-action:manipulation}
+#news-digest .digest-reader-share:disabled{opacity:.55;cursor:wait}
+#news-digest .digest-reader-header.has-share{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:8px}
+#news-digest .digest-reader-share-panel{flex:none;padding:10px 28px;border-bottom:1px solid #e6e6e2;background:#f7f7f4}
+#news-digest .digest-reader-share-status{display:block;font-size:13px;line-height:1.6;color:#444}
+#news-digest .digest-reader-share-text{box-sizing:border-box;display:block;width:100%;max-height:100px;margin:8px 0 0;padding:8px;border:1px solid #999;border-radius:3px;background:#fff;color:#222;font:16px/1.6 sans-serif;resize:vertical;-webkit-user-select:text;user-select:text}
+#news-digest .digest-reader-share-panel[hidden],#news-digest .digest-reader-share-text[hidden]{display:none!important}
+@media(max-width:600px){#news-digest .digest-reader-header.has-share{grid-template-columns:minmax(0,1fr) auto}#news-digest .has-share .digest-reader-label{grid-column:1}#news-digest .has-share .digest-reader-close{grid-column:2;grid-row:1;justify-self:end}#news-digest .has-share .digest-reader-share{grid-column:1;grid-row:2;width:100%;margin-left:0}#news-digest .has-share .digest-reader-copy{grid-column:2;grid-row:2;width:100%;margin-left:0}#news-digest .digest-reader-share-panel{padding:10px 20px}}
 #news-digest .digest-reader-copy{flex-shrink:0;min-height:44px;margin-left:auto;padding:7px 12px;border:1px solid #dededb;border-radius:3px;background:#fff;color:#222;font:inherit;font-size:14px;cursor:pointer;touch-action:manipulation}
 #news-digest .digest-reader-copy:disabled{opacity:.55;cursor:wait}
 #news-digest .digest-reader-copy-panel{flex:none;padding:10px 28px;border-bottom:1px solid #e6e6e2;background:#f7f7f4}
