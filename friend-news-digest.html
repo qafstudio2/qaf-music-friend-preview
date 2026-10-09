@@ -12,7 +12,7 @@
 #news-digest .digest-card{min-width:0;padding:0;margin:0;background:#fff;border:0;border-radius:0;box-shadow:none;text-align:left}
 #news-digest .digest-date{display:inline-block;font-size:12px!important;line-height:1.5!important;letter-spacing:.05em;color:#666!important;background:#f4f4f2;padding:4px 7px;border:0}
 #news-digest .digest-image{display:flex;align-items:center;justify-content:center;width:100%;height:226px;margin:12px 0 16px;text-decoration:none;background:#fff}
-#news-digest .digest-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+#news-digest .digest-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:#fff}
 #news-digest .digest-brand{display:block;font-size:12px;letter-spacing:.12em;color:#6b6b6b;margin:0 0 5px}
 #news-digest .digest-card h4{font-size:21px;font-weight:600;line-height:1.25;letter-spacing:-.02em;margin:0 0 17px;overflow-wrap:anywhere}
 #news-digest .digest-card p{font-size:16px!important;line-height:1.6!important;margin:0 0 13px}
@@ -37,8 +37,6 @@
 @media(max-width:900px){#news-digest .digest-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:680px){#news-digest .digest-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 20px}#news-digest .digest-image{height:220px}}
 @media(max-width:420px){#news-digest .digest-grid{grid-template-columns:1fr}#news-digest .digest-card{max-width:310px}#news-digest .digest-image{height:300px}#news-digest .digest-heading{align-items:flex-start}}
-#news-digest [data-digest-id="collision-devices-snack-modulation-20261009"] .digest-image{overflow:hidden}
-#news-digest [data-digest-id="collision-devices-snack-modulation-20261009"] .digest-image img{transform:scale(1.55)}
 /* A same-page reader; the catalogue remains mounted underneath. */
 #news-digest .digest-card{cursor:pointer}
 #news-digest .digest-card:focus-within h4,#news-digest .digest-card:hover h4{text-decoration:underline;text-underline-offset:4px}
@@ -60,8 +58,8 @@
 #news-digest .digest-reader .digest-reader-kicker{font-size:11px!important;letter-spacing:.16em;color:#777;margin:0}
 #news-digest .digest-reader .digest-reader-dates{font-size:13px!important;color:#777;margin:0 0 26px}
 #news-digest .digest-reader-intro{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:30px;align-items:center;margin:0 0 36px;padding-bottom:28px;border-bottom:1px solid #e5e5e1}
-#news-digest .digest-reader figure{margin:0}
-#news-digest .digest-reader figure img{display:block;width:100%;height:280px;object-fit:contain}
+#news-digest .digest-reader figure{margin:0;background:#fff}
+#news-digest .digest-reader figure img{display:block;width:100%;height:280px;object-fit:contain;background:#fff}
 #news-digest .digest-reader figcaption{font-size:11px;line-height:1.5;color:#777;text-align:center;margin-top:10px}
 #news-digest .digest-reader .digest-reader-lead{font-size:20px!important;line-height:1.7!important}
 #news-digest .digest-reader .digest-reader-price-note{font-size:13px!important;color:#777}
@@ -367,10 +365,12 @@
       "badges": [],
       "funScore": 4.5,
       "image": {
-        "src": "assets/news-collision-snack-modulation-front.webp",
+        "src": "assets/news-collision-snack-modulation-cutout-v1.png",
         "alt": "Collision Devices SNACK Modulation 銀色紫字效果器正面原廠照片",
-        "credit": "圖片來源：Collision Devices 官方網站",
-        "sourceUrl": "https://images.squarespace-cdn.com/content/v1/613fafff5a3c44773121cc57/2401cd15-6df0-46cf-959a-6c8b5cae565b/front%2Bsnack.png"
+        "credit": "圖片來源：Collision Devices 官方網站；背景去背處理",
+        "sourceUrl": "https://images.squarespace-cdn.com/content/v1/613fafff5a3c44773121cc57/2401cd15-6df0-46cf-959a-6c8b5cae565b/front%2Bsnack.png",
+        "background": "transparent",
+        "displayBackground": "#ffffff"
       },
       "price": {
         "display_zh_tw": "約 NT$5,990",
