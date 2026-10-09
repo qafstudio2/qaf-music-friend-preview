@@ -1,0 +1,24 @@
+<section id="friend-games" aria-labelledby="friend-games-heading">
+  <style>
+    #friend-games{min-width:0;padding-bottom:32px}
+    #friend-games .friend-games-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid #ddd;padding:12px 0 16px;margin-bottom:16px}
+    #friend-games h1{margin:0;font-size:24px;font-weight:500}
+    #friend-games .friend-games-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+    #friend-games .friend-games-actions a,#friend-games .friend-games-actions button{font:inherit;font-size:14px;color:inherit;background:none;border:0;padding:5px 0;text-decoration:none;cursor:pointer}
+    #friend-games .friend-games-actions a:hover,#friend-games .friend-games-actions button:hover{text-decoration:underline}
+    #friend-games-frame{display:block;width:100%;height:780px;border:0;background:#fff}
+    #friend-games-status{color:#777;font-size:13px;margin:12px 0}
+    #friend-games-status[hidden]{display:none}
+    @media(max-width:700px){#friend-games h1{font-size:21px}#friend-games .friend-games-heading{gap:10px}#friend-games .friend-games-actions{gap:12px}}
+  </style>
+  <div class="friend-games-heading">
+    <h1 id="friend-games-heading">遊戲專區</h1>
+    <div class="friend-games-actions" aria-label="遊戲專區工具">
+      <button id="friend-games-back" type="button">遊戲列表</button>
+      <button id="friend-games-top" type="button">回到最上面 ↑</button>
+      <a href="#home">退出 ×</a>
+    </div>
+  </div>
+  <p id="friend-games-status" role="status">遊戲載入中…</p>
+  <iframe id="friend-games-frame" title="QAF 遊戲專區" data-src="https://qafstudio2.github.io/qaf-game/?embed=friend" allow="autoplay; fullscreen; web-share" allowfullscreen></iframe>
+</section>

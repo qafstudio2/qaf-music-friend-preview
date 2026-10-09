@@ -450,12 +450,12 @@ body.landing-home .utility-nav,body.landing-home .site-notice{display:none}
 .landing-tile[href="#columns"] .landing-icon svg{transform:translate(-2px,-1px) scale(1.12)}
 .landing-tile[href="#news"] .landing-icon svg{transform:scale(1.06)}
 .landing-tile[href="#shops"] .landing-icon svg{transform:translateY(-2px)}
-.landing-tile[href="#overview"] .landing-icon svg{width:120px;height:120px;transform:scale(1.18)}
+.landing-tile[href="#games"] .landing-icon svg{width:120px;height:120px;transform:scale(1.18)}
 .landing-tile:hover .landing-icon,.landing-tile:focus-visible .landing-icon{transform:translateY(-2px);border-color:#e0e3dd;color:#111;box-shadow:none}.landing-tile:focus-visible .landing-icon{outline:2px solid #5b5b5b;outline-offset:5px}
 .landing-headstock{display:block;width:auto;height:156px;max-width:144px;object-fit:contain;filter:grayscale(1) contrast(1.4);opacity:.62;transition:opacity .18s}
 .landing-tile:hover .landing-headstock,.landing-tile:focus-visible .landing-headstock{opacity:1}
 .landing-label{font-size:17px;font-weight:500;letter-spacing:.02em;text-align:center}
-@media(max-width:700px){.landing-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 10px;margin-top:24px}.landing-tile{min-height:206px;gap:10px}.landing-icon{width:156px;height:156px}.landing-icon svg{width:86px;height:86px}.landing-tile[href="#overview"] .landing-icon svg{width:100px;height:100px}.landing-headstock{height:124px;max-width:120px}.landing-label{font-size:15px}}
+@media(max-width:700px){.landing-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 10px;margin-top:24px}.landing-tile{min-height:206px;gap:10px}.landing-icon{width:156px;height:156px}.landing-icon svg{width:86px;height:86px}.landing-tile[href="#games"] .landing-icon svg{width:100px;height:100px}.landing-headstock{height:124px;max-width:120px}.landing-label{font-size:15px}}
 
 body { background:#fff; color:#292929; }
 .site-header,.primary-nav,#main,.site-footer,.preview-note { max-width:1000px; margin-left:auto; margin-right:auto; }
@@ -491,7 +491,7 @@ body { background:#fff; color:#292929; }
 .landing-tile { min-height:194px; gap:12px; }
 .landing-icon { width:148px; height:148px; }
 .landing-icon svg { width:80px; height:80px; }
-.landing-tile[href="#overview"] .landing-icon svg { width:92px; height:92px; }
+.landing-tile[href="#games"] .landing-icon svg { width:92px; height:92px; }
 .landing-headstock { height:116px; max-width:110px; }
 .landing-label { font-size:var(--qaf-body-size)!important; }
 .primary-nav a,.utility-nav span,.preview-note,#main :is(.badge,.muted,small,.viewpoint-byline,.song-artist,.study-meta,.news-state,.shops-region) { font-size:var(--qaf-body-size)!important; line-height:var(--qaf-body-leading)!important; }
@@ -500,7 +500,7 @@ body { background:#fff; color:#292929; }
 .preview-sample-stats { display:grid; grid-template-columns:180px minmax(0,1fr); gap:24px; align-items:center; margin:28px 0; }
 .preview-sample-ring { width:160px; height:160px; border-radius:50%; background:conic-gradient(#666 0 25%,#c9c9c9 25% 55%,#ececec 55%); position:relative; }
 .preview-sample-ring:after { content:'示範'; position:absolute; inset:32px; border-radius:50%; display:grid; place-items:center; background:#fff; color:#555; }
-@media(max-width:700px) { .landing-grid{gap:14px 8px;margin-top:18px}.landing-tile{min-height:162px;gap:9px}.landing-icon{width:124px;height:124px}.landing-icon svg{width:67px;height:67px}.landing-tile[href="#overview"] .landing-icon svg{width:74px;height:74px}.landing-headstock{height:98px;max-width:92px}.preview-sample-stats{grid-template-columns:1fr}.preview-sample-ring{margin:auto} }
+@media(max-width:700px) { .landing-grid{gap:14px 8px;margin-top:18px}.landing-tile{min-height:162px;gap:9px}.landing-icon{width:124px;height:124px}.landing-icon svg{width:67px;height:67px}.landing-tile[href="#games"] .landing-icon svg{width:74px;height:74px}.landing-headstock{height:98px;max-width:92px}.preview-sample-stats{grid-template-columns:1fr}.preview-sample-ring{margin:auto} }
 #back-to-top { position:fixed; right:22px; bottom:22px; width:39px; height:39px; border:1px solid #ddd; border-radius:50%; background:#fff; color:#444; box-shadow:0 2px 8px #0001; cursor:pointer; z-index:10; }
 @media(max-width:700px){ .utility-nav{display:none}.primary-nav{overflow-x:auto;white-space:nowrap}.preview-note{padding:0 10px}.primary-nav a{margin-right:8px} }
 
@@ -540,7 +540,7 @@ body { background:#fff; color:#292929; }
 .friend-traffic img{display:inline-block;height:20px;width:auto;max-width:none;vertical-align:-4px;filter:invert(1)}
 .friend-traffic[data-status="error"]{color:#888}
 </style>
-  <link rel="stylesheet" href="friend-mobile.css?v=20261001-memory2">
+  <link rel="stylesheet" href="friend-mobile.css?v=20261009-games1">
   <link rel="stylesheet" href="friend-qafdot.css?v=20261006b">
 </head>
 <body>
@@ -561,7 +561,7 @@ body { background:#fff; color:#292929; }
     <a href="#news" data-section="news">效果器新聞</a>
     <a href="#shops" data-section="shops">購物網站</a>
     <a href="#design" data-section="design">吉他設計</a>
-    <a href="#overview" data-section="overview">進度總覽</a>
+    <a href="#games" data-section="games">遊戲專區</a>
   </nav>
   <button id="friend-nav-toggle" type="button" aria-label="顯示主標籤列" aria-expanded="false" aria-controls="friend-main-nav"></button>
   <main id="main" aria-live="polite"><div class="preview-loading" role="status" aria-live="polite"><p class="preview-loading-label">載入中 · <span class="preview-percent">0%</span></p><div class="preview-progress" role="progressbar" aria-label="正在載入" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div></div></main>
@@ -569,6 +569,7 @@ body { background:#fff; color:#292929; }
   <button id="back-to-top" type="button" aria-label="回到頂部"><span class="qaf-back-top-chevron" aria-hidden="true"></span></button>
   <script src="memory-interactive.js?v=20261001-memory2"></script>
 <script src="friend-memory.js?v=20261001-memory2"></script>
+<script src="friend-games.js?v=20261009-games1"></script>
 <link rel="stylesheet" href="friend-memory.css?v=20261001-memory2">
   <script src="friend-qafdot.js?v=20261006a"></script>
   <script>
@@ -585,7 +586,7 @@ const routes = new Map([
   ['columns','columns'], ['column/column-qaf','column-qaf'],
   ['column/column-qafdot','column-qafdot'],
   ['column/column-lab','column-lab'], ['news','news'],
-  ['shops','shops'], ['design','design'],
+  ['shops','shops'], ['design','design'], ['games','games'],
   ['design/qaf1','design-qaf1'], ['design/qaf2','design-qaf2'],
   ['design/wiring','design-wiring'], ['design/setup','design-setup'],
   ['design/instagram','design-instagram'],
@@ -660,13 +661,14 @@ async function showRoute(forceReload = false) {
     return;
   }
   const requestId = ++routeRequestId;
+  window.friendGamesDispose?.();
   disposeNewsCatalogue?.();
   disposeNewsCatalogue = null;
   current = route;
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'news' ? '20261009-pedal-filters-v4' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'home' ? '20261009-games1' : name === 'news' ? '20261009-pedal-filters-v4' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -730,6 +732,7 @@ async function showRoute(forceReload = false) {
       link.setAttribute('aria-current', route === link.dataset.section || route.startsWith(link.dataset.section + '/') ? 'page' : 'false');
     }
     document.title = `${document.querySelector('.primary-nav a[aria-current="page"]')?.textContent || 'QAF'}｜QAF 音樂學習`;
+    if (route === 'games') window.friendGamesMount?.();
     if (route.startsWith('magazines')) wireBookToolbar();
     if (route === 'news') {
       if (publicDigestMounted) wireNewsCatalogue();
