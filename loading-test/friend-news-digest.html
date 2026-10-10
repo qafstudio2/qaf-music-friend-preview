@@ -1,0 +1,1477 @@
+<style id="friend-news-catalogue-style">
+/* Scoped to the news page: a quiet, borderless catalogue like the book shelf. */
+#news-digest{margin:0 0 42px}
+#news-digest .digest-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:14px;flex-wrap:wrap}
+#news-digest h3{font-size:25px;font-weight:500;margin:0 0 6px}
+#news-digest .digest-kicker{font-size:12px!important;letter-spacing:.13em;color:#737373;margin:0 0 7px}
+#news-digest .digest-intro{margin:0;color:#686868}
+#news-digest .digest-date-control{display:flex;gap:10px;align-items:center;white-space:nowrap}
+#news-digest .digest-date-control select{width:auto;max-width:100%;min-height:40px;margin:0;padding:6px 9px}
+#news-digest .digest-count{color:#747474;font-size:14px!important;margin:12px 0 24px}
+#news-digest .digest-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:32px 22px;align-items:start}
+#news-digest .digest-card{min-width:0;padding:0;margin:0;background:#fff;border:0;border-radius:0;box-shadow:none;text-align:left}
+#news-digest .digest-date{display:inline-block;font-size:12px!important;line-height:1.5!important;letter-spacing:.05em;color:#666!important;background:#f4f4f2;padding:4px 7px;border:0}
+#news-digest .digest-image{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;height:auto;aspect-ratio:1 / 1;padding:8px;margin:12px 0 16px;text-decoration:none;background:#fff}
+#news-digest .digest-image img,#news-digest .digest-product-viewport{display:block;box-sizing:border-box;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain;object-position:center;background:#fff}
+#news-digest .digest-product-viewport{overflow:hidden}
+#news-digest .digest-brand{display:block;font-size:12px;letter-spacing:.12em;color:#6b6b6b;margin:0 0 5px}
+#news-digest .digest-card h4{font-size:21px;font-weight:600;line-height:1.25;letter-spacing:-.02em;margin:0 0 17px;overflow-wrap:anywhere}
+#news-digest .digest-card p{font-size:16px!important;line-height:1.6!important;margin:0 0 13px}
+#news-digest .digest-label{display:block;color:#727272;font-size:12px!important;line-height:1.5!important;letter-spacing:.05em;margin:0 0 3px}
+#news-digest .digest-badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:13px}
+#news-digest .digest-badges a{font-size:13px!important;line-height:1.5;padding:3px 6px;background:#f4f4f2;text-decoration:none}
+#news-digest .digest-score{font-size:17px;font-weight:500;letter-spacing:.03em}
+#news-digest .digest-price{font-size:19px;font-weight:600;white-space:nowrap}
+#news-digest .digest-price-note{display:block;font-size:12px!important;line-height:1.6!important;margin-top:4px;color:#777}
+#news-digest .digest-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+#news-digest .digest-links a{font-size:13px!important;text-decoration:underline;text-underline-offset:3px}
+#news-digest .digest-disclaimer{font-size:12px!important;line-height:1.65!important;color:#777;margin:25px 0 0;max-width:60em}
+#news-digest .digest-empty{border-top:1px solid #e3e3e3;padding:30px 0 38px}
+#news-digest .digest-empty p{margin:0 0 8px}
+#news-digest [hidden]{display:none!important}
+.news-manual-section{padding-top:26px;border-top:1px solid #e3e3e3;margin-top:30px}
+.news-manual-section .hub-hero h3{font-size:23px;font-weight:500;margin:0 0 13px}
+.news-archive{border-top:1px solid #e3e3e3;margin:30px 0;padding-top:24px}
+.news-archive>summary{cursor:pointer;list-style-position:outside;margin-left:18px;padding:4px 0}
+.news-archive .archive-note{font-size:14px!important;color:#737373;margin:7px 0 22px}
+@media(max-width:1100px){#news-digest .digest-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:900px){#news-digest .digest-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:680px){#news-digest .digest-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 20px}}
+@media(max-width:420px){#news-digest .digest-grid{grid-template-columns:1fr}#news-digest .digest-card{max-width:310px}#news-digest .digest-heading{align-items:flex-start}}
+/* A same-page reader; the catalogue remains mounted underneath. */
+#news-digest .digest-card{cursor:pointer}
+#news-digest .digest-card:focus-within h4,#news-digest .digest-card:hover h4{text-decoration:underline;text-underline-offset:4px}
+#news-digest .digest-read{display:inline-flex;align-items:center;min-height:44px;margin:14px 0 0;padding:6px 0;border:0;border-radius:0;background:transparent;color:#111;font:inherit;font-size:14px;font-weight:600;text-align:left;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+#news-digest button:focus-visible,#news-digest a:focus-visible{outline:2px solid #a61921;outline-offset:4px}
+#news-digest .digest-original-date{display:block;font-size:12px!important;line-height:1.5!important;color:#777;margin-top:5px}
+#news-digest .digest-reader{box-sizing:border-box;position:fixed;inset:0;width:min(960px,calc(100% - 48px));height:min(900px,calc(100% - 48px));max-width:none;max-height:calc(100% - 48px);margin:auto;padding:0;border:1px solid #dededb;border-radius:4px;background:#fff;color:#1b1b1b;box-shadow:0 16px 80px #0003;overflow:hidden;text-align:left}
+#news-digest .digest-reader:not([open]){display:none}
+#news-digest .digest-reader{z-index:10010}
+#news-digest .digest-reader-backdrop{position:fixed;inset:0;background:#121212a8;z-index:10009}
+#news-digest .digest-reader[open]{display:flex;flex-direction:column}
+#news-digest .digest-reader::backdrop{background:#121212a8}
+#news-digest .digest-reader-header{display:flex;align-items:center;justify-content:space-between;flex:none;gap:16px;padding:10px 18px 10px 28px;background:#fff;border-bottom:1px solid #e6e6e2;z-index:1}
+#news-digest .digest-reader-label{font-size:13px;letter-spacing:.08em;color:#777}
+#news-digest .digest-reader-share{box-sizing:border-box;flex-shrink:0;min-height:44px;padding:7px 12px;border:1px solid #dededb;border-radius:3px;background:#fff;color:#222;font:inherit;font-size:14px;cursor:pointer;touch-action:manipulation}
+#news-digest .digest-reader-share:disabled{opacity:.55;cursor:wait}
+#news-digest .digest-reader-header.has-share{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:8px}
+#news-digest .digest-reader-share-panel{flex:none;padding:10px 28px;border-bottom:1px solid #e6e6e2;background:#f7f7f4}
+#news-digest .digest-reader-share-status{display:block;font-size:13px;line-height:1.6;color:#444}
+#news-digest .digest-reader-share-text{box-sizing:border-box;display:block;width:100%;max-height:100px;margin:8px 0 0;padding:8px;border:1px solid #999;border-radius:3px;background:#fff;color:#222;font:16px/1.6 sans-serif;resize:vertical;-webkit-user-select:text;user-select:text}
+#news-digest .digest-reader-share-panel[hidden],#news-digest .digest-reader-share-text[hidden]{display:none!important}
+@media(max-width:600px){#news-digest .digest-reader-header.has-share{grid-template-columns:minmax(0,1fr) auto}#news-digest .has-share .digest-reader-label{grid-column:1}#news-digest .has-share .digest-reader-close{grid-column:2;grid-row:1;justify-self:end}#news-digest .has-share .digest-reader-share{grid-column:1;grid-row:2;width:100%;margin-left:0}#news-digest .has-share .digest-reader-copy{grid-column:2;grid-row:2;width:100%;margin-left:0}#news-digest .digest-reader-share-panel{padding:10px 20px}}
+#news-digest .digest-reader-copy{flex-shrink:0;min-height:44px;margin-left:auto;padding:7px 12px;border:1px solid #dededb;border-radius:3px;background:#fff;color:#222;font:inherit;font-size:14px;cursor:pointer;touch-action:manipulation}
+#news-digest .digest-reader-copy:disabled{opacity:.55;cursor:wait}
+#news-digest .digest-reader-copy-panel{flex:none;padding:10px 28px;border-bottom:1px solid #e6e6e2;background:#f7f7f4}
+#news-digest .digest-reader-copy-status{display:block;font-size:13px;line-height:1.6;color:#444}
+#news-digest .digest-reader-copy-text{box-sizing:border-box;display:block;width:100%;max-height:140px;margin:8px 0 0;padding:8px;border:1px solid #999;border-radius:3px;background:#fff;color:#222;font:16px/1.6 sans-serif;resize:vertical;-webkit-user-select:text;user-select:text}
+#news-digest .digest-reader-copy-text:focus-visible{outline:2px solid #a61921;outline-offset:2px}
+#news-digest .digest-reader-close{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:46px;height:46px;min-height:46px;padding:0;border:1px solid #dededb;border-radius:50%;background:#fff;color:#222;font:400 32px/1 sans-serif;font-size:32px!important;cursor:pointer;touch-action:manipulation}
+#news-digest .digest-reader-body{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:32px 48px 52px;min-height:0;scroll-behavior:auto}
+#news-digest .digest-reader h2{font-size:clamp(28px,4vw,40px);font-weight:600;line-height:1.25;letter-spacing:-.025em;margin:6px 0 12px;overflow-wrap:anywhere}
+#news-digest .digest-reader p,#news-digest .digest-reader li{font-size:18px!important;line-height:1.85!important;margin:0 0 17px;overflow-wrap:anywhere}
+#news-digest .digest-reader .digest-reader-kicker{font-size:11px!important;letter-spacing:.16em;color:#777;margin:0}
+#news-digest .digest-reader .digest-reader-dates{font-size:13px!important;color:#777;margin:0 0 26px}
+#news-digest .digest-reader-intro{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:30px;align-items:center;margin:0 0 36px;padding-bottom:28px;border-bottom:1px solid #e5e5e1}
+#news-digest .digest-reader figure{margin:0;background:#fff}
+#news-digest .digest-reader figure img{display:block;width:100%;height:280px;object-fit:contain;background:#fff}
+#news-digest .digest-reader figcaption{font-size:11px;line-height:1.5;color:#777;text-align:center;margin-top:10px}
+#news-digest .digest-reader .digest-reader-lead{font-size:20px!important;line-height:1.7!important}
+#news-digest .digest-reader .digest-reader-price-note{font-size:13px!important;color:#777}
+#news-digest .digest-reader-section{margin:0 0 30px}
+#news-digest .digest-reader-section h3{font-size:23px;font-weight:600;line-height:1.45;margin:0 0 13px}
+#news-digest .digest-reader ul{padding-left:1.3em;margin:0}
+#news-digest .digest-reader li{padding-left:.1em;margin-bottom:10px}
+#news-digest .digest-reader-sources{padding-top:26px;border-top:1px solid #e5e5e1}
+#news-digest .digest-reader-sources a{color:#444;text-underline-offset:4px}
+#news-digest .digest-reader .digest-reader-evidence{font-size:14px!important;line-height:1.8!important;color:#777;margin:22px 0 0}
+@media(max-width:900px){#news-digest .digest-reader-body{padding:28px 30px 40px}#news-digest .digest-reader-intro{grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:24px}}
+@media(max-width:600px){#news-digest .digest-reader{width:100%;height:100%;max-height:100%;border:0;border-radius:0}#news-digest .digest-reader-header{padding:calc(8px + env(safe-area-inset-top)) 14px 8px 20px}#news-digest .digest-reader-body{padding:24px 22px calc(38px + env(safe-area-inset-bottom))}#news-digest .digest-reader-intro{grid-template-columns:1fr;gap:20px}#news-digest .digest-reader figure img{height:240px}#news-digest .digest-reader p,#news-digest .digest-reader li{font-size:17px!important;line-height:1.9!important}#news-digest .digest-reader-section h3{font-size:22px}}
+
+#main .news-archive[hidden]{display:none!important}
+#news-digest .digest-filters{display:flex;flex-wrap:wrap;gap:12px;width:100%;margin-top:4px}
+#news-digest .digest-filter{display:grid;gap:5px;flex:1 1 165px;min-width:0;font-size:12px;color:#666}
+#news-digest .digest-filter select{box-sizing:border-box;width:100%;min-height:44px;margin:0;padding:8px 10px;font-size:16px!important}
+@media(max-width:560px){#news-digest .digest-filter{flex-basis:100%}}
+#news-digest .digest-reader-demo{margin:0 0 36px;padding:20px 0;border-top:1px solid #e5e5e1;border-bottom:1px solid #e5e5e1}
+#news-digest .digest-reader .digest-reader-demo h3{margin:0 0 12px}
+#news-digest .digest-reader .digest-reader-demo-title{font-weight:600;overflow-wrap:anywhere;margin:0 0 7px}
+#news-digest .digest-reader .digest-reader-demo-channel{font-size:13px!important;color:#666;margin:0 0 12px}
+#news-digest .digest-reader .digest-reader-demo-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid #444;border-radius:3px;text-decoration:none;font-size:15px;line-height:1.5;box-sizing:border-box;max-width:100%;overflow-wrap:anywhere}
+#news-digest .digest-reader .digest-reader-demo-link:hover,#news-digest .digest-reader .digest-reader-demo-link:focus-visible{background:#f3f3f0;outline-offset:3px}
+</style>
+<section id="news-digest" aria-labelledby="news-digest-title">
+  <header class="digest-heading">
+    <div><p class="digest-kicker">DAILY PEDAL DIGEST</p><h3 id="news-digest-title">每日效果器文摘</h3><p class="digest-intro">預設顯示全部文摘，依產品新聞發布日期由新到舊。可依類別、文摘日期篩選，或按價格排列。</p></div>
+    <div class="digest-filters" aria-label="文摘篩選與排序">
+      <label class="digest-filter">類別 <select id="digest-category" aria-label="選擇效果器類別"></select></label>
+      <label class="digest-filter">文摘日期 <select id="digest-date" aria-label="選擇文摘日期範圍"></select></label>
+      <label class="digest-filter">排列方式 <select id="digest-sort" aria-label="選擇文摘排列方式"></select></label>
+    </div>
+  </header>
+  <p id="digest-count" class="digest-count" role="status"></p>
+  <div id="digest-grid" class="digest-grid"></div>
+  <div id="digest-empty" class="digest-empty" hidden><p>這個日期範圍沒有收錄文摘。</p><p>每天最多新增 3 顆，優先近期消息，也收錄先前未介紹的有趣文章；沒有合適的，就留白。</p></div>
+  <p class="digest-disclaimer">好玩程度為編輯依公開功能評估的主觀分數，滿分 5 分，未經實機試奏。標籤日期為文摘收錄日，原文刊登日另行保留，不代表產品上市日；價格為台幣參考估算。</p>
+</section>
+<script id="news-digest-data" type="application/json">{
+  "schemaVersion": 4,
+  "timeZone": "Asia/Taipei",
+  "maxPerDay": 3,
+  "items": [
+    {
+      "id": "chase-bliss-onward-20261010",
+      "brand": "Chase Bliss",
+      "product": "Onward",
+      "digestDate": "2026-10-10",
+      "articleDate": "2024-05-15",
+      "articlePublishedAt": "2024-05-15",
+      "articleType": "延伸選讀；非當日新品",
+      "articleUrl": "https://www.guitarworld.com/news/chase-bliss-onward",
+      "officialUrl": "https://www.chasebliss.com/onward",
+      "function": "演奏觸發的 Freeze／Glitch 雙聲部取樣器。",
+      "features": "鎖住背景或重播短片段，可加八度、調變、劣化與隨機變化。延伸選讀，原文 2024/5/15。",
+      "categories": [
+        "synth",
+        "modulation",
+        "pitch"
+      ],
+      "badges": [],
+      "funScore": 4.5,
+      "image": {
+        "src": "assets/news-chase-bliss-onward-cutout-v1.png",
+        "alt": "Chase Bliss Onward 正面產品圖，已去除背景",
+        "credit": "圖片由使用者提供；背景去背處理",
+        "background": "transparent",
+        "displayBackground": "#ffffff"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$12,800",
+        "display_currency": "TWD",
+        "amount_twd": 12800,
+        "original_amount": 399,
+        "original_currency": "USD",
+        "converted_amount_twd_unrounded": 12750.045,
+        "rounding": "nearest 100 TWD",
+        "note_zh_tw": "原廠美國直售 US$399 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。",
+        "original_price_note": "原廠美國直售 US$399 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。",
+        "price_source_url": "https://www.chasebliss.com/onward",
+        "price_source_type": "official",
+        "fx": {
+          "baseCurrency": "USD",
+          "quoteCurrency": "TWD",
+          "rate": 31.955,
+          "provider": "Bank of Taiwan",
+          "rateType": "spot_sell",
+          "quotedAt": "2026-10-10T01:45:00+08:00",
+          "sourceUrl": "https://rate.bot.com.tw/xrt?Lang=en-US",
+          "displayDate": false
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://www.chasebliss.com/onward",
+        "https://www.chasebliss.com/s/Onward_Manual_Pedal_Chase-Bliss.pdf",
+        "https://www.chasebliss.com/s/Onward_Quick-Start-Guide_Pedal_Chase-Bliss.pdf",
+        "https://www.chasebliss.com/onward-blog"
+      ],
+      "analysis": {
+        "lead": "把剛彈出的聲音變成隨行伴奏。延伸閱讀 2024 年的原新聞，並非今日新品；依原廠資料整理，未實機試奏。",
+        "sections": [
+          {
+            "title": "這顆在玩什麼？",
+            "paragraphs": [
+              "Onward 會取樣你送進去的聲音，分成兩條平行聲部：Freeze 把一瞬間拉成持續背景，Glitch 把短片段反覆播放。它最有意思的地方，是演奏本身也參與控制：新輸入會觸發新的取樣。你可以把它想成會跟著換素材的伴奏層；若要保留某個片段，也能鎖住其中一側，再繼續彈琴。",
+              "原廠設計者 Joel Korte 說明，Onward 延伸自 Cooper FX Outward 的 envelope 概念，集中發展聲音觸發取樣這件事，沒有打算搬回 Outward 的所有功能。因此可談它的設計沿革，但沒有可靠證據把它列為某款經典類比電路複刻，也不加上「稀有晶片」標籤。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "操作先抓三個層次",
+            "paragraphs": [],
+            "bullets": [
+              "先決定聲音留下多久。SIZE 決定 Glitch 片段長度，也牽動各部分的時間；SUSTAIN 管維持多久，FADE 管淡入淡出。想保留清楚節奏，可以先用快淡入淡出；想讓音與音之間慢慢融在一起，再試較慢的 FADE。",
+              "再決定聲音的質地。OCTAVE 混入半速低八度或倍速高八度；TEXTURE 左側降取樣率、右側加入軟削波；ANIMATE 可選 vibrato 或 chorus。先把 OCTAVE、TEXTURE 放正午，逐個加入，較容易辨認差異。",
+              "最後才加入意外。ERROR 提高故障效果出現的機會；TYPE 可改變取樣長度，或加入斷音與取樣率變化，或讓播放速度、方向不穩定。這是刻意設計的聲音變化，不是產品故障。"
+            ]
+          },
+          {
+            "title": "兩個腳踏與動態控制",
+            "paragraphs": [
+              "兩個腳踏開關分別管理 Glitch 與 Freeze，長按可保留當下片段。MANUAL 模式改由踩踏觸發取樣；LATCH 則方便讓鎖定狀態維持。DUCK 可在你彈奏時壓低效果聲，SIDECHAIN 則讓 Freeze 隨 Glitch 的循環出現音量起伏。兩者用途不同，可以分開試。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "三種可以想像的聲音",
+            "paragraphs": [
+              "以下是依功能推導的試音方向，並非實機聽感紀錄。"
+            ],
+            "bullets": [
+              "留一個和弦當背景：先只開 Freeze，彈一個乾淨和弦後鎖定，降低 MIX，再用短句在上面活動。適合比較同一個和弦上不同旋律的張力，也能為前奏補上持續的底色。",
+              "讓句尾回答自己：只開 Glitch，彈兩三個短音後刻意留白。先聽固定重複，再加少量 ERROR；理想目標是句尾多一個有變化的回答，保留下一句的空間。若效果一直搶戲，就先減少混合量與延續時間。",
+              "把單音拆成兩種角色：Freeze 保持平穩，將 Error 處理只分配給 Glitch，讓一邊鋪底、一邊出現碎片。這時先不要把每個旋鈕都轉大，先確認兩個角色聽得清楚，再考慮加入八度或劣化。"
+            ]
+          },
+          {
+            "title": "哪些人比較用得上？",
+            "paragraphs": [
+              "它適合想用一把琴探索 ambient、實驗編曲或不規則節奏的人，也適合願意把「留白」當成演奏一部分的人。樂趣來自自己與取樣互相影響，短短幾個音就有很多可試方向。",
+              "如果目標是錄下整段和弦進行，再一層層疊錄，Onward 的工作方式就未必合適：Glitch 一般最長取樣一秒，½ SPEED 可加倍長度，但會降低錄音品質；新取樣通常替換舊片段，不會持續堆疊。SIZE 還連動其他時間參數，調長片段時要一起聽包絡如何改變。",
+              "第一次使用也值得留時間熟悉隱藏設定與頂部 DIP 開關。想要每次都得到同樣節奏，就先降低隨機量，建立可預測的起點；它的深度很高，但不一定是最快調出一般延遲音色的選擇。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "接線與現況",
+            "paragraphs": [
+              "支援立體聲、表情踏板、CV、MIDI 時鐘與參數控制；本體兩組預設，另可透過 MIDI 存取 122 組。電源為 9V DC 中心負極、至少 200mA。立體聲端子採 TRS，連接雙單聲道設備時須注意線材；單聲道輸入轉立體聲輸出則需開啟 MISO。",
+              "查核時，原廠頁面仍可加入購物車，標示 1–3 個工作天出貨，沒有停產證據。2024 年的新聞提到當時開放預購、預計六月中出貨；本文不把這段舊消息寫成今日上市，也不以原預估日期保證實際首批到貨日。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "約 NT$12,800。原廠美國直售 US$399 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "Guitar World 原新聞（2024-05-15）",
+            "url": "https://www.guitarworld.com/news/chase-bliss-onward",
+            "kind": "publication"
+          },
+          {
+            "label": "Chase Bliss 官方產品與售價",
+            "url": "https://www.chasebliss.com/onward",
+            "kind": "official"
+          },
+          {
+            "label": "Chase Bliss 原廠開發文章",
+            "url": "https://www.chasebliss.com/onward-blog",
+            "kind": "official"
+          },
+          {
+            "label": "Onward 原廠快速指南",
+            "url": "https://www.chasebliss.com/s/Onward_Quick-Start-Guide_Pedal_Chase-Bliss.pdf",
+            "kind": "official"
+          },
+          {
+            "label": "Onward 原廠完整手冊",
+            "url": "https://www.chasebliss.com/s/Onward_Manual_Pedal_Chase-Bliss.pdf",
+            "kind": "official"
+          },
+          {
+            "label": "臺灣銀行匯率",
+            "url": "https://rate.bot.com.tw/xrt?Lang=en-US",
+            "kind": "exchange-rate"
+          }
+        ],
+        "evidenceNote": "依原廠文件整理，聲音示例為編輯推論，非實機聽感。可談 Cooper FX Outward 的設計沿革，不等同某款經典類比電路複刻，沒有可靠稀有晶片證據。示範影片的標題、頻道與原廠連結已核對，尚未實際驗證外站嵌入，先提供觀看連結。"
+      },
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=ez2TyzuWOLs",
+        "title": "Onward – Walkthrough",
+        "channel": "chase bliss",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-10"
+      }
+    },
+    {
+      "id": "hologram-chroma-console-20261010",
+      "brand": "Hologram Electronics",
+      "product": "Chroma Console",
+      "digestDate": "2026-10-10",
+      "articleDate": "2023-11-08",
+      "articlePublishedAt": "2023-11-08",
+      "articleType": "舊聞精選；非當日新品",
+      "articleUrl": "https://www.gearnews.com/meet-the-hologram-electronics-chroma-console/",
+      "officialUrl": "https://www.hologramelectronics.com/pages/chroma-console",
+      "function": "四模組立體聲綜合效果器。",
+      "features": "破音、調變、空間與磁帶質感可換順序；錄下旋鈕動作循環播放，另有短音訊擷取。舊聞精選，原文 2023/11/8。",
+      "categories": [
+        "multi-effects",
+        "drive",
+        "modulation",
+        "delay",
+        "reverb"
+      ],
+      "badges": [],
+      "funScore": 5,
+      "image": {
+        "src": "assets/news-hologram-chroma-console-front-v2.png",
+        "alt": "Hologram Chroma Console 正面產品圖，已去除背景",
+        "credit": "圖片由使用者提供；背景去背處理",
+        "background": "transparent",
+        "displayBackground": "#ffffff"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$12,800",
+        "display_currency": "TWD",
+        "amount_twd": 12800,
+        "original_amount": 399,
+        "original_currency": "USD",
+        "converted_amount_twd_unrounded": 12750.045,
+        "rounding": "nearest 100 TWD",
+        "note_zh_tw": "原廠美國直售 US$399 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。",
+        "original_price_note": "原廠美國直售 US$399 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。",
+        "price_source_url": "https://www.hologramelectronics.com/products/chroma-console",
+        "price_source_type": "official",
+        "fx": {
+          "baseCurrency": "USD",
+          "quoteCurrency": "TWD",
+          "rate": 31.955,
+          "provider": "Bank of Taiwan",
+          "rateType": "spot_sell",
+          "quotedAt": "2026-10-10T01:45:00+08:00",
+          "sourceUrl": "https://rate.bot.com.tw/xrt?Lang=en-US",
+          "displayDate": false
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://www.hologramelectronics.com/pages/chroma-console",
+        "https://www.hologramelectronics.com/pages/chroma-console-manual",
+        "https://www.hologramelectronics.com/blogs/tutorials/changing-fx-order-on-chroma-console"
+      ],
+      "analysis": {
+        "lead": "把旋鈕動作也變成效果的一部分。2023 年已發表的舊聞精選，非今日新品；以下依公開功能整理，未實機試奏。",
+        "sections": [
+          {
+            "title": "產品脈絡：一塊可以重新接線的小型音色工作台",
+            "paragraphs": [
+              "Chroma Console 是 2023 年已發表的產品，本篇是舊聞精選，並非今日新品。當年的免費 Gearnews 報導介紹了四模組、多種樂器輸入與旋鈕動作錄製；今天回頭看，值得研究的仍是操作方式：讓效果的前後順序、手動扭轉和不穩定感，都能成為編曲材料。",
+              "它適合把吉他、合成器或鼓機送進一組可以反覆改組的效果鏈。原廠以老錄音設備的飽和、漂移和粗糙感作靈感；這是聲音設計方向，不能據此認定裡面使用磁帶機、特定經典類比電路或稀有晶片。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "四模組怎麼分工？",
+            "paragraphs": [
+              "總共 20 種效果，分成四組，每組五選一："
+            ],
+            "bullets": [
+              "Character：改變力度與質地，如 Drive、Fuzz、Sweeten 或音量漸入",
+              "Movement：讓音高、音量或相位動起來，如 Vibrato、Tremolo、Phaser、Doubler、Pitch",
+              "Diffusion：延遲與空間，如 Reels 磁帶回聲、Space 混響、Reverse 倒放延遲",
+              "Texture：替整段聲音染色，如 Filter、Squash、Cassette、Broken、Interference"
+            ]
+          },
+          {
+            "title": "重排效果順序",
+            "paragraphs": [
+              "預設順序是 Character → Movement → Diffusion → Texture。要換順序，同時短按 Character 與 Texture 按鈕，等燈號顯示完目前排列，再按想要的新順序依次點四組。這省下實體效果器換導線的麻煩，但四組依然各自保有固定的效果分類。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "操作重點：先校正，再把手勢錄下來",
+            "paragraphs": [
+              "先做輸入校正，再開始比較音色。它支援樂器與 line level；換成輸出差很多的樂器時，重新校正更容易掌握破音起點。",
+              "Gesture 記的是主要旋鈕的動作：短按 Diffusion 與 Texture 按鈕進入錄製、轉動旋鈕，再按一次結束，動作便可循環。Drift 則為 Movement、Diffusion 增加依效果而異的漂移或不規則感。Capture 是另一件事：按住 TAP 錄音、放開播放，最長 30 秒；音訊不會跟著使用者 preset 儲存。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "三個值得試的聲音實驗",
+            "paragraphs": [
+              "以下是依功能設計的編輯建議，並非實測心得："
+            ],
+            "bullets": [
+              "做一段會呼吸的和弦：先只開 Space，錄下由小到大的效果量變化，再把循環速度放慢。先確定和弦本身清楚，再決定要不要加漂移。",
+              "比較破音的位置：用相同的 Fuzz 與 Space 設定，交換 Character、Diffusion 的前後。注意混響尾巴、音符輪廓與音量如何改變，避免把變大聲誤認為變好聽。",
+              "做鼓機過門：用 Texture 的 Filter，錄一小段濾波掃動，其他模組先關閉。找出能讓節奏短暫退後、再重新打開的範圍，比一次堆滿效果更容易判斷用途。"
+            ]
+          },
+          {
+            "title": "適合誰，以及需要接受的限制",
+            "paragraphs": [
+              "我會把它放在喜歡 lo-fi、迷幻、ambient 或桌面即興的候選名單，也適合想用手直接找到聲音，再把變化保留下來的人。它提供立體聲輸入／輸出、80 組使用者 preset、MIDI 和表情踏板支援。",
+              "如果你需要任意堆疊多個同類效果，四組固定分類就要先想清楚：Space 和 Reels 都在 Diffusion，不能同時選用；這個限制由原廠的單組選擇方式可直接推知。沒有螢幕也不等於沒有學習成本，次要參數與儲存仍靠按鍵組合、燈號判讀。Capture 不適合拿來保存完整演出。手冊列 USB-C 作 MIDI 使用，不能當成已確認有 USB 錄音介面。供電須 9V DC、中心負極、至少 500mA。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "約 NT$12,800。原廠美國直售 US$399 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "Gearnews 原新聞（2023-11-08）",
+            "url": "https://www.gearnews.com/meet-the-hologram-electronics-chroma-console/",
+            "kind": "publication"
+          },
+          {
+            "label": "Hologram 官方產品介紹",
+            "url": "https://www.hologramelectronics.com/pages/chroma-console",
+            "kind": "official"
+          },
+          {
+            "label": "Hologram 官方售價",
+            "url": "https://www.hologramelectronics.com/products/chroma-console",
+            "kind": "official"
+          },
+          {
+            "label": "Hologram 官方手冊入口",
+            "url": "https://www.hologramelectronics.com/pages/chroma-console-manual",
+            "kind": "official"
+          },
+          {
+            "label": "Hologram 官方效果順序教學",
+            "url": "https://www.hologramelectronics.com/blogs/tutorials/changing-fx-order-on-chroma-console",
+            "kind": "official"
+          },
+          {
+            "label": "臺灣銀行匯率",
+            "url": "https://rate.bot.com.tw/xrt?Lang=en-US",
+            "kind": "exchange-rate"
+          }
+        ],
+        "evidenceNote": "規格來自原廠文件，玩法為編輯推論，未實測。磁帶質感是效果設計，不等同實體磁帶機或經典類比電路；稀有晶片未有可靠證據。USB-C 已確認作 MIDI，未確認可 USB 錄音。YouTube 已核對標題與頻道，尚未實際驗證外站嵌入，先提供連結。"
+      },
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=NnKPP8fTlc4",
+        "title": "Hologram Electronics Chroma Console",
+        "channel": "Hologram Electronics",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-10"
+      }
+    },
+    {
+      "id": "zoom-neurig-20261010",
+      "brand": "ZOOM",
+      "product": "NEURIG",
+      "digestDate": "2026-10-10",
+      "articleDate": "2026-10-09",
+      "articlePublishedAt": "2026-10-09",
+      "articleType": "新品介紹；日本預定 2026 年 11 月上旬上市",
+      "articleUrl": "https://guitarmagazine.jp/news/2026-1009-neurig/",
+      "officialUrl": "https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/neurig/",
+      "function": "音箱建模與綜合效果器。",
+      "features": "雙觸控螢幕，同一效果鏈可存四種狀態；支援 NAM A2 Lite，App 操作及 NAM／IR 載入仍待後續更新。",
+      "badges": [],
+      "funScore": 4,
+      "categories": [
+        "multi-effects"
+      ],
+      "image": {
+        "src": "assets/news-zoom-neurig-front.png",
+        "alt": "ZOOM NEURIG 正面產品圖",
+        "credit": "圖片來源：ZOOM 官方網站",
+        "sourceUrl": "https://zoomcorp.com/media/images/NEURIG-ListImage.original.png",
+        "sourcePage": "https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/neurig/",
+        "background": "transparent",
+        "displayBackground": "#ffffff"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$9,750",
+        "display_currency": "TWD",
+        "amount_twd": 9750,
+        "converted_amount_twd_unrounded": 9746.42,
+        "rounding": "nearest 10 TWD",
+        "note_zh_tw": "日本 ZOOM STORE ¥47,800 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。",
+        "original_amount": 47800,
+        "original_currency": "JPY",
+        "original_price_note": "日本 ZOOM STORE ¥47,800 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。",
+        "price_source_url": "https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/neurig/",
+        "price_source_type": "official",
+        "fx": {
+          "baseCurrency": "JPY",
+          "quoteCurrency": "TWD",
+          "rate": 0.2039,
+          "provider": "Bank of Taiwan",
+          "rateType": "spot_sell",
+          "quotedAt": "2026-10-09T23:05:00+08:00",
+          "sourceUrl": "https://rate.bot.com.tw/xrt?Lang=en-US",
+          "displayDate": false
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/neurig/",
+        "https://zoomcorp.com/manuals/neurig-ja/"
+      ],
+      "analysis": {
+        "lead": "把音箱、效果器與練習工具收進同一塊板。日本預定於 2026 年 11 月上旬上市；本篇依公開資料整理，未實機試奏。",
+        "sections": [
+          {
+            "title": "產品脈絡",
+            "paragraphs": [
+              "NEURIG 值得注意的地方，是 ZOOM 把新一代音箱建模、第三方模型與日常練習整合在同一台設備。原廠將 DNA Engine 定位為連旋鈕變化都納入的建模方式，內建 30 種 DNA 模型；另支援 NAM A2 Lite。這是原廠對技術的描述，不能直接等同於已證實比其他建模器更真實。原廠產品頁"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能白話：先分清楚 Rig 與 Program",
+            "paragraphs": [
+              "Rig 可以理解成一整塊虛擬效果器板，包含音箱、效果器順序與設定。Program 則是同一塊板的不同狀態：例如主歌乾淨、副歌破音、獨奏加延遲。手冊列出最多 200 組 Rig，每組最多 14 個效果及 4 種 Program。同時運算受 DSP 負載限制，手冊明示超過可用負載會出現 Process Overflow；14 個位置不代表任何組合都能填滿。原廠手冊"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "可試玩法",
+            "paragraphs": [
+              "以下是編輯建議，並非實測：先以同一個音箱模型完成一首歌的四種狀態，只改增益、音量和空間效果。比起不斷下載新音色，這種比較更容易聽出自己需要的是更多失真，還是只是獨奏時音量不足。",
+              "另一種玩法，是用同一段演奏比較 DNA 與 NAM 模型。先讓兩邊音量接近，再比較弱彈、重彈與吉他音量鈕退下來時的變化，避免把「比較大聲」誤認成「比較好聽」。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "AI 功能要另外看",
+            "paragraphs": [
+              "原廠宣傳 SessionZ Pedal 的提示詞音色、YouTube 樂曲伴奏及音軌分離等雲端功能。官方手冊目前將 App 操作及 NAM／IR 載入註為後續更新，不能當成現階段全部已開放。這不表示它們全部離線運作，也不能在未確認方案前寫成終身免費。本文先把本體建模能力與雲端服務分開，費用、地區與服務條件待官方方案進一步核對。原廠產品頁"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "取捨與接線提醒",
+            "paragraphs": [
+              "手冊列有 USB 2 進／2 出錄音介面、耳機輸出與內建電池；標示電池續航約 4.5 小時，實際依使用條件而異。Windows 錄音需依手冊安裝對應驅動。它適合想讓練習、錄音和音色切換集中處理的人；如果你只想扭三個旋鈕就彈琴，模型與選單反而可能增加整理時間。原廠手冊"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "已確認與待確認",
+            "paragraphs": [
+              "已確認：原廠產品與操作手冊、上述核心規格、日本標價及預定上市時間。\n待確認：台灣售價、功能更新時程與 NAM 檔案細部相容限制、SessionZ 收費方案、實機音色與延遲感受、示範影片外站嵌入。\n不加「稀有晶片」標籤，也不把數位模擬的音箱誤標為實體經典電路。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "約 NT$9,750。日本 ZOOM STORE ¥47,800 換算；非台灣實售或到手價，未含運費、進口費用與刷卡費。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "Guitar Magazine 原報導（2026-10-09）",
+            "url": "https://guitarmagazine.jp/news/2026-1009-neurig/",
+            "kind": "publication"
+          },
+          {
+            "label": "ZOOM 官方產品頁與日本標價",
+            "url": "https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/neurig/",
+            "kind": "official"
+          },
+          {
+            "label": "ZOOM 官方操作手冊",
+            "url": "https://zoomcorp.com/manuals/neurig-ja/",
+            "kind": "official"
+          },
+          {
+            "label": "臺灣銀行匯率",
+            "url": "https://rate.bot.com.tw/xrt?Lang=en-US",
+            "kind": "exchange-rate"
+          }
+        ],
+        "evidenceNote": "功能描述來自原廠公開資料，玩法是編輯推論，未實測。App 操作及 NAM／IR 載入的更新時程、SessionZ 費用／地區／服務條件尚待核實；不得將所有宣傳功能當成已開放或終身免費。"
+      },
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=pN3mt-v4KiE",
+        "title": "ZOOM NEURIG Amp & Effects Neural Modeler | Ben Weinman",
+        "channel": "ZOOMcorporation",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-10"
+      }
+    },
+    {
+      "id": "obne-parting-20261010",
+      "brand": "Old Blood Noise Endeavors × Emily Hopkins",
+      "product": "Parting",
+      "digestDate": "2026-10-10",
+      "articleDate": "2026-01-21",
+      "articlePublishedAt": "2026-01-21",
+      "articleType": "延伸選讀；非當日新品",
+      "articleUrl": "https://synthanatomy.com/2026/01/obne-parting-a-colorful-glitchy-delay-reverb-pedal-in-collaboration-with-emily-hopkins.html",
+      "officialUrl": "https://oldbloodnoise.com/pedals/p/parting",
+      "function": "機率式延遲、殘響與聲音劣化。",
+      "features": "回音可降取樣、倒放、隨機倍速／半速；支援立體聲、預設與 MIDI。延伸選讀，原文 2026/1/21。",
+      "badges": [],
+      "funScore": 4.5,
+      "categories": [
+        "delay",
+        "reverb",
+        "modulation"
+      ],
+      "image": {
+        "src": "assets/news-obne-parting-front.webp",
+        "alt": "OBNE Parting 綠色版正面產品圖",
+        "credit": "圖片來源：Old Blood Noise Endeavors 官方網站",
+        "sourceUrl": "https://images.squarespace-cdn.com/content/v1/6467b64a7c9d9e5cdae9a3ea/c70a47aa-37c0-4b6c-9a12-a830a4860942/Parting%2B-%2BGreen%2B-%2BFace.png",
+        "sourcePage": "https://oldbloodnoise.com/parting",
+        "background": "transparent",
+        "displayBackground": "#ffffff"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$10,500",
+        "display_currency": "TWD",
+        "amount_twd": 10500,
+        "converted_amount_twd_unrounded": 10513.195,
+        "rounding": "nearest 100 TWD",
+        "note_zh_tw": "原廠美國直售 US$329 換算；非台灣售價，未含跨境運費、進口稅費與信用卡費。",
+        "original_amount": 329,
+        "original_currency": "USD",
+        "original_price_note": "原廠美國直售 US$329 換算；非台灣售價，未含跨境運費、進口稅費與信用卡費。",
+        "price_source_url": "https://oldbloodnoise.com/pedals/p/parting",
+        "price_source_type": "official",
+        "fx": {
+          "baseCurrency": "USD",
+          "quoteCurrency": "TWD",
+          "rate": 31.955,
+          "provider": "Bank of Taiwan",
+          "rateType": "spot_sell",
+          "quotedAt": "2026-10-09T23:05:00+08:00",
+          "sourceUrl": "https://rate.bot.com.tw/xrt?Lang=en-US",
+          "displayDate": false
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://oldbloodnoise.com/pedals/p/parting",
+        "https://oldbloodnoise.com/parting",
+        "https://oldbloodnoise.com/s/Parting-Instruction-Manual-013.pdf"
+      ],
+      "analysis": {
+        "lead": "讓回音自己長出意外。這是 2026 年 1 月已有發布資料的延伸選讀，並非 10 月新上市；未實機試奏或量測。",
+        "sections": [
+          {
+            "title": "這顆在玩什麼？",
+            "paragraphs": [
+              "Parting 是 OBNE 與豎琴演奏者 Emily Hopkins 合作的聲音實驗效果器，把機率式延遲、殘響、調變與劣化放在一起。你彈出的片段可能變成突然冒出的回音，再散成背景；適合把短樂句發展成聲景。官方代理在 2026 年 1 月的發布資料已標示供貨，不把這次介紹日期當上市日。官方發布資料"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能：碎片、倒放與殘響互相影響",
+            "paragraphs": [
+              "Dissolve 在正午以下降低取樣率，往另一側則變成倒放並逐步降低倒放時鐘。Smear 把回音擴散成殘響；Glitch 加入時鐘倍速、半速及隨機變化。降取樣是數位聲音處理，不代表採用某顆老式類比晶片。原廠控制說明"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "手冊提醒：先找到可預測的起點",
+            "paragraphs": [
+              "想先聽穩定的延遲／殘響，Chance 設在正午；轉滿接近混亂的疊錄效果，不能當作正式 looper。Standard Mix 保留類比直通原音，Modified Mix 則讓原音也經過劣化、調變及濾波。兩者改變的是訊號路徑，不只是效果音量。手冊第 3–4 頁"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "編輯玩法：一次只多加一件事",
+            "paragraphs": [
+              "以下是依功能推導的試音建議。先用 Standard Mix、低效果比例，彈一個和弦後停手，聽尾巴如何消失。接著只轉 Smear，再試 Dissolve，最後才加入隨機變化。如此較容易知道自己喜歡哪一種聲音。",
+              "放進樂團時，我會先留給前奏、句尾與段落轉場。節奏密集時收小效果比例，讓休止仍然清楚；錄音則可另留乾聲，保留重新處理的空間。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "適合誰，有什麼代價？",
+            "paragraphs": [
+              "想做 ambient、shoegaze 或實驗聲景的人，較容易用到它。若每次都要完全相同的節奏回音，就要減少隨機量；存了預設也不等於存下同一段聲音。它有立體聲、預設、表情踏板與 MIDI 控制，電源需 9V 中心負極、可供應 350mA。原廠介紹",
+              "晶片型號與完整線路尚無可靠公開證據，不冠上「稀有晶片」，也不認定它複製某款經典電路。主觀好玩程度：4.5／5，依公開功能評估，未實測。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "約 NT$10,500。原廠美國直售 US$329 換算；非台灣售價，未含跨境運費、進口稅費與信用卡費。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "OBNE 官方產品頁與售價",
+            "url": "https://oldbloodnoise.com/pedals/p/parting",
+            "kind": "official"
+          },
+          {
+            "label": "OBNE 官方介紹與示範",
+            "url": "https://oldbloodnoise.com/parting",
+            "kind": "official"
+          },
+          {
+            "label": "OBNE 操作手冊（訊號路徑見第 3–4 頁）",
+            "url": "https://oldbloodnoise.com/s/Parting-Instruction-Manual-013.pdf",
+            "kind": "official"
+          },
+          {
+            "label": "官方代理發布資料",
+            "url": "https://www.audiodistributiongroup.com/old-blood-noise-endeavors-parting-release/",
+            "kind": "official-distributor"
+          },
+          {
+            "label": "Synth Anatomy 原文（2026-01-21）",
+            "url": "https://synthanatomy.com/2026/01/obne-parting-a-colorful-glitchy-delay-reverb-pedal-in-collaboration-with-emily-hopkins.html",
+            "kind": "publication"
+          },
+          {
+            "label": "臺灣銀行匯率",
+            "url": "https://rate.bot.com.tw/xrt?Lang=en-US",
+            "kind": "exchange-rate"
+          }
+        ],
+        "evidenceNote": "公開規格與編輯玩法分開呈現，未實測。晶片型號與完整線路無可靠公開證據，不加稀有晶片或經典電路標籤。示範由合作設計者 Harp Lady 頻道發布並獲原廠採用，非 OBNE 品牌頻道上傳；本站嵌入播放未驗證，先提供連結。"
+      },
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=rayDmE0T78o",
+        "title": "Old Blood Noise x Emily Hopkins - Parting",
+        "channel": "Harp Lady（合作設計者）",
+        "official": false,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-10"
+      }
+    },
+    {
+      "id": "behringer-zentara-overdrive-20261009",
+      "brand": "Behringer",
+      "product": "Zentara Overdrive",
+      "digestDate": "2026-10-09",
+      "articleDate": "2026-10-08",
+      "articlePublishedAt": "2026-10-08",
+      "articleType": "新品介紹",
+      "articleUrl": "https://www.guitarworld.com/gear/guitar-pedals/behringer-zentara-and-zentara-mini-overdrives",
+      "officialUrl": "https://www.behringer.com/en/products/0709-AKP",
+      "function": "透明 Boost／Overdrive。",
+      "features": "鍺二極體軟削波，Gain 同步調整乾聲與破音比例；輕彈清亮、重彈增飽和。另有 Mini 尺碼。",
+      "badges": [],
+      "funScore": 3.5,
+      "image": {
+        "src": "assets/news-behringer-zentara-front.jpg",
+        "alt": "Behringer Zentara Overdrive 效果器正面產品圖",
+        "credit": "圖片來源：Sweetwater product image",
+        "sourceUrl": "https://media.sweetwater.com/m/products/image/96841c162cPcICJ02ondoCHqFBXplvcUsP4EUEP0.jpg?ha=96841c162ca85b86fe72673ce73efd4a178d9115&quality=82&width=750",
+        "sourcePage": "https://www.sweetwater.com/store/detail/ZentaraOD--behringer-zentara-overdrive-pedal"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$2,390",
+        "display_currency": "TWD",
+        "amount_twd": 2390,
+        "converted_amount_twd_unrounded": 2393.4295,
+        "rounding": "nearest 10 TWD",
+        "note_zh_tw": "標準版海外參考價，未含運稅",
+        "original_amount": 74.9,
+        "original_currency": "USD",
+        "original_price_note": "標準 Zentara Overdrive 海外單機標價換算，未含稅、運費與進口費用；非 Mini 報價、非台灣售價。",
+        "price_source_url": "https://www.sweetwater.com/store/detail/ZentaraOD--behringer-zentara-overdrive-pedal",
+        "price_source_type": "retailer",
+        "fx": {
+          "baseCurrency": "USD",
+          "quoteCurrency": "TWD",
+          "rate": 31.955,
+          "provider": "Bank of Taiwan",
+          "rateType": "spot_sell",
+          "quotedAt": "2026-10-09T09:45:00+08:00",
+          "checkedAt": "2026-10-09T10:31:00+08:00",
+          "sourceUrl": "https://rate.bot.com.tw/xrt?Lang=en-US",
+          "displayDate": false
+        },
+        "render_fx_date": false,
+        "render_original_currency": false,
+        "article_reported_price": {
+          "currency": "USD",
+          "amount": 75.9,
+          "note": "Guitar World 10/8報導多數店家四款各US$75.90；卡片改用可查核的標準版 Sweetwater 74.90。"
+        }
+      },
+      "technicalSources": [
+        "https://www.behringer.com/en/products/0709-AKP"
+      ],
+      "analysis": {
+        "lead": "把熟悉的透明推破音操作，收進價格親切的標準尺寸盒子；看點在乾聲與飽和的互動，不只是哪一顆二極體。",
+        "sections": [
+          {
+            "title": "產品脈絡",
+            "paragraphs": [
+              "這張卡收錄標準版 Zentara Overdrive。原廠將它定位為透明 Boost／Overdrive；另有 Mini 版本，選購時要分清尺寸與型號。Guitar World 的原報導日期為 2026 年 10 月 8 日，這是文章日期，不能直接當成全球統一上市日。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能與電路白話",
+            "paragraphs": [
+              "原廠確認使用鍺二極體軟削波，Gain 採雙聯電位器，旋轉時會讓訊號從乾淨逐漸增加破音成分。白話說，Gain 會連動聲音的乾淨程度與飽和量；它不像另設一顆 Blend，能把乾濕比例完全獨立調開。原廠也主打彈奏力度反應，但透明並不等於完全不改變頻率。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "可試玩法",
+            "paragraphs": [
+              "以下是依控制邏輯推導的試法，並非實機試奏。先讓音箱保持乾淨，把 Gain 調低，校準開關效果器前後音量，再慢慢提高輸出，分辨效果器自身飽和與音箱被推破的差別。第二輪提高 Gain、降低輸出補償音量，用同一句分解和弦比較輕重撥弦；若只是更大聲，往往會誤判成更好聽。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "取捨與適合對象",
+            "paragraphs": [
+              "以規格推估，它適合想用少量控制取得增厚、輕破音與推音箱的人。若目標是大量預設、獨立乾濕配比或精細頻段修整，這種簡單介面就不是主要強項。是否適合當常開底色，仍要以自己的拾音器、音箱與演奏力度判斷。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "已確認與未證實",
+            "paragraphs": [
+              "已確認的是原廠所述鍺二極體與雙聯 Gain 控制。尚無足夠官方資料支持特定二極體料號、稀有 IC、完整電路複刻程度或與經典原機音色完全一致，因此不加上 rare IC 或原版同電路標籤。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "以 Sweetwater 標準版單機標價，按收錄時的參考匯率換算約 NT$2,390；與 Mini 版報價分開。這是海外參考金額，未含運費、稅費，不是台灣實售價；匯率與店家售價可能變動。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "Behringer 官方產品頁",
+            "url": "https://www.behringer.com/en/products/0709-AKP",
+            "kind": "official"
+          },
+          {
+            "label": "Sweetwater 標準版價格",
+            "url": "https://www.sweetwater.com/store/detail/ZentaraOD--behringer-zentara-overdrive-pedal",
+            "kind": "retailer"
+          },
+          {
+            "label": "Guitar World 原報導與日期",
+            "url": "https://www.guitarworld.com/gear/guitar-pedals/behringer-zentara-and-zentara-mini-overdrives",
+            "kind": "publication"
+          }
+        ],
+        "evidenceNote": "依免費可讀的原廠資料及已標示的價格來源整理。玩法與適用性為編輯推論，未實機試奏；不以廠商音色形容詞作為獨立實測結論。"
+      },
+      "categories": [
+        "drive",
+        "boost"
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=E2PTo895-ac",
+        "title": "Behringer Zentara Guitar Pedal Demo",
+        "channel": "Grays Guitars",
+        "official": false,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
+    },
+    {
+      "id": "strymon-la-brea-20261009",
+      "brand": "Strymon",
+      "product": "La Brea",
+      "digestDate": "2026-10-09",
+      "articleDate": "2026-10-02",
+      "articlePublishedAt": "2026-10-02",
+      "articleType": "新品介紹",
+      "articleUrl": "https://www.premierguitar.com/news/strymon-unveils-la-brea-analog-tape-drive-2677983929",
+      "officialUrl": "https://www.strymon.net/product/la-brea/",
+      "function": "全類比磁帶飽和破音。",
+      "features": "兩段增益、同相乾聲混合與三段高頻修飾，從輕推到 Fuzz；內部升壓至24V。",
+      "badges": [],
+      "funScore": 4,
+      "image": {
+        "src": "assets/news-strymon-la-brea-front.png",
+        "alt": "Strymon La Brea 效果器正面產品圖",
+        "credit": "圖片來源：Strymon",
+        "sourceUrl": "https://www.strymon.net/wp-content/uploads/2026/09/LaBrea_Press_TopDown_Trans_Site-663x1024.png",
+        "sourcePage": "https://www.strymon.net/product/la-brea/"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$6,360",
+        "display_currency": "TWD",
+        "amount_twd": 6360,
+        "converted_amount_twd_unrounded": 6359.045,
+        "rounding": "nearest 10 TWD",
+        "note_zh_tw": "海外參考價，未含運稅",
+        "original_amount": 199,
+        "original_currency": "USD",
+        "original_price_note": "海外標價換算，未含稅、運費與進口費用；非台灣售價。",
+        "price_source_url": "https://www.strymon.net/product/la-brea/",
+        "price_source_type": "manufacturer_store",
+        "fx": {
+          "baseCurrency": "USD",
+          "quoteCurrency": "TWD",
+          "rate": 31.955,
+          "provider": "Bank of Taiwan",
+          "rateType": "spot_sell",
+          "quotedAt": "2026-10-09T09:45:00+08:00",
+          "checkedAt": "2026-10-09T10:31:00+08:00",
+          "sourceUrl": "https://rate.bot.com.tw/xrt?Lang=en-US",
+          "displayDate": false
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://www.strymon.net/product/la-brea/"
+      ],
+      "analysis": {
+        "lead": "La Brea 的關鍵是兩路可以各自調音量的飽和與乾聲，讓厚重破音仍有機會保留撥弦輪廓。",
+        "sections": [
+          {
+            "title": "產品脈絡",
+            "paragraphs": [
+              "它屬於 Strymon 的 Series A 類比系列，靈感來自自家 Deco 的磁帶飽和研究。官方說明它另採全類比設計，且比 Deco 有更大的增益範圍；不能把它直接理解成整台 Deco 的縮小版。Premier Guitar 這篇新品報導刊於 2026 年 10 月 2 日。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能與電路白話",
+            "paragraphs": [
+              "官方手冊確認離散式 Class A 訊號路徑、兩級串接磁帶式飽和，以及獨立平行乾聲。Tape Sat 管飽和量，Gain 切換範圍；Level 調的是飽和路徑輸出，Dry 則單獨調乾聲，最高可增加 6dB。兩路保持同相。Shift 的 flat／mid／high 會同時影響乾聲與飽和路徑，並非只修飾破音。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "可試玩法",
+            "paragraphs": [
+              "以下是規格推導，未經實機試奏。先把 Level 關小，只用 Dry 比較乾淨推升；接著逐步加入飽和，聽和弦起音是否仍清楚。另一種試法是 Gain 切 high、提高 Tape Sat，再由零慢慢補 Dry，比較持續音與撥弦輪廓如何共存。每次切換 Shift 都補償音量，避免把單純增亮誤認成解析度提升。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "取捨與接線提醒",
+            "paragraphs": [
+              "依設計看，它適合想在柔和飽和與近似 Fuzz 質感之間找平衡的人；若需要 MIDI、USB 或預設切換，官方明示 Series A 不提供這些功能。它是單聲道輸入輸出。內部升壓至 24V 是電路工作條件，外接必須使用 9V、中心負極、至少 500mA 電源；手冊警告高於 9V 可能損壞機器。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "已確認與未證實",
+            "paragraphs": [
+              "全類比、兩級飽和、平行同相乾聲及內部升壓皆有官方依據；未公開可核實的稀有 IC 或完整元件料表。本分析不把「磁帶式」延伸成實體磁帶機，也不保證它能重現特定老錄音機或所有磁帶效果。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "以官方商店單機標價，按收錄時的參考匯率換算約 NT$6,360。這是海外參考金額，未含電源、運費、稅費，亦非台灣代理售價；匯率與各地售價可能變動。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "Strymon 官方產品與價格",
+            "url": "https://www.strymon.net/product/la-brea/",
+            "kind": "official"
+          },
+          {
+            "label": "Strymon 官方支援與 Deco 差異",
+            "url": "https://www.strymon.net/support/la-brea/",
+            "kind": "official"
+          },
+          {
+            "label": "Strymon 官方使用手冊 Rev A",
+            "url": "https://www.strymon.net/manuals/La_Brea_QuickStart_Web_RevA.pdf",
+            "kind": "official"
+          },
+          {
+            "label": "Premier Guitar 原報導與日期",
+            "url": "https://www.premierguitar.com/news/strymon-unveils-la-brea-analog-tape-drive-2677983929",
+            "kind": "publication"
+          }
+        ],
+        "evidenceNote": "規格與接線要求以官方產品頁及 Rev A 手冊為主。玩法與取捨是編輯推論，未實機試奏。官方支援頁與產品頁的尺寸不同，本分析因此不引用尺寸。"
+      },
+      "categories": [
+        "drive",
+        "boost"
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=9jsbQmvRweA",
+        "title": "Official La Brea Analog Tape Drive Sound Samples | Strymon",
+        "channel": "strymon",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
+    },
+    {
+      "id": "collision-devices-snack-modulation-20261009",
+      "brand": "Collision Devices",
+      "product": "SNACK Modulation",
+      "digestDate": "2026-10-09",
+      "articleDate": "2026-10-02",
+      "articlePublishedAt": "2026-10-02T12:00:00",
+      "articleTimezone": null,
+      "articleType": "新品介紹",
+      "articleUrl": "https://www.guitarpedalx.com/news/gpx-blog/collision-devices-rolls-out-its-4th-snack-series-compact-this-time-a-3-way-modulation-which-has-you-covered-for-chorus-phaser-and-flanger",
+      "officialUrl": "https://collisiondevices.com/shop/p/snack-modulation",
+      "function": "合唱、相位與鑲邊三合一。",
+      "features": "Magic 可變出雙 LFO、階梯掃頻與多重鑲邊，另有三組預設、踩拍與表情踏板控制。",
+      "badges": [],
+      "funScore": 4.5,
+      "image": {
+        "src": "assets/news-collision-snack-modulation-cutout-v1.png",
+        "alt": "Collision Devices SNACK Modulation 銀色紫字效果器正面原廠照片",
+        "credit": "圖片來源：Collision Devices 官方網站；背景去背處理",
+        "sourceUrl": "https://images.squarespace-cdn.com/content/v1/613fafff5a3c44773121cc57/2401cd15-6df0-46cf-959a-6c8b5cae565b/front%2Bsnack.png",
+        "background": "transparent",
+        "displayBackground": "#ffffff"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$5,990",
+        "display_currency": "TWD",
+        "amount_twd": 5990,
+        "converted_amount_twd_unrounded": 5985.63385,
+        "rounding": "nearest 10 TWD",
+        "note_zh_tw": "未含運稅",
+        "original_amount": 165.83,
+        "original_currency": "EUR",
+        "original_tax_included": false,
+        "price_source_url": "https://collisiondevices.com/shop/p/snack-modulation",
+        "fx": {
+          "base": "EUR",
+          "quote": "TWD",
+          "rate": 36.095,
+          "type": "spot_sell",
+          "provider": "Bank of Taiwan",
+          "quoteTime": "2026-10-09T09:45:00+08:00",
+          "checkedAt": "2026-10-09T10:30:00+08:00",
+          "sourceUrl": "https://rate.bot.com.tw/xrt?Lang=en-US",
+          "displayDateInFrontend": false,
+          "note": "頁頭另留 2026/10/08，但 Quoted Date 明示 2026/10/09 09:45。僅為價格估算，實際刷卡匯率與费用另計。"
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://collisiondevices.com/shop/p/snack-modulation",
+        "https://collisiondevices.com/"
+      ],
+      "analysis": {
+        "lead": "把 Chorus、Phaser、Flanger 放進窄身盒子，再用 Magic 把熟悉的掃動推向節奏與不規則變化。",
+        "sections": [
+          {
+            "title": "產品脈絡",
+            "paragraphs": [
+              "SNACK Modulation 提供三種模式與三組預設，延續 SNACK 系列以少量旋鈕搭配擴充控制的方向。Guitar Pedal X 原文刊於 2026 年 10 月 2 日 12:00，但頁面未標時區；這裡保留原文日期，不自行換算成台灣時間或認定為上市日。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能與電路白話",
+            "paragraphs": [
+              "原廠把 Chorus、Flanger 描述為調變延遲線，Phaser 則是調變全通濾波器。可將前兩者想成讓短延遲隨時間改變，後者則改變相位關係。Magic 在 Chorus 加入回授及第二個同步 LFO；在 Phaser 使 LFO 波形呈階梯；在 Flanger 引入多條逐漸展開的鑲邊線。這些是不同模式下的功能變化，不是一顆共用的音色旋鈕。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "可試玩法",
+            "paragraphs": [
+              "以下是依官方控制說明推導，未實機試奏。先用低 Depth、慢 Rate 的 Chorus 做輕微擺動，再逐步增加 Magic，注意規律掃動如何變複雜。第二組改成 Phaser，提高 Magic，配合踩拍比較階梯變化與樂句節奏。第三組用 Flanger，從較少效果量開始，再把 Magic 分配給表情踏板，試著在持續和弦中移動聲音層次。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "取捨與控制邊界",
+            "paragraphs": [
+              "三組預設、踩拍、瞬時啟用與表情控制讓它適合在少量常用聲音之間變化；只有單聲道輸入輸出，規劃立體聲器材鏈時要留意位置。官方列出 Buffered Bypass、Analog Dry Through 與 Full Wet 模式。Analog Dry Through 只描述乾聲路徑，不能據此稱整台全類比。供電為 9V 中心負極、130mA。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "已確認與未證實",
+            "paragraphs": [
+              "Magic 的三種作用有原廠文字佐證。不過品牌官網以三條 flanging lines 描述，外部報導寫成額外兩條；本卡採不歧義的「多重鑲邊」說法。未取得公開電路圖或可核實的 IC 料號，也不將 Phaser 的階梯 LFO 說成音訊降取樣或 bitcrusher。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "以官方未稅標價，按收錄時的參考匯率換算約 NT$5,990；歐洲 VAT 於結帳另計。這個數字未含運稅，不能直接當作台灣到手價；匯率與各地售價可能變動。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "Collision Devices 官方產品與價格",
+            "url": "https://collisiondevices.com/shop/p/snack-modulation",
+            "kind": "official"
+          },
+          {
+            "label": "Collision Devices 官方 Magic 功能說明",
+            "url": "https://collisiondevices.com/",
+            "kind": "official"
+          },
+          {
+            "label": "Collision Devices 官方系列手冊入口",
+            "url": "https://collisiondevices.com/snack-user-manuals",
+            "kind": "official"
+          },
+          {
+            "label": "Guitar Pedal X 原報導與日期",
+            "url": "https://www.guitarpedalx.com/news/gpx-blog/collision-devices-rolls-out-its-4th-snack-series-compact-this-time-a-3-way-modulation-which-has-you-covered-for-chorus-phaser-and-flanger",
+            "kind": "publication"
+          }
+        ],
+        "evidenceNote": "以官方產品頁及品牌首頁核實功能。玩法為編輯推論，未實機試奏；未取得可獨立核實的 DSP 型號或完整電路。首頁內容可能隨新品更換，故保留產品頁與手冊入口。"
+      },
+      "categories": [
+        "modulation"
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=8GcUzOmnjkQ",
+        "title": "SNACK SERIES - MODULATION : TECHNICAL DEMO",
+        "channel": "Collision Devices",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
+    },
+    {
+      "id": "klowra-south-zoo-20261008",
+      "brand": "KLOWRA",
+      "product": "South Zoo Voice Synth",
+      "digestDate": "2026-10-08",
+      "articlePublishedAt": "2026-10-08T14:00:25+09:00",
+      "articleDate": "2026-10-08",
+      "articleType": "當日試奏介紹",
+      "articleUrl": "https://youngguitar.jp/web/202611-krowla",
+      "officialUrl": "https://www.klowra.com/south-zoo-voice-synth",
+      "function": "動物聲合成器，提供貓、蛙、馬三種音色。",
+      "features": "複音追蹤、反向音高與凍結延音；可混合原音，調整尾音、速度與質感。",
+      "badges": [],
+      "funScore": 4.5,
+      "image": {
+        "src": "assets/news-klowra-south-zoo-front.png",
+        "alt": "KLOWRA South Zoo Voice Synth 效果器正面產品圖",
+        "credit": "圖片來源：KLOWRA 官方網站",
+        "sourceUrl": "https://static.wixstatic.com/media/cb537f_30ce89440717479799118e5955deba0c~mv2.png"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$3,600",
+        "display_currency": "TWD",
+        "amount_twd": 3600,
+        "converted_amount_twd_unrounded": 3593.92,
+        "rounding": "nearest 100 TWD",
+        "note_zh_tw": "日本參考價換算，非台灣售價",
+        "original_amount": 17600,
+        "original_currency": "JPY",
+        "market_country": "日本",
+        "original_tax_included": true,
+        "original_price_type": "官方代理商含稅參考價，原頁為約價",
+        "price_source_url": "https://www.hotone.jp/brands/klowra/products/south-zoo-voice-synth",
+        "price_checked_on": "2026-10-08",
+        "fx": {
+          "rate": 0.2042,
+          "unit": "TWD per JPY",
+          "rate_type": "臺灣銀行日圓即期賣出牌告匯率",
+          "quoted_at": "2026-10-08T17:01:00+08:00",
+          "checked_on": "2026-10-08",
+          "source_name": "臺灣銀行牌告匯率",
+          "source_url": "https://rate.bot.com.tw/xrt?Lang=zh-TW",
+          "note": "僅供參考，非實際交易匯率；不含信用卡費、跨境運費及進口稅費"
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://www.klowra.com/user-manual-south-zoo-voice-synth",
+        "https://www.klowra.com/south-zoo-voice-synth"
+      ],
+      "analysis": {
+        "lead": "把貓、蛙、馬的發聲輪廓變成可跟著吉他移動的合成音色，重點在音高追蹤與長按後的變形。",
+        "sections": [
+          {
+            "title": "產品脈絡",
+            "paragraphs": [
+              "South Zoo 是 KLOWRA Budding Bloom 系列的數位動物音色合成器。YOUNG GUITAR 於 2026 年 10 月 8 日 14:00 刊出試奏介紹；本卡是在整理這篇公開內容，並非本站親自試奏，也不把報導日期當成產品初次上市日。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能與電路白話",
+            "paragraphs": [
+              "官方確認三種音色、複音追蹤與 32-bit 浮點 DSP。TAILS 管尾音長度，MIX 管動物聲混合量，SPEED 管循環速度，DETAIL 修整角色質地。Pitch Follow 會跟隨音高，長按改成反向音高追蹤；另外兩個模式解除追蹤，長按 Freeze 時分別使 SPEED 或 TAILS 隨機變化。這裡的「反向」指高低音關係反轉，不等於把錄音倒放。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "可試玩法",
+            "paragraphs": [
+              "以下是規格推導，未實機試奏。先降低 MIX、用單音探索貓聲的濾波感，再增加尾音與混合量；換到蛙聲後試著讓長音承接重複脈動。想做段落轉場，可在 Flutter 或 Stretch 模式長按凍結，觀察速度或尾音變化，再放開回到樂句。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "取捨與接線提醒",
+            "paragraphs": [
+              "這種角色鮮明的合成器適合拿來探索特殊音色。官方雖主打低延遲複音追蹤，但沒有公布本次可核實的延遲數字；複雜和弦、快速換音與重破音輸入仍應親自確認。機身為單聲道，CTRL 接口只支援 TS 瞬時腳踏開關，不宜當成一般表情踏板插孔。供電為 9V 中心負極、至少 150mA。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "已確認與未證實",
+            "paragraphs": [
+              "聲音模式、長按作用及供電有官方手冊依據。尚無稀有 IC、精確追蹤延遲或內部合成演算法細節的可靠公開證據，因此不推定特定晶片，也不保證任何和弦都能完美追蹤。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "以日本官方代理商含稅參考價，按收錄時的參考匯率換算約 NT$3,600。此數字保留日本含稅基準，非台灣到手價，跨境運費、進口費用與刷卡費另計；匯率與各地售價可能變動。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "KLOWRA 官方產品頁",
+            "url": "https://www.klowra.com/south-zoo-voice-synth",
+            "kind": "official"
+          },
+          {
+            "label": "KLOWRA 官方操作手冊",
+            "url": "https://www.klowra.com/user-manual-south-zoo-voice-synth",
+            "kind": "official"
+          },
+          {
+            "label": "Hotone Japan 官方代理商參考價",
+            "url": "https://www.hotone.jp/brands/klowra/products/south-zoo-voice-synth",
+            "kind": "official_distributor"
+          },
+          {
+            "label": "YOUNG GUITAR 原報導與日期",
+            "url": "https://youngguitar.jp/web/202611-krowla",
+            "kind": "publication"
+          }
+        ],
+        "evidenceNote": "依原廠與日本代理商公開資料整理，玩法為推論，未實機試奏。官網音色與追蹤形容屬廠商宣稱，未當成獨立測試結果。"
+      },
+      "categories": [
+        "synth",
+        "pitch"
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=2eDLgxgVv8E",
+        "title": "South Zoo Voice Synth - Exploring Demo | KLOWRA",
+        "channel": "KLOWRA",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
+    },
+    {
+      "id": "dod-drag-20260928",
+      "brand": "DOD",
+      "product": "DRAG",
+      "digestDate": "2026-09-28",
+      "articleDate": "2026-09-28",
+      "articlePublishedAt": "2026-09-28",
+      "articleType": "新品介紹",
+      "articleUrl": "https://guitarmagazine.jp/news/2026-0928-dod-drag/",
+      "officialUrl": "https://digitech.com/dp/drag/",
+      "function": "BBD 類比延遲與變速音高效果。",
+      "features": "三類 Friction 變速、停轉與八度彎音，搭配四種調變波形；Evade 可選放開恢復或自動恢復。",
+      "badges": [],
+      "funScore": 4.5,
+      "image": {
+        "src": "assets/news-dod-drag-front.jpg",
+        "alt": "DOD DRAG 類比延遲效果器正面官方產品圖",
+        "credit": "圖片來源：DigiTech／DOD 官方網站",
+        "sourceUrl": "https://eadn-wc05-7545739.nxedge.io/wp-content/uploads/2026/08/DRAG_gallery01.jpg",
+        "sourcePage": "https://digitech.com/dp/drag/"
+      },
+      "price": {
+        "display_zh_tw": "約 NT$8,540",
+        "display_currency": "TWD",
+        "amount_twd": 8540,
+        "converted_amount_twd_unrounded": 8535.56,
+        "rounding": "nearest 10 TWD",
+        "note_zh_tw": "日本歷史參考價換算，非台灣到手價",
+        "original_amount": 41800,
+        "original_currency": "JPY",
+        "market_country": "日本",
+        "original_tax_included": true,
+        "original_price_note": "2026-09-28 報導所列日本含稅預估售價，非本次即時店家報價；採既有2026-10-08匯率換算。",
+        "price_source_url": "https://guitarmagazine.jp/news/2026-0928-dod-drag/",
+        "price_source_type": "publication",
+        "price_source_published_on": "2026-09-28",
+        "price_reference_rechecked_on": "2026-10-09",
+        "fx": {
+          "rate": 0.2042,
+          "unit": "TWD per JPY",
+          "rate_type": "臺灣銀行日圓即期賣出牌告匯率",
+          "quoted_at": "2026-10-08T17:01:00+08:00",
+          "checked_on": "2026-10-08",
+          "source_name": "臺灣銀行牌告匯率",
+          "source_url": "https://rate.bot.com.tw/xrt?Lang=zh-TW",
+          "note": "沿用已於2026-10-08查核的參考匯率，非本次新查；非實際交易匯率，未含刷卡費、跨境運費及進口稅費。"
+        },
+        "render_fx_date": false,
+        "render_original_currency": false
+      },
+      "technicalSources": [
+        "https://digitech.com/dp/drag/",
+        "https://eadn-wc05-7545739.nxedge.io/wp-content/uploads/2026/08/ARTW-0072_RevB_IndividualWebsite.pdf",
+        "https://digitech.com/dp/rubberneck/"
+      ],
+      "analysis": {
+        "lead": "以類比延遲為底，把回聲的減速、停轉與重新加速變成可用腳演奏的聲音。",
+        "sections": [
+          {
+            "title": "產品脈絡",
+            "paragraphs": [
+              "DRAG 延續 2017 年 Rubberneck 的變速延遲構想，加入新的踩踏表現方式與窄身頂置接口。前作另有獨立調變速度／深度、內建踩拍與回授迴路接口，不能把 DRAG 當成原功能原封不動縮小。收錄及原報導日均保留 2026 年 9 月 28 日。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "功能與電路白話",
+            "paragraphs": [
+              "BBD 類比延遲約 60–750ms；FILTER 修整回授高頻，DRIFT 連動調變速度與深度，支援四種波形。FRICTION 操作延遲時脈，讓速度與音高一起變化。SlideStop 踩住減速停止、放開重啟；Rubberneck 可升降八度。Evade 的 HopStop 放開才恢復，Slide-n-Go 則短暫按住觸發後自動恢復，兩者不能混寫。",
+              "BBD 可想成一排接力的小電容，用時脈將類比電荷往後傳；它按時間取樣，但不把聲音編碼成數位資料。變速過程可帶出音高滑動，也更考驗前後濾波與雜訊控制。晶片相同，不代表周邊電路或整台效果器的音色就相同。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "可試玩法",
+            "paragraphs": [
+              "以下為控制邏輯推導，未實機試奏：先用低回授、低效果量的短延遲，再比較兩種 Evade 的恢復節奏；加上慢速正弦調變後，逐步提高回授。自激可能突然變大聲，先降低監聽音量。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "取捨與接線提醒",
+            "paragraphs": [
+              "適合把延遲當成演奏動作的人。需要腳控踩拍時，須另購 FS3X；3.5mm 接口是腳踏控制，並非音訊輸入。單聲道，9V 中心負極供電，典型耗電低於 120mA；可選硬線旁通或保留尾音。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "已確認與未證實",
+            "paragraphs": [
+              "原廠確認 BBD 類比引擎，但未找到可靠晶片料號證據，不標成已確認 MN3005 或稀有 IC。極端變速的雜訊、爆音及失真是手冊明示的可能現象；趣味 4.5／5 為主觀評分。"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "價格怎麼看",
+            "paragraphs": [
+              "按原報導的日本含稅預估價換算，參考約 NT$8,540。這是歷史報價的台幣估算，非台灣到手價；跨境運費、進口費用及刷卡費另計，匯率與實際售價可能變動。"
+            ],
+            "bullets": []
+          }
+        ],
+        "sources": [
+          {
+            "label": "DigiTech／DOD 官方 DRAG 產品頁",
+            "url": "https://digitech.com/dp/drag/",
+            "kind": "official"
+          },
+          {
+            "label": "DRAG 官方手冊 Rev B（模式操作見第7–10頁）",
+            "url": "https://eadn-wc05-7545739.nxedge.io/wp-content/uploads/2026/08/ARTW-0072_RevB_IndividualWebsite.pdf",
+            "kind": "official"
+          },
+          {
+            "label": "DOD Rubberneck 官方前作規格",
+            "url": "https://digitech.com/dp/rubberneck/",
+            "kind": "official"
+          },
+          {
+            "label": "Guitar Magazine 9/28 原報導與日本參考價",
+            "url": "https://guitarmagazine.jp/news/2026-0928-dod-drag/",
+            "kind": "publication"
+          },
+          {
+            "label": "BBD 原理參考：Xvive MN3005 資料表（非 DRAG 料號證據）",
+            "url": "https://xvive.com/audio/wp-content/uploads/sites/2/2021/11/Xvive_MN3005_BBD_DATASHEET.pdf",
+            "kind": "technical_reference"
+          }
+        ],
+        "evidenceNote": "規格與 Evade 恢復方式以官方 Rev B 手冊為主；玩法及趣味評分為編輯推論，未實機試奏。價格為歷史海外報價換算，非台灣實售價。"
+      },
+      "categories": [
+        "delay",
+        "pitch",
+        "modulation"
+      ],
+      "demo": {
+        "url": "https://www.youtube.com/watch?v=EsDC-Yp05b4",
+        "title": "This Is Not Your Typical Analog Delay | DOD DRAG",
+        "channel": "DigiTech",
+        "official": true,
+        "displayMode": "link",
+        "embedVerified": false,
+        "playbackVerified": false,
+        "checkedAt": "2026-10-09"
+      }
+    }
+  ],
+  "digestDateMeaning": "collection date",
+  "articleDateMeaning": "original source publication date",
+  "categories": [
+    {
+      "id": "drive",
+      "label": "破音／飽和"
+    },
+    {
+      "id": "boost",
+      "label": "乾淨推升"
+    },
+    {
+      "id": "modulation",
+      "label": "調變"
+    },
+    {
+      "id": "delay",
+      "label": "延遲"
+    },
+    {
+      "id": "pitch",
+      "label": "變調／音高"
+    },
+    {
+      "id": "synth",
+      "label": "合成／特殊音色"
+    },
+    {
+      "id": "multi-effects",
+      "label": "綜合效果器／音箱建模"
+    },
+    {
+      "id": "reverb",
+      "label": "殘響"
+    }
+  ]
+}</script>
