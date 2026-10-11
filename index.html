@@ -620,7 +620,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261011-pedal-digest-v14${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261011-pedal-optimized-embed-v15${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -672,7 +672,9 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261010-pedal-object-fit-v13' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261011-pedal-optimized-embed-v15' : name === 'column-qafdot' || name === 'columns' ? '20261006-qafdot' : '20261005-column-reader';
+    // Request the current public digest in parallel, only for the news route.
+    const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
@@ -707,7 +709,7 @@ async function showRoute(forceReload = false) {
     if (requestId !== routeRequestId) return;
     let publicDigestMarkup = null;
     if (name === 'news') {
-      publicDigestMarkup = await loadPublicNewsDigest();
+      publicDigestMarkup = await publicDigestRequest;
       if (requestId !== routeRequestId) return;
     }
     const percent = main.querySelector('.preview-percent');
@@ -792,6 +794,8 @@ function wireNewsCatalogue() {
     try { const url = new URL(value); return /^https?:$/.test(url.protocol) ? url.href : null; }
     catch { return null; }
   };
+  // Accept only canonical HTTPS watch URLs; never interpolate untrusted URL text into an iframe.
+  const youtubeVideoId = value => typeof value === 'string' ? /^https:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})(?![\s\S])/.exec(value)?.[1] || null : null;
   // The digest date is the collection date. Older, previously uncovered articles are eligible.
   // Keep the original publication date separate; neither date may be in the future.
   const seen = new Set();
@@ -1060,7 +1064,12 @@ function wireNewsCatalogue() {
     }
   });
 
+  function stopDemoPlayback() {
+    readerBody.querySelectorAll('.digest-reader-demo-frame').forEach(frame => frame.remove());
+  }
   function finishClose(restorePosition = true) {
+    // Removing the browsing context stops playback on Close, Escape, Back, and route disposal.
+    stopDemoPlayback();
     if (!readerState) return;
     const saved = readerState;
     readerState = null;
@@ -1103,7 +1112,7 @@ function wireNewsCatalogue() {
   dialog.addEventListener('keydown', event => {
     if (event.key === 'Escape') { event.preventDefault(); closeReader(); return; }
     if (event.key !== 'Tab') return;
-    const focusable = [...dialog.querySelectorAll('button, a[href], textarea, [tabindex="0"]')].filter(node => !node.disabled && !node.hidden);
+    const focusable = [...dialog.querySelectorAll('button, a[href], textarea, iframe, [tabindex="0"]')].filter(node => !node.disabled && !node.hidden);
     const first = focusable[0], last = focusable[focusable.length - 1];
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
@@ -1185,15 +1194,36 @@ function wireNewsCatalogue() {
     intro.append(summary);
     readerBody.append(intro);
     const demo = item.demo;
-    const demoUrl = safeLink(demo?.url);
-    if (demo?.displayMode === 'link' && demoUrl && /^https:\/\/www\.youtube\.com\/watch\?v=[A-Za-z0-9_-]{11}$/.test(demoUrl)) {
+    const videoId = youtubeVideoId(demo?.url);
+    if (videoId) {
+      const demoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      const demoTitle = demo.title || `${item.brand} ${item.product} 示範`;
       const demoSection = element('section', 'digest-reader-demo');
+      const player = element('div', 'digest-reader-demo-player');
+      const playButton = element('button', 'digest-reader-demo-play', '▶ 播放音色示範');
+      playButton.type = 'button';
+      playButton.setAttribute('aria-label', `播放 ${demoTitle}`);
+      player.append(playButton);
+      playButton.addEventListener('click', () => {
+        if (!dialog.open || readerState?.articleId !== item.id || !player.isConnected || player.querySelector('iframe')) return;
+        const frame = element('iframe', 'digest-reader-demo-frame');
+        frame.title = `${demoTitle} — YouTube 播放器`;
+        frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        frame.allowFullscreen = true;
+        frame.referrerPolicy = 'strict-origin-when-cross-origin';
+        // No YouTube request, thumbnail, or iframe exists before this explicit play click.
+        frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+        player.replaceChildren(frame);
+        frame.focus({preventScroll:true});
+      });
       demoSection.append(element('h3', '', 'YouTube 音色示範'),
-        element('p', 'digest-reader-demo-title', demo.title || `${item.brand} ${item.product} 示範`),
+        element('p', 'digest-reader-demo-title', demoTitle),
         element('p', 'digest-reader-demo-channel', `${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}`),
+        player,
+        element('p', 'digest-reader-demo-help', '點擊後才會載入 YouTube 播放器。若無法播放，請使用下方連結到 YouTube 觀看。'),
         link('在 YouTube 聽示範 ↗（另開分頁）', demoUrl, 'digest-reader-demo-link'));
       readerBody.append(demoSection);
-      plainText.push(`YouTube 音色示範\n${demo.title || `${item.brand} ${item.product} 示範`}\n${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}\n${demoUrl}`);
+      plainText.push(`YouTube 音色示範\n${demoTitle}\n${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}\n${demoUrl}`);
     }
     const analysis = item.analysis;
     const sections = Array.isArray(analysis?.sections) ? analysis.sections : [
@@ -1268,34 +1298,20 @@ function wireNewsCatalogue() {
     closeButton.focus({preventScroll:true});
   }
 
-  // Present unchanged source pixels through a tight, inspected product viewport.
-  // All thumbnails share the same square frame and 8px CSS inset; meet never crops or stretches hardware.
-  const catalogueImageViewports = {"news-chase-bliss-onward-cutout-v1.png":[1300,1300,373,158,557,956],"news-hologram-chroma-console-front-v2.png":[1445,1445,359,301,729,845],"news-zoom-neurig-front.png":[1505,1536,72,441,1351,661],"news-obne-parting-front.webp":[1500,1000,337,22,834,929],"news-behringer-zentara-front.jpg":[750,660,3,3,747,653],"news-strymon-la-brea-front.png":[663,1024,10,11,643,1003],"news-collision-snack-modulation-cutout-v1.png":[1055,1491,318,223,417,1094],"news-klowra-south-zoo-front.png":[1600,1600,506,194,587,1211],"news-dod-drag-front.jpg":[1200,1200,272,56,656,1088],"news-warm-audio-peach-fuzz-front.png":[500,500,113,24,293,454],"news-warm-audio-wa-c1-mod-front.png":[500,500,123,32,275,465],"news-boss-ex-4-front.jpg":[904,1050,0,0,904,1050]};
-  function catalogueImage(item) {
-    const alt = item.image.alt || `${item.brand} ${item.product} 正面產品圖`;
-    const bounds = catalogueImageViewports[item.image.src.replace(/^assets\//, '')];
-    if (!bounds || typeof document.createElementNS !== 'function') {
-      const image = element('img');
-      image.src = item.image.src; image.alt = alt;
-      image.loading = 'lazy'; image.decoding = 'async';
-      return image;
+  // Derived assets preserve the inspected product viewport without loading full originals.
+  // Normal img elements allow browser-native lazy loading and decoded-image reuse in the reader.
+  function catalogueImage(item, position, eagerCount) {
+    const image = element('img');
+    image.src = item.image.src;
+    image.alt = item.image.alt || `${item.brand} ${item.product} 正面產品圖`;
+    if (Number.isInteger(item.image.width) && Number.isInteger(item.image.height)) {
+      image.width = item.image.width;
+      image.height = item.image.height;
     }
-    const [sourceWidth, sourceHeight, x, y, width, height] = bounds;
-    const ns = 'http://www.w3.org/2000/svg';
-    const viewport = document.createElementNS(ns, 'svg');
-    viewport.setAttribute('class', 'digest-product-viewport');
-    viewport.setAttribute('viewBox', `${x} ${y} ${width} ${height}`);
-    viewport.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-    viewport.setAttribute('role', 'img');
-    viewport.setAttribute('aria-label', alt);
-    viewport.setAttribute('focusable', 'false');
-    const image = document.createElementNS(ns, 'image');
-    image.setAttribute('href', item.image.src);
-    image.setAttribute('x', '0'); image.setAttribute('y', '0');
-    image.setAttribute('width', String(sourceWidth)); image.setAttribute('height', String(sourceHeight));
-    image.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-    viewport.append(image);
-    return viewport;
+    image.loading = position < eagerCount ? 'eager' : 'lazy';
+    image.decoding = 'async';
+    image.fetchPriority = position === 0 ? 'high' : 'auto';
+    return image;
   }
 
   function render() {
@@ -1306,7 +1322,8 @@ function wireNewsCatalogue() {
     empty.hidden = selected.length > 0;
     const extraEdition = selected.filter(item => item.digestDate === '2026-10-10').length > 3;
     count.textContent = `${categoryLabel} · ${rangeLabel} · ${selected.length} 顆 · ${extraEdition ? '10/10 指定加刊，共 4 篇' : '每日最多新增 3 顆'}`;
-    selected.forEach(item => {
+    const eagerImageCount = Math.max(1, getComputedStyle(grid).gridTemplateColumns.split(/\s+/).filter(Boolean).length);
+    selected.forEach((item, position) => {
       const card = element('article', 'digest-card');
       card.dataset.digestId = item.id;
       const date = element('time', 'digest-date', `文摘日期 ${item.digestDate.replaceAll('-', '.')}`);
@@ -1314,7 +1331,7 @@ function wireNewsCatalogue() {
       date.title = `文摘日期；產品新聞發布日期：${productDateLabel(item)}，非產品上市日`;
       const photo = element('div', 'digest-image');
       if (item.image && /^assets\/news-[a-z0-9-]+\.(png|jpe?g|webp)$/.test(item.image.src)) {
-        photo.append(catalogueImage(item));
+        photo.append(catalogueImage(item, position, eagerImageCount));
       }
       card.append(date, element('span', 'digest-original-date', `產品新聞發布日期 ${productDateLabel(item)}`), photo, element('span', 'digest-brand', item.brand), element('h4', '', item.product), field('功能', item.function));
       const verifiedBadges = (Array.isArray(item.badges) ? item.badges : []).filter(badge => badge.verified === true && ['classicCircuit', 'rareIC'].includes(badge.type) && badge.name && safeLink(badge.sourceUrl));
@@ -1701,5 +1718,6 @@ showRoute();
   <script src="friend-mobile.js"></script>
 <style id="friend-qaf-sync-style">#friend-qaf1-model{margin:20px 0 42px;padding:18px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd}.friend-model-heading{display:flex;align-items:start;justify-content:space-between;gap:18px}.friend-model-heading h2{margin:0 0 5px}.friend-model-heading p{margin:0 0 10px}.friend-model-tabs{display:flex;gap:18px;flex-wrap:wrap;padding:10px 0}.friend-model-tabs button,.column-tabs button{border:0;background:none;color:#555;padding:5px 0;border-radius:0}.friend-model-tabs button[aria-pressed=true],.column-tabs button[aria-pressed=true]{font-weight:750;color:#111}.friend-model-tabs button:hover,.column-tabs button:hover{background:none;color:#111}#friend-qaf1-frame{display:block;width:100%;height:min(850px,80vh);min-height:520px;border:1px solid #bbb;background:#fff}.column-tabs{display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid #ddd;padding:8px 0}.friend-column-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:22px 0 52px}.friend-column-card{min-width:0;text-decoration:none;color:#111;border-top:1px solid #bbb;padding-top:14px;display:flex;flex-direction:column;gap:8px}.friend-column-cover{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;background:#f4f4f4;overflow:hidden;margin-bottom:8px}.friend-column-cover img{width:100%;height:100%;object-fit:contain}.friend-column-card[hidden]{display:none!important}.friend-column-card strong{font-size:21px;line-height:1.45;font-weight:600}.friend-column-card time{font-size:13px;color:#777}.friend-column-read{margin-top:auto;padding-top:10px;font-size:14px}.friend-column-card:hover .friend-column-read{text-decoration:underline}.friend-reader-tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 0 18px;border-bottom:1px solid #ddd}.friend-reader-tabs a{min-width:155px;max-width:240px;flex:1;padding:10px 12px;text-decoration:none;border:1px solid #ddd;color:#555}.friend-reader-tabs a[aria-current=page]{border-color:#222;color:#111;font-weight:700}.friend-reader-tabs small,.friend-reader-tabs span{display:block}.friend-reader-tabs small{color:#888;font-size:11px}.friend-reader-tabs span{font-size:14px;line-height:1.35}.friend-column-back{display:inline-block;margin:12px 0}.friend-reader-footer{border-top:1px solid #ddd;margin:40px 0 20px;padding-top:15px}.friend-reader-footer p{margin:0}.post-entry[hidden],#friend-column-reader[hidden],#friend-column-overview[hidden]{display:none!important}@media(max-width:900px){.friend-column-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.friend-model-heading{display:block}#friend-qaf1-frame{height:72vh;min-height:480px}.friend-column-grid{grid-template-columns:1fr;gap:28px}.friend-column-cover{aspect-ratio:16/10}.friend-reader-tabs a{flex:0 0 160px}}</style><script id="friend-qaf-sync-script">window.friendColumnRoute=function(){const overview=document.getElementById('friend-column-overview'),reader=document.getElementById('friend-column-reader');if(!overview||!reader)return;const match=decodeURIComponent(location.hash).match(/^#column\/column-qaf\/(post-[A-Za-z0-9_-]+)$/),article=match?reader.querySelector('[data-post-id="'+match[1]+'"]'):null;overview.hidden=!!article;reader.hidden=!article;reader.querySelectorAll('.post-entry').forEach(item=>item.hidden=item!==article);reader.querySelectorAll('[data-reader-post]').forEach(link=>link.setAttribute('aria-current',article&&link.dataset.readerPost===article.dataset.postId?'page':'false'));if(article){document.title=article.querySelector('h3').textContent+'｜QAF 專欄';window.scrollTo(0,0)}else if(location.hash==='#column/column-qaf'){window.scrollTo(0,0)}};document.addEventListener('click',event=>{const model=event.target.closest('[data-friend-model]');if(model){const page=model.dataset.friendModel;if(!['model.html','index.html','render.html'].includes(page))return;const frame=document.getElementById('friend-qaf1-frame');if(frame)frame.src='qaf1-model/'+page;document.querySelectorAll('[data-friend-model]').forEach(button=>button.setAttribute('aria-pressed',String(button===model)));return}const category=event.target.closest('[data-friend-category]');if(category){const selected=category.dataset.friendCategory;document.querySelectorAll('[data-friend-category]').forEach(button=>button.setAttribute('aria-pressed',String(button===category)));let shown=0;document.querySelectorAll('#main .friend-column-card[data-category]').forEach(card=>{card.hidden=!!selected&&card.dataset.category!==selected;if(!card.hidden)shown++});const count=document.querySelector('#main .column-count');if(count)count.textContent=(selected||'最新文章')+' · '+shown+' 篇'}});</script><link rel="stylesheet" href="friend-column-reading.css?v=20261008b"><script src="friend-column-reading.js?v=20261005i"></script><script src="friend-local-articles.js?v=20261008b"></script></body>
 </html>
+
 
 

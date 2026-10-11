@@ -99,6 +99,10 @@
 #news-digest .digest-reader .digest-reader-demo-channel{font-size:13px!important;color:#666;margin:0 0 12px}
 #news-digest .digest-reader .digest-reader-demo-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid #444;border-radius:3px;text-decoration:none;font-size:15px;line-height:1.5;box-sizing:border-box;max-width:100%;overflow-wrap:anywhere}
 #news-digest .digest-reader .digest-reader-demo-link:hover,#news-digest .digest-reader .digest-reader-demo-link:focus-visible{background:#f3f3f0;outline-offset:3px}
+#news-digest .digest-reader-demo-player{display:flex;align-items:center;justify-content:center;aspect-ratio:16 / 9;width:100%;margin:16px 0 12px;background:#f4f4f2;overflow:hidden}
+#news-digest .digest-reader-demo-play{min-height:48px;max-width:calc(100% - 32px);padding:12px 20px;border:1px solid #444;border-radius:3px;background:#fff;color:#222;font:inherit;font-size:16px;cursor:pointer}
+#news-digest .digest-reader-demo-frame{display:block;width:100%;height:100%;aspect-ratio:16 / 9;border:0}
+#news-digest .digest-reader .digest-reader-demo-help{font-size:13px!important;line-height:1.7!important;color:#666;margin:0 0 12px}
 </style>
 <section id="news-digest" aria-labelledby="news-digest-title">
   <header class="digest-heading">
@@ -138,13 +142,17 @@
       "badges": [],
       "funScore": 4,
       "image": {
-        "src": "assets/news-warm-audio-peach-fuzz-front.png",
-        "alt": "Warm Audio The Black Keys Peach Fuzz 透明背景正面官方產品圖",
+        "src": "assets/news-warm-audio-peach-fuzz-optimized-150dpi-v1.webp",
+        "alt": "Warm Audio The Black Keys Peach Fuzz 白底正面官方產品圖",
         "credit": "圖片來源：Warm Audio 官方網站",
         "sourceUrl": "https://images.ctfassets.net/h4x5uvaoia7v/5k5UqvWQmWAH5St6RKbOec/33d53ab301738d350ca786971b8c58bb/peachfuzz-card.png",
         "sourcePage": "https://warmaudio.com/the-black-keys-peach-fuzz",
-        "background": "transparent",
-        "displayBackground": "#ffffff"
+        "background": "white",
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-warm-audio-peach-fuzz-front.png",
+        "width": 293,
+        "height": 454,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$6,400",
@@ -259,7 +267,7 @@
         "title": "The Black Keys Peach Fuzz FX Pedal | Product Deep Dive & Demo",
         "channel": "Warm Audio",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-11"
@@ -283,13 +291,17 @@
       "badges": [],
       "funScore": 4,
       "image": {
-        "src": "assets/news-warm-audio-wa-c1-mod-front.png",
-        "alt": "Warm Audio WA-C1 Mod 透明底正面官方產品圖",
+        "src": "assets/news-warm-audio-wa-c1-mod-optimized-150dpi-v1.webp",
+        "alt": "Warm Audio WA-C1 Mod 白底正面官方產品圖",
         "credit": "圖片來源：Warm Audio 官方網站",
         "sourceUrl": "https://images.ctfassets.net/h4x5uvaoia7v/2PQxaWMJKSN7QtPe9aKYEh/d414574d774cb6429efd268f818b6b83/c1mod-card.png",
         "sourcePage": "https://warmaudio.com/wa-c1-chorus-vibrato-mod",
-        "background": "transparent",
-        "displayBackground": "#ffffff"
+        "background": "white",
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-warm-audio-wa-c1-mod-front.png",
+        "width": 275,
+        "height": 465,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$6,400",
@@ -403,7 +415,7 @@
         "title": "WA-C1 Compact Stereo Chorus & Vibrato Pedal With Added Preamp Bypass | Product Deep Dive & Demo",
         "channel": "Warm Audio",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-11"
@@ -427,13 +439,17 @@
       "badges": [],
       "funScore": 4.5,
       "image": {
-        "src": "assets/news-boss-ex-4-front.jpg",
+        "src": "assets/news-boss-ex-4-optimized-150dpi-v1.webp",
         "alt": "BOSS EX-4 效果器白底正面官方產品圖",
         "credit": "圖片來源：BOSS／Roland 官方網站",
         "sourceUrl": "https://static.roland.com/assets/images/products/gallery/ex-4_top_gal.jpg",
         "sourcePage": "https://www.boss.info/us/products/ex-4/",
         "background": "white",
-        "displayBackground": "#ffffff"
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-boss-ex-4-front.jpg",
+        "width": 517,
+        "height": 600,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$9,600",
@@ -559,7 +575,7 @@
         "title": "BOSS EX-4 Effects Expander | Everything You Need to Know",
         "channel": "BOSSchannel",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-11"
@@ -585,11 +601,15 @@
       "badges": [],
       "funScore": 4.5,
       "image": {
-        "src": "assets/news-chase-bliss-onward-cutout-v1.png",
-        "alt": "Chase Bliss Onward 正面產品圖，已去除背景",
+        "src": "assets/news-chase-bliss-onward-optimized-150dpi-v1.webp",
+        "alt": "Chase Bliss Onward 正面產品圖，白底",
         "credit": "圖片由使用者提供；背景去背處理",
-        "background": "transparent",
-        "displayBackground": "#ffffff"
+        "background": "white",
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-chase-bliss-onward-cutout-v1.png",
+        "width": 350,
+        "height": 600,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$12,800",
@@ -724,7 +744,7 @@
         "title": "Onward – Walkthrough",
         "channel": "chase bliss",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-10"
@@ -752,11 +772,15 @@
       "badges": [],
       "funScore": 5,
       "image": {
-        "src": "assets/news-hologram-chroma-console-front-v2.png",
-        "alt": "Hologram Chroma Console 正面產品圖，已去除背景",
+        "src": "assets/news-hologram-chroma-console-optimized-150dpi-v1.webp",
+        "alt": "Hologram Chroma Console 正面產品圖，白底",
         "credit": "圖片由使用者提供；背景去背處理",
-        "background": "transparent",
-        "displayBackground": "#ffffff"
+        "background": "white",
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-hologram-chroma-console-front-v2.png",
+        "width": 518,
+        "height": 600,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$12,800",
@@ -892,7 +916,7 @@
         "title": "Hologram Electronics Chroma Console",
         "channel": "Hologram Electronics",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-10"
@@ -916,13 +940,17 @@
         "multi-effects"
       ],
       "image": {
-        "src": "assets/news-zoom-neurig-front.png",
+        "src": "assets/news-zoom-neurig-optimized-150dpi-v1.webp",
         "alt": "ZOOM NEURIG 正面產品圖",
         "credit": "圖片來源：ZOOM 官方網站",
         "sourceUrl": "https://zoomcorp.com/media/images/NEURIG-ListImage.original.png",
         "sourcePage": "https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/neurig/",
-        "background": "transparent",
-        "displayBackground": "#ffffff"
+        "background": "white",
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-zoom-neurig-front.png",
+        "width": 600,
+        "height": 294,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$9,750",
@@ -1036,7 +1064,7 @@
         "title": "ZOOM NEURIG Amp & Effects Neural Modeler | Ben Weinman",
         "channel": "ZOOMcorporation",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-10"
@@ -1062,13 +1090,17 @@
         "modulation"
       ],
       "image": {
-        "src": "assets/news-obne-parting-front.webp",
+        "src": "assets/news-obne-parting-optimized-150dpi-v1.webp",
         "alt": "OBNE Parting 綠色版正面產品圖",
         "credit": "圖片來源：Old Blood Noise Endeavors 官方網站",
         "sourceUrl": "https://images.squarespace-cdn.com/content/v1/6467b64a7c9d9e5cdae9a3ea/c70a47aa-37c0-4b6c-9a12-a830a4860942/Parting%2B-%2BGreen%2B-%2BFace.png",
         "sourcePage": "https://oldbloodnoise.com/parting",
-        "background": "transparent",
-        "displayBackground": "#ffffff"
+        "background": "white",
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-obne-parting-front.webp",
+        "width": 539,
+        "height": 600,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$10,500",
@@ -1187,7 +1219,7 @@
         "title": "Old Blood Noise x Emily Hopkins - Parting",
         "channel": "Harp Lady（合作設計者）",
         "official": false,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-10"
@@ -1208,11 +1240,17 @@
       "badges": [],
       "funScore": 3.5,
       "image": {
-        "src": "assets/news-behringer-zentara-front.jpg",
+        "src": "assets/news-behringer-zentara-overdrive-optimized-150dpi-v1.webp",
         "alt": "Behringer Zentara Overdrive 效果器正面產品圖",
         "credit": "圖片來源：Sweetwater product image",
         "sourceUrl": "https://media.sweetwater.com/m/products/image/96841c162cPcICJ02ondoCHqFBXplvcUsP4EUEP0.jpg?ha=96841c162ca85b86fe72673ce73efd4a178d9115&quality=82&width=750",
-        "sourcePage": "https://www.sweetwater.com/store/detail/ZentaraOD--behringer-zentara-overdrive-pedal"
+        "sourcePage": "https://www.sweetwater.com/store/detail/ZentaraOD--behringer-zentara-overdrive-pedal",
+        "originalSrc": "assets/news-behringer-zentara-front.jpg",
+        "width": 600,
+        "height": 524,
+        "dpi": 150,
+        "background": "white",
+        "displayBackground": "#ffffff"
       },
       "price": {
         "display_zh_tw": "約 NT$2,390",
@@ -1322,7 +1360,7 @@
         "title": "Behringer Zentara Guitar Pedal Demo",
         "channel": "Grays Guitars",
         "official": false,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-09"
@@ -1343,11 +1381,17 @@
       "badges": [],
       "funScore": 4,
       "image": {
-        "src": "assets/news-strymon-la-brea-front.png",
+        "src": "assets/news-strymon-la-brea-optimized-150dpi-v1.webp",
         "alt": "Strymon La Brea 效果器正面產品圖",
         "credit": "圖片來源：Strymon",
         "sourceUrl": "https://www.strymon.net/wp-content/uploads/2026/09/LaBrea_Press_TopDown_Trans_Site-663x1024.png",
-        "sourcePage": "https://www.strymon.net/product/la-brea/"
+        "sourcePage": "https://www.strymon.net/product/la-brea/",
+        "originalSrc": "assets/news-strymon-la-brea-front.png",
+        "width": 385,
+        "height": 600,
+        "dpi": 150,
+        "background": "white",
+        "displayBackground": "#ffffff"
       },
       "price": {
         "display_zh_tw": "約 NT$6,360",
@@ -1457,7 +1501,7 @@
         "title": "Official La Brea Analog Tape Drive Sound Samples | Strymon",
         "channel": "strymon",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-09"
@@ -1479,12 +1523,16 @@
       "badges": [],
       "funScore": 4.5,
       "image": {
-        "src": "assets/news-collision-snack-modulation-cutout-v1.png",
+        "src": "assets/news-collision-devices-snack-modulation-optimized-150dpi-v1.webp",
         "alt": "Collision Devices SNACK Modulation 銀色紫字效果器正面原廠照片",
         "credit": "圖片來源：Collision Devices 官方網站；背景去背處理",
         "sourceUrl": "https://images.squarespace-cdn.com/content/v1/613fafff5a3c44773121cc57/2401cd15-6df0-46cf-959a-6c8b5cae565b/front%2Bsnack.png",
-        "background": "transparent",
-        "displayBackground": "#ffffff"
+        "background": "white",
+        "displayBackground": "#ffffff",
+        "originalSrc": "assets/news-collision-snack-modulation-cutout-v1.png",
+        "width": 229,
+        "height": 600,
+        "dpi": 150
       },
       "price": {
         "display_zh_tw": "約 NT$5,990",
@@ -1594,7 +1642,7 @@
         "title": "SNACK SERIES - MODULATION : TECHNICAL DEMO",
         "channel": "Collision Devices",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-09"
@@ -1615,10 +1663,16 @@
       "badges": [],
       "funScore": 4.5,
       "image": {
-        "src": "assets/news-klowra-south-zoo-front.png",
+        "src": "assets/news-klowra-south-zoo-optimized-150dpi-v1.webp",
         "alt": "KLOWRA South Zoo Voice Synth 效果器正面產品圖",
         "credit": "圖片來源：KLOWRA 官方網站",
-        "sourceUrl": "https://static.wixstatic.com/media/cb537f_30ce89440717479799118e5955deba0c~mv2.png"
+        "sourceUrl": "https://static.wixstatic.com/media/cb537f_30ce89440717479799118e5955deba0c~mv2.png",
+        "originalSrc": "assets/news-klowra-south-zoo-front.png",
+        "width": 291,
+        "height": 600,
+        "dpi": 150,
+        "background": "white",
+        "displayBackground": "#ffffff"
       },
       "price": {
         "display_zh_tw": "約 NT$3,600",
@@ -1730,7 +1784,7 @@
         "title": "South Zoo Voice Synth - Exploring Demo | KLOWRA",
         "channel": "KLOWRA",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-09"
@@ -1751,11 +1805,17 @@
       "badges": [],
       "funScore": 4.5,
       "image": {
-        "src": "assets/news-dod-drag-front.jpg",
+        "src": "assets/news-dod-drag-optimized-150dpi-v1.webp",
         "alt": "DOD DRAG 類比延遲效果器正面官方產品圖",
         "credit": "圖片來源：DigiTech／DOD 官方網站",
         "sourceUrl": "https://eadn-wc05-7545739.nxedge.io/wp-content/uploads/2026/08/DRAG_gallery01.jpg",
-        "sourcePage": "https://digitech.com/dp/drag/"
+        "sourcePage": "https://digitech.com/dp/drag/",
+        "originalSrc": "assets/news-dod-drag-front.jpg",
+        "width": 362,
+        "height": 600,
+        "dpi": 150,
+        "background": "white",
+        "displayBackground": "#ffffff"
       },
       "price": {
         "display_zh_tw": "約 NT$8,540",
@@ -1877,7 +1937,7 @@
         "title": "This Is Not Your Typical Analog Delay | DOD DRAG",
         "channel": "DigiTech",
         "official": true,
-        "displayMode": "link",
+        "displayMode": "embed",
         "embedVerified": false,
         "playbackVerified": false,
         "checkedAt": "2026-10-09"
@@ -1920,4 +1980,6 @@
       "label": "殘響"
     }
   ]
-}</script>
+}
+</script>
+
