@@ -17,3 +17,6 @@ body.friend-layout-mobile .site-footer{gap:12px;align-items:center;flex-wrap:wra
 
 .friend-layout-switch{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:inherit;white-space:nowrap}
 .friend-layout-switch select{font:inherit;color:inherit;background:#fff;border:1px solid var(--line,#e0e3dd);border-radius:0;padding:2px 4px;max-width:100%}
+
+/* Keep the existing desktop footer readable when explicitly selected on a narrow phone. */
+@media(max-width:700px){body.friend-layout-desktop .site-footer{flex-wrap:wrap}body.friend-layout-desktop .friend-traffic{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}}
