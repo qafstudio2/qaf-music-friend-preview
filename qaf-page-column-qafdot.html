@@ -26,7 +26,7 @@
 <figure><a href="assets/qafdot-game-20261011-v2/08-first.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/08-first.webp" alt="第一關先試玩，經過操作與版面修正後，再開放第二關、第三關的規劃。" loading="lazy" width="1600" height="1000" decoding="async"></a></figure>
 <h4>04 操作性：每一下都要有回應</h4>
 <p>《腳踝終結者》遇過按太快就漏計的問題。只說「再靈敏一點」不夠：同側連按、雙指交替、PC 空白鍵，都要分別測試。四連音的 150 BPM 是每秒十下；要核對輸入、計分和發聲，不能因為上一個動畫還沒播完，就不收下一次按壓。</p>
-<figure><a href="assets/qafdot-game-20261011-v2/09-input.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/09-input.webp" alt="十個獨立按壓與計分標記一一對應；上一個動畫尚未結束，仍能接收下一下。" loading="lazy" width="1600" height="1060" decoding="async"></a></figure>
+<figure><a href="assets/qafdot-game-20261011-v2/09-input-v3.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/09-input-v3.webp" alt="四格漫畫：鍵盤與手機都按十下，遊戲卻漏計；修改輸入處理後再測，每一下都計入。數字為情境示意。" loading="lazy" width="1600" height="1360" decoding="async"></a><figcaption>鍵盤、手機都按了 10 下，遊戲卻漏計；修改後再測，10 下都跟上。（情境漫畫，數字為示意）</figcaption></figure>
 <h4>05 手機干擾：處理瀏覽器的預設手勢</h4>
 <p>狂按突然放大、長按開始選字、拖動讓整頁跟著跑，這些屬於<strong>瀏覽器預設手勢與行為</strong>。請 AI 在遊戲操作區處理 <code>touch-action</code>、文字選取與觸控取消，並避免同一下被重複計入。旋轉螢幕、切到背景再回來，也不能卡在「一直按著」的狀態。限制只放在需要的遊戲區，正常閱讀仍保留捲動與縮放。</p>
 <figure><a href="assets/qafdot-game-20261011-v2/10-touch.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/10-touch.webp" alt="雙格小漫畫：角色開心連按手機，下一格遊戲畫面意外放大，兩人傻眼。" loading="lazy" width="1600" height="1360" decoding="async"></a><figcaption>「再快一點！」→「咦？怎麼整個放大了？」（情境漫畫）</figcaption></figure>
@@ -37,7 +37,7 @@
 <p>玩法穩定後，再精修角色、道具與動作。吉他要有明確造型，握琴、按弦和撥弦要對得上；鼓手的頭髮不能穿模。可以先用 <a href="https://developers.openai.com/api/docs/guides/image-prompting" target="_blank" rel="noopener">GPT 圖像生成</a>整理角色三視圖、服裝與道具參考，再考慮 <a href="https://docs.meshy.ai/en/webapp/guides/animate" target="_blank" rel="noopener">Meshy</a> 這類 3D 工具。這是我還沒採用、可往下試的工具方向；有模型後，仍要檢查骨架、手指接觸與動作。</p>
 <figure><a href="assets/qafdot-game-20261011-v2/12-model.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/12-model.webp" alt="V 型吉他參考輪廓與琴頸接觸點，區分造型參考、骨架和實際動作驗收。" loading="lazy" width="1600" height="1000" decoding="async"></a></figure>
 <p>音樂我找 Suno 幫忙做配樂，再挑片段剪成循環。<strong>配樂和每按一次就發出的單音，是兩種素材</strong>：整首伴奏不能直接當 Pick 音效，否則連按就會疊成一團。<a href="https://help.suno.com/en/articles/13925185" target="_blank" rel="noopener">分軌功能</a>可以協助整理素材，但分離是否乾淨仍要聽。進遊戲後，再檢查調性、鼓與吉他的平衡、循環接點，以及第一關先載入、其餘背景下載的等待感。</p>
-<figure><a href="assets/qafdot-game-20261011-v2/13-audio.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/13-audio.webp" alt="配樂循環和單次觸發音效的兩條聲音軌道；循環接點連續，短音每按一下只觸發一次。" loading="lazy" width="1600" height="1080" decoding="async"></a></figure>
+<figure><a href="assets/qafdot-game-20261011-v2/13-audio-v3.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/13-audio-v3.webp" alt="背景配樂標示 LOOP 持續循環；下方短音以向右、向左交替的 Pick 圖案表示每次撥弦觸發。" loading="lazy" width="1600" height="1080" decoding="async"></a></figure>
 <h4>08 初期可以共用的提示詞</h4>
 <p>不必一次把所有想法塞完。先交代玩家做什麼，再描述要保留的部分、修改的範圍與驗收方式。下面四段可展開複製，換成自己的遊戲內容。</p>
 <figure><a href="assets/qafdot-game-20261011-v2/14-prompts.png" target="_blank" rel="noopener"><img src="assets/qafdot-game-20261011-v2/14-prompts.webp" alt="雙格小漫畫：說盤子小一點，結果被縮窄；角色指出其實想降低高度。" loading="lazy" width="1600" height="1360" decoding="async"></a><figcaption>「盤子小一點。」→「我要變矮，不是變窄啦！」（情境漫畫）</figcaption></figure>
