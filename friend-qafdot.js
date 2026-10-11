@@ -19,12 +19,12 @@
     const summary = document.createElement('summary');
     summary.textContent = '本文目錄';
     const hint = document.createElement('span');
-    hint.textContent = '13 個段落，依需要閱讀';
+    hint.textContent = headings.length + ' 個段落，依需要閱讀';
     summary.append(hint);
     const nav = document.createElement('nav');
     nav.setAttribute('aria-label', 'QAF dot 協作指南目錄');
     headings.forEach((heading, index) => {
-      heading.id = 'qafdot-guide-section-' + (index + 1);
+      heading.id = article.dataset.postId + '-section-' + (index + 1);
       const link = document.createElement('a');
       link.href = '#' + heading.id;
       link.textContent = heading.textContent;
@@ -43,12 +43,12 @@
     const overview = document.getElementById('friend-qafdot-overview');
     const reader = document.getElementById('friend-qafdot-reader');
     if (!overview || !reader) return;
-    const article = reader.querySelector('article.post-entry');
-    const wanted = prefix + '/' + article.dataset.postId;
-    const selected = location.hash === wanted;
+    const articles = [...reader.querySelectorAll('article.post-entry')];
+    const article = articles.find(item => location.hash === prefix + '/' + item.dataset.postId);
+    const selected = !!article;
     overview.hidden = selected;
     reader.hidden = !selected;
-    article.hidden = !selected;
+    articles.forEach(item => { item.hidden = item !== article; });
     document.title = selected
       ? article.querySelector('h3').textContent + '｜QAF dot 專欄'
       : 'QAF dot 專欄｜QAF 音樂學習';
@@ -56,3 +56,4 @@
     window.scrollTo(0, 0);
   };
 })();
+
