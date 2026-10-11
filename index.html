@@ -541,7 +541,7 @@ body { background:#fff; color:#292929; }
 .friend-traffic[data-status="error"]{color:#888}
 </style>
   <link rel="stylesheet" href="friend-mobile.css?v=20261009-games1">
-  <link rel="stylesheet" href="friend-qafdot.css?v=20261011-games6">
+  <link rel="stylesheet" href="friend-qafdot.css?v=20261011-daily8">
 </head>
 <body>
   <header class="site-header">
@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261011-pedal-optimized-embed-v15' : name === 'columns' ? '20261011-games2' : name === 'column-qafdot' ? '20261011-games7' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261011-pedal-optimized-embed-v15' : name === 'columns' ? '20261011-games2' : name === 'column-qafdot' ? '20261011-daily8' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);

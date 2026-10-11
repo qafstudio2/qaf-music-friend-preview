@@ -296,3 +296,17 @@
 .qaf-game-making .game-showcase figure img{width:100%!important;height:100%!important;object-fit:contain!important}
 .qaf-game-making .game-showcase .game-play-link{margin-top:auto}
 @media(max-width:600px){.qaf-game-making .game-showcase{grid-template-columns:1fr;gap:28px}}
+
+/* QAF daily essay revision: match shared column typography. */
+.qaf-daily-ai{max-width:960px!important;margin:36px auto!important;padding:24px 0!important;color:#262426;font-family:Arial,"Microsoft JhengHei",sans-serif!important}
+.qaf-daily-ai h3{font-size:38.6667px!important;line-height:52.2px!important;font-weight:500!important;letter-spacing:0!important;margin:16px 0!important}
+.qaf-daily-ai .qafdot-body,.qaf-daily-ai p,.qaf-daily-ai li{font-size:17.6667px!important;line-height:27.3834px!important}
+.qaf-daily-ai p{margin:7px 0!important}.qaf-daily-ai .qafdot-article-intro{margin:20px 0 26px!important;color:#696468}
+.qaf-daily-ai h4{font-size:20.6667px!important;line-height:38.2334px!important;font-weight:700!important;margin:28px 0 12px!important;padding-top:20px;border-top:1px solid #cec9cb}
+.qaf-daily-ai figure{width:100%;margin:22px 0 28px!important}.qaf-daily-ai figure a{display:block}.qaf-daily-ai figure img{width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important;background:white;display:block!important}
+.qaf-daily-ai figcaption{font-size:17.6667px!important;line-height:27.3834px!important;color:#737373!important;margin-top:8px;text-align:center}
+.qaf-daily-ai a{color:#a43d60;text-underline-offset:4px}.qaf-daily-ai .daily-prompt{margin:20px 0;padding:14px 0;border-top:1px solid #cec9cb;border-bottom:1px solid #cec9cb}.daily-prompt summary{font-weight:700;cursor:pointer}.daily-prompt[open] summary{margin-bottom:10px}
+.qaf-daily-ai .daily-note{margin-top:28px!important;color:#696468;border-top:1px solid #cec9cb;padding-top:16px}
+.qaf-daily-ai .universal-prompt,.qaf-game-making .universal-prompt{margin:24px 0;padding:16px 0;border-top:2px solid #d65e85;border-bottom:1px solid #cec9cb;user-select:text}
+.qaf-daily-ai .universal-prompt h5,.qaf-game-making .universal-prompt h5{font-size:20.6667px;line-height:1.6;margin:0 0 12px}
+@media(max-width:600px){.qaf-daily-ai h3{font-size:30.6667px!important;line-height:41.4px!important}.qaf-daily-ai figcaption{text-align:left}}

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "00-start",
+    "title": "先選一件，你想做出的小事",
+    "alt": "四個最小成果：閱讀找出處、影片接鏡頭、遊戲玩一關、網頁完成篩選與收藏。",
+    "type": "原生向量圖解",
+    "editable": "00-start.svg",
+    "review": "00-start.png",
+    "web": "00-start.webp"
+  },
+  {
+    "id": "01-reading",
+    "title": "摘要之外，還要找到那一頁",
+    "alt": "看懂摘要，卻找不到出處？ 回到原頁，核對再下判斷。",
+    "type": "情境漫畫",
+    "source": "exec-339888e3-a35d-4995-aa41-9e22e3e9908c.png",
+    "editable": "01-reading.svg",
+    "review": "01-reading.png",
+    "web": "01-reading.webp"
+  },
+  {
+    "id": "02-video",
+    "title": "先排鏡頭，再讓畫面動起來",
+    "alt": "影片很美，門窗卻變形了。 拆成短鏡頭，逐鏡確認。",
+    "type": "情境漫畫",
+    "source": "exec-e253a09a-6b2a-4c8e-b5f5-e96bacc3a770.png",
+    "editable": "02-video.svg",
+    "review": "02-video.png",
+    "web": "02-video.webp"
+  },
+  {
+    "id": "03-game",
+    "title": "按得下去，也要玩得順",
+    "alt": "想玩遊戲，卻跳出選字。 修正手勢，手機電腦都測。",
+    "type": "情境漫畫",
+    "source": "exec-3e615d92-9f2d-47b1-b256-4943d1481af2.png",
+    "editable": "03-game.svg",
+    "review": "03-game.png",
+    "web": "03-game.webp"
+  },
+  {
+    "id": "04-web",
+    "title": "電腦存好了，手機也有嗎？",
+    "alt": "只存這台，另一台找不到。 需要同步，才接共享資料。",
+    "type": "情境漫畫",
+    "source": "exec-f01b50cf-1161-49cc-b6de-9e57658ae9d1.png",
+    "editable": "04-web.svg",
+    "review": "04-web.png",
+    "web": "04-web.webp"
+  },
+  {
+    "id": "05-handoff",
+    "title": "先說清楚，怎樣才算完成",
+    "alt": "交接五項：目標、材料、範圍、驗收、交付。",
+    "type": "原生向量圖解",
+    "editable": "05-handoff.svg",
+    "review": "05-handoff.png",
+    "web": "05-handoff.webp"
+  }
+]
