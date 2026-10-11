@@ -287,3 +287,12 @@
 
 /* Revision 2: full-width figures and the same heading hierarchy as QAF articles. */
 .qaf-game-making .game-showcase{display:block}.qaf-game-making .game-showcase section{margin:28px 0 42px}.qaf-game-making .game-showcase figure{max-width:none;margin:18px 0!important}.qaf-game-making h5{font-size:20.6667px;line-height:1.6}.qaf-game-making .qafdot-body>p:first-child{margin-top:24px!important}.qaf-game-making figure a{display:block}.qaf-game-making .game-showcase section:nth-child(-n+2) figure{max-width:640px;margin-left:auto!important;margin-right:auto!important}
+
+/* Five equal game cards: two columns, with no featured fifth card. */
+.qaf-game-making .game-showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 28px}
+.qaf-game-making .game-showcase section{grid-column:auto;margin:0;display:flex;flex-direction:column}
+.qaf-game-making .game-showcase section figure{max-width:none;width:100%;margin:18px 0 12px!important}
+.qaf-game-making .game-showcase figure a{aspect-ratio:4/3;display:block;background:#fff}
+.qaf-game-making .game-showcase figure img{width:100%!important;height:100%!important;object-fit:contain!important}
+.qaf-game-making .game-showcase .game-play-link{margin-top:auto}
+@media(max-width:600px){.qaf-game-making .game-showcase{grid-template-columns:1fr;gap:28px}}
