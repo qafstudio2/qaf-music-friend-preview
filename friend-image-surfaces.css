@@ -7,5 +7,5 @@
 .post-image-gallery,.post-image-gallery figure,.post-image-gallery img,
 .preview-authentic-image,.preview-authentic-image img,
 .news-photo,.news-photo img,.news-logo,.shops-logo{background:#fff!important}
-.columns-directory .column-orb-sn2{background:#fff!important}
-.columns-directory .column-orb-sn2 img{filter:none!important;mix-blend-mode:normal}
+.columns-directory .column-link .column-orb{background:#000!important;border-color:#000!important}
+.columns-directory .column-orb img{filter:brightness(0) invert(1)!important;mix-blend-mode:normal}
