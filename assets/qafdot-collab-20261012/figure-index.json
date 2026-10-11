@@ -1,0 +1,76 @@
+[
+  {
+    "id": "01-connect",
+    "title": "先確認，工作在哪台電腦？",
+    "alt": "我說的檔案，在本機呀！ 先連接，再核對工作位置。",
+    "type": "情境漫畫",
+    "source": "exec-81fc04d1-ff36-465b-b99f-8bee7c1260b5.png",
+    "height": 1370,
+    "editable": "01-connect.svg",
+    "review": "01-connect.png",
+    "web": "01-connect.webp"
+  },
+  {
+    "id": "02-settings",
+    "title": "三種連線，各管一件事",
+    "alt": "Dot 個人頁授權本機；Codex 遠端由電腦設定、手機掃碼；Work 同步後需開新任務。三者分開設定。",
+    "type": "原生設定圖解",
+    "height": 1250,
+    "editable": "02-settings.svg",
+    "review": "02-settings.png",
+    "web": "02-settings.webp"
+  },
+  {
+    "id": "03-roles",
+    "title": "一份需求，分工與回報",
+    "alt": "使用者定目標；Dot 整理需求、找到任務；Codex 實作與測試，再帶著成果回報。這是分工選擇，不是能力限制。",
+    "type": "原生分工圖解",
+    "height": 1050,
+    "editable": "03-roles.svg",
+    "review": "03-roles.png",
+    "web": "03-roles.webp"
+  },
+  {
+    "id": "04-website",
+    "title": "電腦看起來好，手機也好嗎？",
+    "alt": "電腦沒問題，手機不好用。 拿同一份修改單，逐項測。",
+    "type": "情境漫畫",
+    "source": "exec-74d98f80-7f68-403d-a844-46b3d46a1aa7.png",
+    "height": 1370,
+    "editable": "04-website.svg",
+    "review": "04-website.png",
+    "web": "04-website.webp"
+  },
+  {
+    "id": "05-column",
+    "title": "精簡文字，別刪掉實用內容",
+    "alt": "變短了，提示詞卻不見了！ 對照清單，把必要內容留下。",
+    "type": "情境漫畫",
+    "source": "exec-92013af9-af13-4306-ab15-303e8e36e0ce.png",
+    "height": 1370,
+    "editable": "05-column.svg",
+    "review": "05-column.png",
+    "web": "05-column.webp"
+  },
+  {
+    "id": "06-handoff",
+    "title": "交接時，帶上這五件事",
+    "alt": "交接包含目的、電腦與任務位置、素材和規則、修改範圍，以及驗收與發布狀態。",
+    "type": "原生交接圖解",
+    "height": 1170,
+    "editable": "06-handoff.svg",
+    "review": "06-handoff.png",
+    "web": "06-handoff.webp"
+  },
+  {
+    "id": "07-status",
+    "title": "送出了，不等於對方收到了",
+    "alt": "傳訊失敗，工作還沒交到。 確認收到，也核對實際成果。",
+    "type": "情境漫畫",
+    "source": "exec-c2e57ee9-8d03-42c4-bb18-c734fc7d4037.png",
+    "height": 1370,
+    "editable": "07-status.svg",
+    "review": "07-status.png",
+    "web": "07-status.webp"
+  }
+]

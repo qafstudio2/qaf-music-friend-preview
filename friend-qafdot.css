@@ -310,3 +310,10 @@
 .qaf-daily-ai .universal-prompt,.qaf-game-making .universal-prompt{margin:24px 0;padding:16px 0;border-top:2px solid #d65e85;border-bottom:1px solid #cec9cb;user-select:text}
 .qaf-daily-ai .universal-prompt h5,.qaf-game-making .universal-prompt h5{font-size:20.6667px;line-height:1.6;margin:0 0 12px}
 @media(max-width:600px){.qaf-daily-ai h3{font-size:30.6667px!important;line-height:41.4px!important}.qaf-daily-ai figcaption{text-align:left}}
+
+/* Dot/local collaboration guide: scoped readable setup lists. */
+.qaf-collab-guide .collab-setup{padding-left:1.4em;margin:16px 0}
+.qaf-collab-guide .collab-setup>li{margin:0 0 22px;padding-left:.15em}
+.qaf-collab-guide p,.qaf-collab-guide li{overflow-wrap:anywhere}
+.qaf-collab-guide .post-meta{display:flex;gap:14px;align-items:center;font-size:14px;color:#696468}
+.qaf-collab-guide .daily-prompt p,.qaf-collab-guide .universal-prompt p{user-select:text}
