@@ -541,7 +541,7 @@ body { background:#fff; color:#292929; }
 .friend-traffic[data-status="error"]{color:#888}
 </style>
   <link rel="stylesheet" href="friend-mobile.css?v=20261009-games1">
-  <link rel="stylesheet" href="friend-qafdot.css?v=20261006b">
+  <link rel="stylesheet" href="friend-qafdot.css?v=20261011-games1">
 </head>
 <body>
   <header class="site-header">
@@ -573,7 +573,7 @@ body { background:#fff; color:#292929; }
 <link rel="stylesheet" href="friend-memory.css?v=20261001-memory2">
   <script src="friend-qafdot.js?v=20261011-columns3"></script>
   <script>
-const pageSizes = {"column-qafdot":83761,"band":7780,"column-lab":226708,"column-qaf":48375,"columns":6818,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":171714,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
+const pageSizes = {"column-qafdot":102041,"band":7780,"column-lab":226708,"column-qaf":48375,"columns":6818,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":171714,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
 const routes = new Map([
   ['home','home'], ['my-music','my-music'], ['overview','overview'],
   ['memory','memory'], ['nodes','nodes'], ['guide','guide'],
@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261011-pedal-optimized-embed-v15' : name === 'columns' ? '20261011-carousel1' : name === 'column-qafdot' ? '20261011-columns4' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261011-pedal-optimized-embed-v15' : name === 'columns' ? '20261011-games1' : name === 'column-qafdot' ? '20261011-games1' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);

@@ -3,6 +3,31 @@
   "source": "local",
   "items": [
     {
+      "id": "post-ai-game-making-20261011",
+      "kind": "post",
+      "title": "怎麼跟 AI 溝通，才能把遊戲做得好玩？",
+      "column_id": "column-qafdot",
+      "category": "AI 遊戲製作",
+      "date": "2026-10-11",
+      "public_feed_added_at": "2026-10-11T14:04:01Z",
+      "tags": [
+        "AI 協作",
+        "遊戲製作"
+      ],
+      "keywords": [
+        "Suno",
+        "手機操作",
+        "遊戲設計"
+      ],
+      "blocks": [
+        {
+          "type": "image",
+          "value": "assets/qafdot-game-20261011/01-workflow.webp",
+          "caption": "從五款遊戲的試作，整理如何跟 AI 溝通、修改與驗收。"
+        }
+      ]
+    },
+    {
       "id": "column-qaf",
       "kind": "column",
       "title": "務築青年專欄",

@@ -269,3 +269,18 @@
  .qaf-permission-branches>li>strong,.qaf-permission-branches>li>span{display:inline}
  .qaf-connected-flow>li:not(:last-child):after{content:"↓"}
 }
+/* Japanese interior 01: scoped to the game-making article. */
+.qaf-game-making{max-width:960px!important;margin:36px auto!important;padding:24px 0!important;font-family:Arial,"Microsoft JhengHei",sans-serif!important;color:#262426}
+.qaf-game-making h3{font-size:38.6667px!important;line-height:52.2px!important;font-weight:500!important;letter-spacing:0!important;margin:16px 0!important}
+.qaf-game-making .qafdot-body,.qaf-game-making p,.qaf-game-making li{font-size:17.6667px!important;line-height:27.3834px!important;font-weight:400}
+.qaf-game-making p{margin:7px 0!important}.qaf-game-making .qafdot-article-intro{margin:20px 0 26px!important;color:#696468}
+.qaf-game-making h4{font-size:20.6667px!important;line-height:38.2334px!important;font-weight:700!important;margin:28px 0 12px!important;border-top:1px solid #cec9cb;padding-top:20px}
+.qaf-game-making h5{font-size:22px;line-height:1.5;margin:0 0 10px;font-weight:600}
+.qaf-game-making a{color:#a43d60;text-decoration-thickness:1px;text-underline-offset:4px}.qaf-game-making a:focus-visible,.qaf-game-making summary:focus-visible{outline:2px solid #d65e85;outline-offset:4px}
+.qaf-game-making .column-article-badges span{background:#fbe9ef;color:#6a3648;border:0;font-size:13px;padding:5px 9px}
+.qaf-game-making figure{margin:22px 0 28px!important;width:100%}.qaf-game-making figure img{display:block!important;width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important;background:white}
+.qaf-game-making figcaption{font-size:17.6667px!important;line-height:27.3834px!important;color:#737373!important;text-align:center;margin:8px 0 0!important}
+.qaf-game-making .game-showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 28px;margin:24px 0 36px}.qaf-game-making .game-showcase section{min-width:0;padding-bottom:22px;border-bottom:1px solid #cec9cb}.qaf-game-making .game-showcase-wide{grid-column:1/-1}.qaf-game-making .game-showcase figure{margin:0 0 16px!important}.qaf-game-making .game-showcase-wide figure{max-width:800px;margin:0 auto 16px!important}.qaf-game-making .game-play-link{display:inline-block;margin-top:14px;padding:9px 0;font-weight:700}
+.qaf-game-making .game-prompt{margin:18px 0;border:1px solid #cec9cb;border-left:3px solid #d65e85;padding:12px 16px;background:white}.qaf-game-making .game-prompt summary{cursor:pointer;font-size:17.6667px;line-height:1.55;font-weight:700}.qaf-game-making .game-prompt div{margin-top:14px;font-size:17.6667px;line-height:1.7;white-space:normal;user-select:text}.qaf-game-making code{font-size:.9em;background:#f3f2f2;padding:2px 4px;overflow-wrap:anywhere}.qaf-game-making .game-checklist{padding-left:24px;margin:18px 0}.qaf-game-making .game-checklist li{margin:7px 0}.qaf-game-making .game-article-note{border-top:1px solid #cec9cb;margin-top:32px;padding-top:18px;color:#696468}
+@media(max-width:600px){.qaf-game-making h3{font-size:30.6667px!important;line-height:41.4px!important}.qaf-game-making .game-showcase{grid-template-columns:1fr;gap:26px}.qaf-game-making .game-showcase-wide{grid-column:auto}.qaf-game-making .game-prompt{padding:12px}.qaf-game-making h4{margin-top:24px!important}.qaf-game-making .qafdot-toc{max-width:100%}.qaf-game-making figcaption{text-align:left!important}}
+.qaf-game-making .column-article-badges span{background:#fbe9ef!important;color:#6a3648!important}

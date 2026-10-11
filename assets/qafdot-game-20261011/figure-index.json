@@ -1,0 +1,66 @@
+[
+  {
+    "file": "01-workflow.svg",
+    "source": "QAF 設計流程示意",
+    "editable": "01-workflow.svg",
+    "review": "01-workflow.png",
+    "web": "01-workflow.webp",
+    "alt": "從想法、可玩第一關、實際試玩，到帶著截圖和驗收條件修正，再保存共同規則的循環。"
+  },
+  {
+    "file": "02-layout.svg",
+    "source": "QAF 設計流程示意",
+    "editable": "02-layout.svg",
+    "review": "02-layout.png",
+    "web": "02-layout.webp",
+    "alt": "手機版面前後比較：分散資訊和過高盤面壓縮選單；集中同列資訊、降低盤面高度，保留主動畫和三欄器材選擇。"
+  },
+  {
+    "file": "03-hooks.svg",
+    "source": "QAF 設計流程示意",
+    "editable": "03-hooks.svg",
+    "review": "03-hooks.png",
+    "web": "03-hooks.webp",
+    "alt": "爆破遊戲腳本示意：彈奏觸發逃跑，逐步加入新事物、火煙及震動，進度到百分之百爆炸，再留尾聲笑點。"
+  },
+  {
+    "file": "04-hdmi.svg",
+    "source": "QAF 設計對話／公開遊戲實際擷取",
+    "editable": "04-hdmi.svg",
+    "review": "04-hdmi.png",
+    "web": "04-hdmi.webp",
+    "alt": "HDMI 插入傳說的公開遊戲實際畫面，對準插頭並抓準插入時機。"
+  },
+  {
+    "file": "05-aii.svg",
+    "source": "QAF 設計對話／公開遊戲實際擷取",
+    "editable": "05-aii.svg",
+    "review": "05-aii.png",
+    "web": "05-aii.webp",
+    "alt": "AI 出氣拳的公開遊戲實際畫面，六種拳法與中央角色的受擊反應。"
+  },
+  {
+    "file": "06-nut.svg",
+    "source": "QAF 設計對話／公開遊戲實際擷取",
+    "editable": "06-nut.svg",
+    "review": "06-nut.png",
+    "web": "06-nut.webp",
+    "alt": "修理上弦枕的公開遊戲實際畫面，可愛的三維吉他工坊與顧客。"
+  },
+  {
+    "file": "07-ankle.svg",
+    "source": "QAF 設計對話／公開遊戲實際擷取",
+    "editable": "07-ankle.svg",
+    "review": "07-ankle.png",
+    "web": "07-ankle.webp",
+    "alt": "腳踝終結者的公開遊戲實際畫面，練團室鼓手、吉他與 Pick 操作區。"
+  },
+  {
+    "file": "08-rock.svg",
+    "source": "QAF 設計對話／公開遊戲實際擷取",
+    "editable": "08-rock.svg",
+    "review": "08-rock.png",
+    "web": "08-rock.webp",
+    "alt": "金屬爆破大王的公開遊戲實際畫面，街區建築、吉他手和可自由組合的效果器盤。"
+  }
+]
