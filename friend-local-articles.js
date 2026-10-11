@@ -51,7 +51,7 @@
   const related=el('section',null,'column-reader-recommendations');related.append(el('h3','推薦專欄文章'));const cards=el('div',null,'friend-column-grid');feed.items.filter(p=>p.kind==='post'&&p.id!==id).slice(0,3).forEach(p=>cards.append(card(p)));related.append(cards);body.after(related);document.title=selected.title+'｜QAF專欄';
  }
  function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;apply()})}
- fetch('friend-local-articles.json?v=20261007',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('尚无本機複製版本');return r.json()}).then(data=>{if(data.schema_version!==1||!Array.isArray(data.items))throw Error('格式不符');feed=data;schedule()}).catch(()=>{});
+ fetch('friend-local-articles.json?v=20261007',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('尚无本機複製版本');return r.json()}).then(data=>{if(data.schema_version!==1||!Array.isArray(data.items))throw Error('格式不符');feed=data;window.friendPublicColumnFeed=data;window.dispatchEvent(new CustomEvent("friend-public-column-feed",{detail:data}));schedule()}).catch(()=>{});
  window.addEventListener('hashchange',schedule);
  new MutationObserver(schedule).observe(document.querySelector('main')||document.body,{childList:true,subtree:true});
 })();

@@ -1,0 +1,11 @@
+/* Image display surfaces only: retain the original artwork and cover proportions. */
+.columns-story-image,.friend-column-cover,.columns-photo-item,
+.magazine-card img,.cover-placeholder,.book-cover-cropped,
+#books-grid .media-card .media-cover,#books-grid .media-card .media-cover-framed,
+#books-grid .media-card .media-cover-framed img,
+#qaf-workbook .reference-photo,#qaf-workbook .reference-photo img,
+.post-image-gallery,.post-image-gallery figure,.post-image-gallery img,
+.preview-authentic-image,.preview-authentic-image img,
+.news-photo,.news-photo img,.news-logo,.shops-logo{background:#fff!important}
+.columns-directory .column-orb-sn2{background:#fff!important}
+.columns-directory .column-orb-sn2 img{filter:none!important;mix-blend-mode:normal}
