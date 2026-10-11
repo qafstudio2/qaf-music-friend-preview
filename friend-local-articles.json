@@ -23,6 +23,8 @@
       "column_id": "column-lab",
       "category": "",
       "date": "2026-09-28",
+      "public_feed_added_at": "2026-10-07T02:13:45+08:00",
+      "public_feed_commit": "a00cb28c88f000cef04591b7a4c08a5254d6e3d1",
       "tags": [],
       "keywords": [],
       "blocks": [
@@ -70,6 +72,8 @@
       "column_id": "column-qaf",
       "category": "QAF x SOGOLO",
       "date": "2026-09-29",
+      "public_feed_added_at": "2026-10-07T02:13:45+08:00",
+      "public_feed_commit": "a00cb28c88f000cef04591b7a4c08a5254d6e3d1",
       "tags": [],
       "keywords": [],
       "blocks": [
@@ -247,6 +251,8 @@
       "column_id": "column-qaf",
       "category": "QAF x SOGOLO",
       "date": "2026-09-29",
+      "public_feed_added_at": "2026-10-07T02:13:45+08:00",
+      "public_feed_commit": "a00cb28c88f000cef04591b7a4c08a5254d6e3d1",
       "tags": [],
       "keywords": [],
       "blocks": [
@@ -544,6 +550,8 @@
       "column_id": "column-qaf",
       "category": "AI協作",
       "date": "2026-10-01",
+      "public_feed_added_at": "2026-10-07T02:13:45+08:00",
+      "public_feed_commit": "a00cb28c88f000cef04591b7a4c08a5254d6e3d1",
       "tags": [],
       "keywords": [],
       "blocks": [
@@ -733,6 +741,8 @@
       "column_id": "column-qafdot",
       "category": "AI 協作",
       "date": "2026-10-06",
+      "public_feed_added_at": "2026-10-07T17:48:45+08:00",
+      "public_feed_commit": "e4e3d62b56acc393184c57c0a7bfb56e8ba1d164",
       "tags": [],
       "keywords": [],
       "blocks": [
@@ -899,6 +909,8 @@
       "column_id": "column-qafdot",
       "category": "AI 協作",
       "date": "2026-10-07",
+      "public_feed_added_at": "2026-10-07T17:48:45+08:00",
+      "public_feed_commit": "e4e3d62b56acc393184c57c0a7bfb56e8ba1d164",
       "tags": [],
       "keywords": [],
       "blocks": [
@@ -960,6 +972,8 @@
       "column_id": "column-qaf",
       "category": "務築青年 QAF 吉他系列 03 實驗篇",
       "date": "2026-10-07",
+      "public_feed_added_at": "2026-10-07T23:45:48+08:00",
+      "public_feed_commit": "8214f6a8e599734789ad38012221c6be082d20f7",
       "tags": [],
       "keywords": [],
       "blocks": [
