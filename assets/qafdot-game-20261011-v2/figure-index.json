@@ -1,0 +1,110 @@
+[
+  {
+    "editable": "01-start.svg",
+    "review": "01-start.png",
+    "web": "01-start.webp",
+    "source": "內建 image_gen 依 QAF 固定角色產生；文字與標誌另行排版，情境取自製作對話。"
+  },
+  {
+    "editable": "02-hdmi.svg",
+    "review": "02-hdmi.png",
+    "web": "02-hdmi.webp",
+    "source": "QAF 公開遊戲截圖"
+  },
+  {
+    "editable": "03-aii.svg",
+    "review": "03-aii.png",
+    "web": "03-aii.webp",
+    "source": "QAF 公開遊戲截圖"
+  },
+  {
+    "editable": "04-nut.svg",
+    "review": "04-nut.png",
+    "web": "04-nut.webp",
+    "source": "QAF 公開遊戲截圖"
+  },
+  {
+    "editable": "05-ankle.svg",
+    "review": "05-ankle.png",
+    "web": "05-ankle.webp",
+    "source": "QAF 公開遊戲截圖"
+  },
+  {
+    "editable": "06-rock.svg",
+    "review": "06-rock.png",
+    "web": "06-rock.webp",
+    "source": "QAF 公開遊戲截圖"
+  },
+  {
+    "editable": "07-ideas.svg",
+    "review": "07-ideas.png",
+    "web": "07-ideas.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "08-first.svg",
+    "review": "08-first.png",
+    "web": "08-first.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "09-input.svg",
+    "review": "09-input.png",
+    "web": "09-input.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "10-touch.svg",
+    "review": "10-touch.png",
+    "web": "10-touch.webp",
+    "source": "內建 image_gen 依 QAF 固定角色產生；文字與標誌另行排版，情境取自製作對話。"
+  },
+  {
+    "editable": "11-layout.svg",
+    "review": "11-layout.png",
+    "web": "11-layout.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "12-model.svg",
+    "review": "12-model.png",
+    "web": "12-model.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "13-audio.svg",
+    "review": "13-audio.png",
+    "web": "13-audio.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "14-prompts.svg",
+    "review": "14-prompts.png",
+    "web": "14-prompts.webp",
+    "source": "內建 image_gen 依 QAF 固定角色產生；文字與標誌另行排版，情境取自製作對話。"
+  },
+  {
+    "editable": "15-handoff.svg",
+    "review": "15-handoff.png",
+    "web": "15-handoff.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "16-hooks.svg",
+    "review": "16-hooks.png",
+    "web": "16-hooks.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "17-score.svg",
+    "review": "17-score.png",
+    "web": "17-score.webp",
+    "source": "QAF 設計對話整理，設計示意"
+  },
+  {
+    "editable": "18-next.svg",
+    "review": "18-next.png",
+    "web": "18-next.webp",
+    "source": "內建 image_gen 依 QAF 固定角色產生；文字與標誌另行排版，情境取自製作對話。"
+  }
+]
