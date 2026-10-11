@@ -620,7 +620,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261010-pedal-object-fit-v13${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261011-pedal-digest-v14${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -1270,7 +1270,7 @@ function wireNewsCatalogue() {
 
   // Present unchanged source pixels through a tight, inspected product viewport.
   // All thumbnails share the same square frame and 8px CSS inset; meet never crops or stretches hardware.
-  const catalogueImageViewports = {"news-chase-bliss-onward-cutout-v1.png":[1300,1300,373,158,557,956],"news-hologram-chroma-console-front-v2.png":[1445,1445,359,301,729,845],"news-zoom-neurig-front.png":[1505,1536,72,441,1351,661],"news-obne-parting-front.webp":[1500,1000,337,22,834,929],"news-behringer-zentara-front.jpg":[750,660,3,3,747,653],"news-strymon-la-brea-front.png":[663,1024,10,11,643,1003],"news-collision-snack-modulation-cutout-v1.png":[1055,1491,318,223,417,1094],"news-klowra-south-zoo-front.png":[1600,1600,506,194,587,1211],"news-dod-drag-front.jpg":[1200,1200,272,56,656,1088]};
+  const catalogueImageViewports = {"news-chase-bliss-onward-cutout-v1.png":[1300,1300,373,158,557,956],"news-hologram-chroma-console-front-v2.png":[1445,1445,359,301,729,845],"news-zoom-neurig-front.png":[1505,1536,72,441,1351,661],"news-obne-parting-front.webp":[1500,1000,337,22,834,929],"news-behringer-zentara-front.jpg":[750,660,3,3,747,653],"news-strymon-la-brea-front.png":[663,1024,10,11,643,1003],"news-collision-snack-modulation-cutout-v1.png":[1055,1491,318,223,417,1094],"news-klowra-south-zoo-front.png":[1600,1600,506,194,587,1211],"news-dod-drag-front.jpg":[1200,1200,272,56,656,1088],"news-warm-audio-peach-fuzz-front.png":[500,500,113,24,293,454],"news-warm-audio-wa-c1-mod-front.png":[500,500,123,32,275,465],"news-boss-ex-4-front.jpg":[904,1050,0,0,904,1050]};
   function catalogueImage(item) {
     const alt = item.image.alt || `${item.brand} ${item.product} 正面產品圖`;
     const bounds = catalogueImageViewports[item.image.src.replace(/^assets\//, '')];
