@@ -1,0 +1,82 @@
+[
+  {
+    "name": "top-panel",
+    "url": "https://web-assets.positivegrid.com/static/reactor/top-panel.webp",
+    "originalBytes": 395194,
+    "checkedAt": "2026-10-12T06:38:56.965Z",
+    "originalDimensions": [
+      2480,
+      978
+    ],
+    "dimensions": [
+      1600,
+      631
+    ],
+    "bytes": 182216,
+    "path": "top-panel.webp"
+  },
+  {
+    "name": "back-panel",
+    "url": "https://web-assets.positivegrid.com/static/reactor/back-panel.webp",
+    "originalBytes": 91066,
+    "checkedAt": "2026-10-12T06:38:57.504Z",
+    "originalDimensions": [
+      2480,
+      978
+    ],
+    "dimensions": [
+      1600,
+      631
+    ],
+    "bytes": 46520,
+    "path": "back-panel.webp"
+  },
+  {
+    "name": "push-smooth",
+    "url": "https://web-assets.positivegrid.com/static/reactor/push-smooth.webp",
+    "originalBytes": 68934,
+    "checkedAt": "2026-10-12T06:38:58.020Z",
+    "originalDimensions": [
+      1008,
+      800
+    ],
+    "dimensions": [
+      800,
+      635
+    ],
+    "bytes": 38684,
+    "path": "push-smooth.webp"
+  },
+  {
+    "name": "instant-control",
+    "url": "https://web-assets.positivegrid.com/static/reactor/instant-control.webp",
+    "originalBytes": 296802,
+    "checkedAt": "2026-10-12T06:38:58.554Z",
+    "originalDimensions": [
+      1220,
+      1620
+    ],
+    "dimensions": [
+      800,
+      1062
+    ],
+    "bytes": 117388,
+    "path": "instant-control.webp"
+  },
+  {
+    "name": "rig-ready",
+    "url": "https://web-assets.positivegrid.com/static/reactor/rig-ready.webp",
+    "originalBytes": 203160,
+    "checkedAt": "2026-10-12T06:38:59.081Z",
+    "originalDimensions": [
+      960,
+      1320
+    ],
+    "dimensions": [
+      800,
+      1100
+    ],
+    "bytes": 111782,
+    "path": "rig-ready.webp"
+  }
+]

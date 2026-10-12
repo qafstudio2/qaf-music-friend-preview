@@ -3,6 +3,160 @@
   "source": "local",
   "items": [
     {
+      "id": "post-positive-grid-reactor-20261012",
+      "kind": "post",
+      "title": "Positive Grid REACTOR 50／100 值得把手放上面板的數位音箱",
+      "column_id": "column-lab",
+      "category": "效果器研究",
+      "date": "2026-10-12",
+      "public_feed_added_at": "2026-10-12T06:51:31.696Z",
+      "tags": [
+        "Positive Grid",
+        "REACTOR",
+        "音箱研究"
+      ],
+      "keywords": [
+        "Push",
+        "Smooth",
+        "Heat",
+        "REACTOR 50",
+        "REACTOR 100"
+      ],
+      "blocks": [
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/01-push-smooth-heat.webp",
+          "caption": "包豪斯操作示意：Push／中央／Smooth 與 Heat 五狀態分開比較；不是內部電路圖或機械卡位示意。",
+          "placement": "full"
+        },
+        {
+          "type": "text",
+          "value": "我很推薦大家認真看看 Positive Grid REACTOR。尤其是控制面板上那組 Push／Smooth 開關，以及旁邊的 Heat 控制：光是把這些操作放在手邊，就已經說明這台音箱想解決什麼問題。\n\n彈吉他時，我們對聲音的要求經常很具體，說出口卻不一定是工程語言。「音頭想再明顯一點」「這段伴奏想鬆一些」「失真夠了，但彈起來還不對」，都是合理的需求。傳統音箱讓我們從 Gain、EQ、Master 慢慢找；數位器材則可能再加上模型、效果器與好幾頁參數。REACTOR 值得注意的地方，是把其中一部分調整整理成可以直接碰到的控制，讓演奏者先聽差異、再決定要不要繼續鑽研。\n\n這篇從這支 [Kiki Wong 示範短片](https://www.youtube.com/shorts/gvOeES4SF6M)延伸，仔細拆解 REACTOR 50 與 100 的面板、接法、預設管理與適用情境。推薦的依據是產品設計與可查證的功能；本文並非長期持有或親自試彈報告，也不以短片當成現場音壓與手感的實測證明。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## 先認清它的定位\n\nREACTOR 是 Positive Grid 的獨立系列。50 與 100 都是搭配十二吋吉他喇叭的 combo 音箱，提供數位音箱模型與效果，也保留讓既有器材接入的接口。這個組合很適合拿來思考一件事：平常在家練習的聲音，要怎麼帶到排練室，並且在手忙腳亂的現場繼續修改？\n\n它的價值不只在「內建很多東西」。對已經擁有效果器的樂手，器材能不能加入現有系統，往往比再多一個模型更重要。對初學者而言，能從面板先建立基本聲音，再逐步使用 App，也比第一天就必須理解完整訊號鏈更容易開始。REACTOR 的控制方式讓這兩種使用者都有可以進入的地方。\n\n但選購前也要把定位看準。十二吋吉他喇叭本身會參與聲音塑形；它並不是為所有聲音提供中性還原的 FRFR 系統。你如果已經習慣用 modeler 的完整箱體模擬音色接全音域音箱，接到 REACTOR 時應重新檢查整套設定，不能預設同一個 preset 原封不動就有相同結果。\n\n規格依據：[REACTOR 50／100 技術規格](https://help.positivegrid.com/hc/en-us/articles/44385192965901-Technical-Specifications-for-REACTOR-50-100)、[原廠產品介紹](https://www.positivegrid.com/products/reactor)。",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/top-panel.webp",
+          "caption": "原廠 REACTOR 100 上面板實照（圖片可見 100 標示）；用於系列面板說明，不據此判定 Kiki Wong 影片中的版本。圖片來源：Positive Grid。",
+          "placement": "full"
+        },
+        {
+          "type": "text",
+          "value": "## Amp Selector 先選聲音的性格\n\n面板的 Amp Selector 提供 Clean、Warm、Grit、Crunch、Hi-Gain、Extreme 六個方向。它們是快速選擇的音色分類，不能理解成整台只有六個音箱模型。原廠 App 的模型清單另列有二十四個 amp model。\n\n更實用的是，轉動 Amp Selector 時，替換的是訊號鏈中的音箱部分，其他效果配置會保留下來。假設你已經把 delay 與 reverb 調到合適的位置，就可以在同一組空間效果底下比較不同音箱基底，而不用每次重新組裝整套聲音。\n\n白話說，先決定你喜歡哪一種「底色」，旁邊已經擺好的效果器可以先不動。這對學習也有幫助：一次只換一個主要因素，比連模型、效果與音量全部換掉，更容易知道自己喜歡的是什麼。\n\n我的建議是從最接近用途的分類開始。需要乾淨分解和弦，就先讓 Clean 或 Warm 提供參考；需要節奏的破音層次，再向 Grit、Crunch 探索。分類名稱可以幫你縮小範圍，但不能代替聽自己的琴，也不需要因為彈重型就直接把所有控制都推到最激烈的位置。\n\n操作依據：[第一次建立音色](https://www.positivegrid.com/blogs/positive-grid/reactor-quick-start-your-first-tone-in-60-seconds)、[音箱與效果器清單](https://help.positivegrid.com/hc/en-us/articles/44385072197261-Amp-Effect-List)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## Push 與 Smooth 為什麼值得特別介紹\n\n這是我最想推薦讀者實際操作的一組控制。三態開關的中央是預設位置，往 Push 切換，原廠描述的方向是增加咬勁與存在感；切向 Smooth，則讓 attack 較柔、反應較鬆，聲音有比較往後放的傾向。\n\n這組功能屬於 Amp Intelligence 的 tone mod，作用會隨目前音色而變。不能把 Push 簡化成某個固定頻率的中頻提升，也不能直接當成保證提高音量的 solo boost。Smooth 同樣不能只解釋成「把高音關小」。它們提供的是音色與反應的調整方向，最後仍要在你選的模型、琴與演奏方式下確認。\n\n白話說，你可以先問：「這段吉他需要更站出來，還是希望它柔一些？」接著用開關迅速比較。這個問題通常比「我現在應該調哪一個深層參數」更接近樂手正在做的事。\n\n值得推薦的就是這種操作順序。你不需要先完成一套關於頻段、壓縮與失真的診斷，才有權利修改聲音。先取得清楚的 A／B 差異，再回頭微調 EQ 與增益，能讓注意力留在樂句本身。\n\n不過，越往前不一定越適合整首歌。獨奏時好聽的咬勁，放進人聲與另一把吉他之間可能太滿；伴奏時舒服的柔和，碰到鼓與貝斯也可能不夠清楚。試開關時，最好彈同一段節奏，盡量維持接近的聆聽音量，並留一段時間聽中央位置。比較的目的是找適合的位置，不是選出永遠獲勝的一邊。\n\n功能依據：[音色編輯說明](https://help.positivegrid.com/hc/en-us/articles/45696624667789-Editing-Your-Tone)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## Heat 處理的是另一個維度\n\nHeat 有 Heat--、Heat-、Neutral、Heat+、Heat++ 五個狀態。原廠描述它會改變 feel、諧波與 gain／saturation，並避免音量出現顯著變化。往上增加時，方向是更快、更緊的 attack 與更豐富的諧波；降低時，則偏向柔和、帶彈性的反應。這裡說的是五個狀態，不表示它是具有五個機械卡位的旋鈕。\n\n把 Heat 與 Push／Smooth 放在一起看，面板的趣味才完整。一個可以拿來探索聲音的前景感與音頭性格，另一個讓你比較飽和與演奏反應。它們會互相影響最後結果，但不需要永遠往同一方向調。\n\n白話說，想要音符更清楚地站出來，不一定也想讓每一個音都更緊、更飽和。想讓反應柔一點，也不代表要放棄整段吉他的存在感。\n\n我會建議先把兩者都放在中性位置，選好音箱基底，再只調其中一個。先比較 Push、中央、Smooth，回到喜歡的位置之後，再逐步改 Heat。如此可以知道是哪個動作讓聲音更接近目標。一次把 Push 與 Heat++ 全開，雖然很容易得到明顯變化，卻未必能回答「我究竟需要哪一個」。\n\n如果後續仍覺得失真太多，應回頭檢查 Gain；如果只是聲音太大，則處理輸出音量。把問題分清楚，比繼續增加 Heat 更有用。以上是建議的比較方法，並非宣稱所有模型都有相同幅度的變化。\n\n功能依據：[原廠面板導覽](https://help.positivegrid.com/hc/en-us/articles/44414250927885-Panel-Overview)、[音色編輯說明](https://help.positivegrid.com/hc/en-us/articles/45696624667789-Editing-Your-Tone)。",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/push-smooth.webp",
+          "caption": "Push／Smooth 與 Heat 原廠面板局部實照。圖片來源：Positive Grid。",
+          "placement": "full"
+        },
+        {
+          "type": "text",
+          "value": "## Gain Master Volume 要分開理解\n\nGain 調整音箱模型的增益，Bass、Middle、Treble 提供三段 EQ。Master 則屬於可以跟著 amp／preset 儲存的參數；Volume 負責喇叭與耳機的整體輸出。光是辨認這幾個控制的層級，就能少走不少彎路。\n\n白話說，先把喜歡的音色做出來，再決定今天房間裡需要多大聲。不要每次只是想小聲練習，就把已經調好的 Gain 全部收掉；也不要為了讓兩個 preset 一樣大聲，任意改變原本想保留的失真程度。\n\nREACTOR 還有一個必須知道的數位器材操作特性：載入 preset 時，已儲存的參數立即生效，實體旋鈕卻不會自己轉到對應位置。第一次轉動可程式控制的旋鈕時，參數會接管成旋鈕所在的實體值。原廠特別提醒 Master 可能因而產生明顯音量變化；Volume 是例外，始終依照實體位置工作。\n\n因此，眼前看到的旋鈕位置，不能完整代表剛載入的 preset。排練時若突然切換預設，接著摸一下 Master，聲音跳動不一定是故障，也可能只是儲存值與旋鈕位置落差很大。比較安全的習慣是先降低整體輸出，再進行第一次接管，接著重新平衡各組 preset。\n\n也不要替 EQ 杜撰固定中心頻率或可調幾個 dB。不同模型的調整結果需要實際比較；本篇會介紹控制用途，但不把未知的內部實作寫成傳統音箱電路分析。\n\n操作依據：[REACTOR Amp FAQ](https://help.positivegrid.com/hc/en-us/articles/45779379017869-REACTOR-Amp-FAQ)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## 六顆 FX 按鈕 有一個很容易記錯的動作\n\n面板上有 GATE、COMP、DRIVE、MOD、DELAY、REVB 六顆效果按鈕。短按是選取要調整的效果，長按才是開啟或關閉。選取之後，LEVEL 調整該效果的 level 或 mix；TAP 用來設定相關 delay／mod 的時間。深層參數與模型選擇則進入 App 處理。\n\n這裡值得刻意記一下：短按不是旁路。假如你正在彈奏，想關掉 delay，卻只點一下按鈕，結果可能只是讓它成為目前被編輯的項目。先在低音量時熟悉按法，上台才不會靠猜。\n\n效果名稱也可以用演奏需求來理解。Gate 管理不彈時的噪音，但設定太重可能切掉尾音；Comp 用來整理動態，會影響音頭與延音；Drive 提供額外推動或失真；Mod 負責週期性變化；Delay 讓重複聲參與節奏；Reverb 決定空間感。這些是效果器的一般原理，不代表每一個模型都用相同參數。\n\n尤其不要看見 LEVEL 就認定它在所有效果上都代表同一件事，也不要擅自把 Gate 的 LEVEL 寫成 threshold。面板把操作濃縮後，確實讓修改更快；代價是你得知道眼前選中了哪一個效果，需要更精準的細調時仍要開 App。\n\n我的使用建議是先把不需要的效果關掉，聽懂基礎音色，再一個一個加回來。對新手而言，「知道哪個效果讓聲音變成這樣」比一次開滿更有幫助；對熟手而言，也能避免把本來是延遲堆疊造成的混濁，誤判成音箱低頻過多。\n\n操作依據：[原廠面板導覽](https://help.positivegrid.com/hc/en-us/articles/44414250927885-Panel-Overview)。",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/instant-control.webp",
+          "caption": "原廠面板操作情境照片；實際旋鈕與按鍵標示請配合上面板實照及官方文件閱讀。圖片來源：Positive Grid。",
+          "placement": "full"
+        },
+        {
+          "type": "text",
+          "value": "## 八組硬體預設 夠不夠用要看你怎麼安排\n\nREACTOR 有兩個 bank，每個 bank 四組，共八組硬體 preset。SELECT 短按依序切換，長按儲存；BANK 短按換 bank，長按進入調音模式。調音時會靜音，基準固定為 A=440Hz，不能自行改成其他基準。\n\n更重要的是儲存的目的地。你在手機裡存好一個音色，不代表它已經寫進音箱。要讓它成為離開手機後可以叫出的硬體預設，必須完成 App 裡的 Assign to REACTOR。上台前最值得做的確認，是用實際操作方式叫出每一組，再逐一聽過，而不是只看手機畫面上有沒有漂亮的名稱。\n\n白話說，手機收藏與音箱記憶是兩件需要確認的事。你需要的是「到現場確實叫得出來」，不是「我記得我有存過」。\n\n八組可以按照四種主要用途安排，例如乾淨、邊緣破音、節奏失真與 lead，再用另一個 bank 保存不同演出環境的版本。但這只是整理建議，並非產品強制的配置。若你的歌單每首都需要獨特音色，而且演出中還要來回切換，八組硬體記憶就值得在購買前認真盤點。\n\n也不要在沒有測試的情況下，把預設切換稱為「完全無縫」，或保證 delay 尾音一定延續。目前本文採用的資料沒有足以支持這些承諾的切換時間與尾音規格。演出若依賴這些細節，試機時就應把它列為重點。\n\n操作依據：[預設音色管理](https://help.positivegrid.com/hc/en-us/articles/45696624691853-Organizing-Your-Presets)、[調音模式](https://help.positivegrid.com/hc/en-us/articles/44568510177293-Tuner-Mode-REACTOR-50W-100W)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## 50 與 100 應該怎麼選\n\n兩個版本都使用十二吋客製喇叭，也有相同的主要音色平台。REACTOR 50 提供 50／25／1W，重約 10.7 公斤，外觀尺寸為 460×240×418 mm；REACTOR 100 提供 100／25／1W，重約 13.9 公斤，尺寸為 530×251×470 mm。100 的體積與重量都比較大，不能只把它當成面板數字不同的版本。\n\n如果你的日常是搬上車、走樓梯、到朋友家排練，三點二公斤的差距有具體意義。50 應先從搬運便利與所需輸出來考慮；100 則可以從較大的輸出餘裕、乾淨音色 headroom 需求來評估。這是選型方向，並非本篇做過的最大音壓測試。\n\n白話說，100W 不會因為規格是 50W 的兩倍，就必然聽起來剛好大聲兩倍。場地、喇叭、擺位、編制與是否經過 PA，都會影響你真正需要的輸出。不能用「幾人場地」或「有鼓就一定要哪一台」這種單一條件做保證。\n\nPower Control 只影響喇叭輸出，並不一起降低耳機、Line Out 或 USB。1W 也不是任何住宅都能安心全開的保證；仍需要調整 Volume，考慮時段、距離與建築隔音。\n\n試機時，我會先問自己：這台有多少時間需要搬運？排練時要保留多少乾淨音色？演出多半由音箱自行發聲，還是交給 PA？把這三個答案寫出來，通常比反覆比較瓦數更容易選對。\n\n規格依據：[REACTOR 50／100 技術規格](https://help.positivegrid.com/hc/en-us/articles/44385192965901-Technical-Specifications-for-REACTOR-50-100)、[Amp FAQ](https://help.positivegrid.com/hc/en-us/articles/45779379017869-REACTOR-Amp-FAQ)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## 接線先分清楚 FX Loop 與 Power Amp In\n\nFX Loop 的基本接法，是從 Send 送進外接效果器，再由效果器回到 Return。它讓你保留 REACTOR 的音色處理，同時加入自己的踏板。App 可調 loop 在鏈中的位置，以及 send／return level。\n\n有兩個容易忽略的條件：loop 必須在 Guitar Input 有接入時才工作，不能單獨把 Return 當成後級入口；loop 的啟閉又是 per-preset 設定，換預設後可能被關掉。需要用的每組預設，都要分別啟用並 Assign to REACTOR。\n\nPower Amp In 則是另一條路。外部前級或 modeler 接入後，會旁路內部全部 DSP 音箱與效果處理，使用 REACTOR 的後級與實體吉他喇叭，音量由 Output Volume 控制。原廠建議外部 modeler 關閉 cab sim。其他音箱的 speaker output 不能當成普通前級或 line 訊號直接接進來。\n\n白話說，想保留 REACTOR 的音色，再加入你的 delay，考慮 FX Loop；想讓外部 modeler 負責主要音色，則理解 Power Amp In 的用途。接頭看起來相近，不代表它們處理的訊號與工作方式相同。\n\n實作時最好先用最簡單的接法確認聲音，再一次加入一顆踏板。若接上 loop 後失去音量或突然變髒，應先檢查接線、啟用狀態與 send／return level，不要立刻靠增加 Gain 補救。每換一組 preset 都確認外接效果仍在工作，也比現場發現某一段 delay 消失更可靠。\n\n接線依據：[現場連接指南](https://help.positivegrid.com/hc/en-us/articles/44786092629901-Connectivity-Live-Setup)。",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/02-connections.webp",
+          "caption": "包豪斯接法示意：直接 Input、外部踏板／可選 FX Loop、外部 modeler 接 Power Amp In。功能示意，非內部電路圖。",
+          "placement": "full"
+        },
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/back-panel.webp",
+          "caption": "原廠 REACTOR 100 背面實照：MIDI、腳控、Power Amp In、Line Out、耳機、FX Loop 與 USB-C。圖片來源：Positive Grid。",
+          "placement": "full"
+        },
+        {
+          "type": "text",
+          "value": "## 錄音與監聽 必須知道的邊界\n\nREACTOR 的 USB-C 錄音規格為 24-bit／48kHz、1 In × 2 Out，Windows 需要 REACTOR ASIO 驅動。USB 錄下的是處理後的 wet 訊號，不能在 App 裡旁路 amp／cab sim 取得乾 DI；輸出也屬於 dual mono，不能直接當成真正左右分離的立體聲錄音系統。USB 不提供充電功能。\n\n白話說，它適合把已經調好的吉他聲音送進錄音軟體。如果你的工作方式是先錄乾淨原始吉他、之後反覆換音箱模擬，或需要真正的立體聲效果路徑，就要另外安排相應的錄音接口與接法。\n\n這個限制不一定對每個人都重要。記錄 riff、傳送編曲草稿、快速留下練習成果，成品音色直接錄進去往往更方便。但如果正在正式製作歌曲，最好一開始就決定：今天要保留的是演奏本身的乾訊號，還是已經選定音色的演奏。兩種需求不要等錄完才混在一起。\n\nLine Out 是單聲道 1/4 吋接口，用於混音器、錄音接口或主動式監聽，並非推動被動音箱的 speaker out。原廠以 fixed line level 描述它，實務上先在接收端控制電平；MIDI 文件另列有 Line Out Volume 指令，因此也不能寫成任何方式都無法調整。喇叭可保留作監聽，或在 App 設定接 Line Out 時將喇叭靜音。\n\n3.5mm 耳機接口則會在插入後自動讓喇叭靜音，由 Volume 控制，並附箱體模擬。插耳機前先收小音量，是值得養成的習慣。耳機、房間裡的吉他喇叭與 PA 是不同的聆聽環境；正式演出前應在真正要使用的輸出上再確認聲音。\n\n錄音依據：[USB 錄音指南](https://help.positivegrid.com/hc/en-us/articles/44785667195021-USB-Recording)；輸出依據：[現場連接指南](https://help.positivegrid.com/hc/en-us/articles/44786092629901-Connectivity-Live-Setup)、[MIDI 指令表](https://help.positivegrid.com/hc/en-us/articles/44536008858509-MIDI-Control-Commands-Setup)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## App 與 AI 怎麼用 才不會把期待放錯地方\n\nREACTOR 可以從硬體開始操作，深度編輯、ToneCloud 與 AI 功能則透過 App。官方支援版本為 iOS 17 以上、Android 8 以上。藍牙控制與伴奏音訊是兩個獨立連線：BT Control 在 App 配對，BT Audio 在手機藍牙設定處理。能播放伴奏，不等於它是讓吉他無延遲傳輸的無線系統。\n\nCreator Hub 提供 Describe It、Use a Photo、Use a Song 與 Fix My Tone 等入口。文字或語音可以表達方向；圖片提供視覺靈感；歌曲片段可作為音色參考，原廠建議長度為三十至六十秒；Music-to-Tone 最多給出四種 A／B／C／D 變化。\n\n我會把這些功能視為建立候選音色的方法。寫下「清楚、帶一點毛邊、不要太多空間」，得到幾個起點後再彈同一段樂句比較，比把生成結果當成唯一答案更實際。照片無法保證精準反推出電路；錄音裡還有拾音器、手法、麥克風、編曲與混音，生成音色也不能承諾百分之百重現。\n\n白話說，AI 可以幫你開始找，但最後還是要拿自己的琴彈。這也正是面板控制重要的原因：生成的聲音若方向接近，Push／Smooth、Heat 與基本旋鈕能繼續把它拉向目前的需求。\n\nApp 裡的 Amp 與 Preset 也要分清楚。Amp 是可以放入現有訊號鏈的單一模型；Preset 則包含音箱、效果與相關參數。Tone Memory／AI Learn 屬於帳號相關的偏好學習，可重設；不應理解成音箱離線時會不停自行訓練。部分具有 DRM 的串流內容也可能阻擋音訊路由，因此不能承諾任意串流歌曲都能直接抓來使用。\n\n官方清單列有二十七種效果。每個 preset 可包含八個效果 block、一個 amp 與一個 FX loop，每一類只有一個 block，不能任意堆兩個 Drive 或兩個 Delay。順序可在 App 調整，loop 也能移動，amp block 則不能旁路。若你的招牌音色依靠兩組獨立 delay 互相堆疊，就應把外接效果器的安排一併考慮。\n\n資料依據：[App 使用指南](https://help.positivegrid.com/hc/en-us/articles/44385105624973-REACTOR-App-User-Guide)、[Creator Hub](https://help.positivegrid.com/hc/en-us/articles/45696624704525-Creator-Hub)、[App FAQ](https://help.positivegrid.com/hc/en-us/articles/45779393869069-REACTOR-App-FAQ)、[效果器清單](https://help.positivegrid.com/hc/en-us/articles/44385072197261-Amp-Effect-List)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## 需要邊彈邊切換 就把腳控一起納入預算\n\n另購的 REACTOR Control 提供六個開關，可用 TRS 有線或藍牙連接，隨附三公尺 TRS 線。原廠標示無線距離在視線通暢條件下最遠十七公尺，電池續航四十小時以上；實際表現會隨使用條件而變，不能當成任何舞台環境的保證。Preset 模式讓你選擇四組預設、切換 bank 與控制 FX Loop；長按 BANK 可在 Preset／Effect 模式之間切換，Effect 模式用來開關六類效果。長按 FX LOOP／TUNER 則進入靜音調音。\n\n另購 expression pedal 可以設定 Wah Only、Volume Only，或使用 Auto：wah 啟用時控制 wah，否則控制 volume。這讓音箱從手動操作延伸到演奏中操作，但購買時要記得腳控與表情踏板是額外項目，也不能把 REACTOR Control 當成通用 MIDI 腳控或 Spark 腳控。\n\n如果你已有 MIDI 系統，REACTOR 另有五針 DIN MIDI In，使用 Channel 1，PC 0–7 對應八組預設；官方表也列出 Push／Smooth、Heat、調音、Tap 與 loop 等控制。不過 MIDI 與專用 REACTOR Control 不能同時使用，要先決定整套器材由哪一種方式控制。\n\n白話說，擁有 MIDI 接口，不代表所有控制器插上就自動完成映射。準備演出前，應逐一測試 program change、效果切換、調音與 tap 動作。官方表沒有完整說明的 CC 值行為，不要憑其他器材的習慣直接推定。\n\n腳控依據：[REACTOR Control](https://www.positivegrid.com/pages/reactor-control)、[腳控操作介紹](https://www.positivegrid.com/es-eu/blogs/positive-grid/reactor-control-the-best-ways-to-use-it)；MIDI 依據：[MIDI 指令與設定](https://help.positivegrid.com/hc/en-us/articles/44536008858509-MIDI-Control-Commands-Setup)。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## 五種可以直接拿去試的調音流程\n\n以下是依控制邏輯設計的練習起點，並非原廠預設，也不是本篇已經驗證的「最佳數值」。同樣的旋鈕位置，會因拾音器輸出、琴上音量、模型與聆聽環境而有不同結果。開始前先降低 Volume，EQ 由中間附近起步，一次只改一件事。\n\n### 乾淨分解和弦 聽懂音頭再加空間\n\n從 Clean 或 Warm 開始，Gain 放低，Push／Smooth 與 Heat 先回中性；暫時關掉不需要的效果，只留很少的 reverb。彈同一組分解和弦，先確認各弦都聽得清楚，再比較 Smooth 是否讓音頭更符合這段旋律。若細節變得太靠後，就回中央，不必因為名字叫 Smooth 就一定保留。\n\n接著才加入少量 comp，留意輕重撥弦的差別是否還在。最後提高 reverb 到能感覺空間、又不遮住下一個和弦的位置。這個流程的重點是保留分解層次，而不是把乾淨音色做得越濕越好。\n\n### 邊緣破音 讓右手決定情緒\n\n選 Warm 或 Grit，慢慢增加 Gain，直到輕彈與重彈之間出現有用的差異。Heat 先維持中性，再試 Heat-，比較自己是否喜歡較柔、較彈性的方向。這不是保證任何模型都會在某個鐘點開始破音，而是找出目前琴與模型互動的位置。\n\n接著試著收一點琴上 volume，再彈相同樂句。若你習慣用右手與琴上旋鈕控制段落強弱，就應優先保留這個可用範圍，之後才考慮額外 drive。最後把聲音儲存成一組「基礎」，便於隨時回去比較。\n\n### 緊實節奏吉他 先整理低頻再追求刺激\n\n從 Crunch 或 Hi-Gain 起步，先用足夠而不過量的 Gain 做節奏。連續彈 palm mute，再立刻放開，聽聲音是否容易停下來。先調 Bass 與整體頻段平衡，之後才比較 Heat+；有需要再試 Push，確認它是否讓節奏輪廓更適合編曲。\n\nGate 只增加到能管理不彈時的噪音，並用長音檢查尾巴有沒有被切斷。如果覺得仍然糊，不要第一時間再加失真。回頭減少 Gain、減少不必要的空間效果，常常比繼續推強度更容易找出問題。這一段尤其適合搭配實際鼓與貝斯確認。\n\n### Lead 預設 把音量與音色分開處理\n\n複製一組已經好用的節奏預設，先比較 Push 是否提供你要的前景感，再試適量 Heat 與 delay。不要先假定 Push 自動提供足夠的 solo 音量提升，也不要靠很多 delay 讓旋律看似變大。\n\n真正需要的段落音量，應在預設之間另外平衡，並留意 Master 接管時的跳變。用短樂句與長音各測一次，再回到節奏預設比較。如果只能在單獨彈奏時感覺好聽，放進伴奏就消失，就繼續調整頻段與音量關係，而不是只增加延音。\n\n### 外接踏板排練 把保存與接線也當成音色的一部分\n\n先以 Guitar Input 加上最少的內部效果建立基底，再將外接 delay 或其他需要放進 loop 的踏板接上 Send／Return。調整 loop 的位置與電平，確認開關外接踏板時，音量與音色變化符合期待。\n\n接著把每一組會用到的 preset 都叫出來，確認 loop 啟用並寫入硬體。若改用外部 modeler 接 Power Amp In，則切換成另一套思路：由外部設備負責音色，依原廠建議關閉其 cab sim，重新比較實體吉他喇叭下的結果。不要混用兩種接法的操作預期。\n\n最後用真正的腳控方式完整跑過一首歌，包含開場、主歌、副歌、solo、調音與結束。排練不只是試聲音，也是在驗證自己是否能在正確時間叫出正確設定。",
+          "caption": ""
+        },
+        {
+          "type": "text",
+          "value": "## 哪些人值得看 哪些需求要先確認\n\n我會把 REACTOR 推薦給喜歡直接動手調音、希望同一台器材涵蓋練習與排練，又想保留外接踏板彈性的人。尤其是常常知道自己想讓聲音「更往前」或「更柔」，卻不想每次都深入選單的樂手，這組面板很值得親自比較。\n\n選購前也有幾項不能省略。它沒有內建 looper；硬體只有八組預設；USB 不提供乾 DI 或真正立體聲錄音；每類效果只能放一個 block；調音基準固定 A=440Hz；REACTOR 與 Spark 的 App、ToneCloud preset 和腳控不互通。需要雙 delay、完整乾濕分軌、特殊調音基準或大量現場音色的人，應先把自己的需求列出來。\n\n截至 2026 年 10 月 12 日，美國官網標價為 REACTOR 50 US$349、REACTOR 100 US$449、REACTOR Control US$149。這不是台灣到手價，也沒有包含依地區而異的運費、稅費、代理服務或另購表情踏板。比較方案時，應把真正需要的配件與通路條件一起計入。\n\n對我而言，最有說服力的推薦理由仍然在那塊面板上。數位音箱可以提供很多選項，但樂手真正需要的是在演奏過程中做出有效的選擇。REACTOR 把一部分複雜調整變成明確、可比較的動作，再讓 App 承接更深入的設定。這種分工值得肯定，也值得帶著自己的琴、自己的 riff 與自己的需求去試。\n\n試機時不妨先把 AI 放在後面，花幾分鐘比較中央、Push、Smooth，再逐步調 Heat。如果這些控制能讓你更快找到想彈下去的聲音，這台音箱對你的價值就已經很具體。推薦可以很明確，購買則仍應由自己的演奏情境來決定。\n\n限制與價格依據：[Amp FAQ](https://help.positivegrid.com/hc/en-us/articles/45779379017869-REACTOR-Amp-FAQ)、[App FAQ](https://help.positivegrid.com/hc/en-us/articles/45779393869069-REACTOR-App-FAQ)、[REACTOR 商品頁](https://www.positivegrid.com/products/reactor)、[REACTOR Control](https://www.positivegrid.com/pages/reactor-control)。",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/rig-ready.webp",
+          "caption": "原廠演奏情境照片，用於展示器材使用情境；非本站試彈照片。圖片來源：Positive Grid。",
+          "placement": "full"
+        },
+        {
+          "type": "text",
+          "value": "## 資料來源與查證範圍\n\n本文查閱日期為 2026 年 10 月 12 日。產品功能以 Positive Grid 當時公開的產品頁、技術規格及支援文件為準。韌體、App、售價與相容性可能更新；購買前宜再次確認。\n\n1. [Kiki Wong REACTOR 示範短片](https://www.youtube.com/shorts/gvOeES4SF6M)：本文討論起點；未以影片完成音訊試聽或判定片中為 50／100 哪個版本。\n2. [REACTOR 產品頁](https://www.positivegrid.com/products/reactor)：產品定位與美國售價。\n3. [Panel Overview](https://help.positivegrid.com/hc/en-us/articles/44414250927885-Panel-Overview)：面板操作。\n4. [Editing Your Tone](https://help.positivegrid.com/hc/en-us/articles/45696624667789-Editing-Your-Tone)：音色控制與編輯。\n5. [Your First Tone in 60 Seconds](https://www.positivegrid.com/blogs/positive-grid/reactor-quick-start-your-first-tone-in-60-seconds)：Amp Selector 的操作邏輯。\n6. [REACTOR Amp FAQ](https://help.positivegrid.com/hc/en-us/articles/45779379017869-REACTOR-Amp-FAQ)：旋鈕接管、功率與相容性限制。\n7. [Tuner Mode](https://help.positivegrid.com/hc/en-us/articles/44568510177293-Tuner-Mode-REACTOR-50W-100W)：調音操作與 A440。\n8. [Organizing Your Presets](https://help.positivegrid.com/hc/en-us/articles/45696624691853-Organizing-Your-Presets)：硬體預設配置與寫入。\n9. [Connectivity & Live Setup](https://help.positivegrid.com/hc/en-us/articles/44786092629901-Connectivity-Live-Setup)：Line Out、FX Loop、Power Amp In。\n10. [USB Recording](https://help.positivegrid.com/hc/en-us/articles/44785667195021-USB-Recording)：錄音規格與乾濕訊號限制。\n11. [REACTOR App User Guide](https://help.positivegrid.com/hc/en-us/articles/44385105624973-REACTOR-App-User-Guide)：App 與操作入口。\n12. [Creator Hub](https://help.positivegrid.com/hc/en-us/articles/45696624704525-Creator-Hub)：AI 產生音色的方式。\n13. [REACTOR App FAQ](https://help.positivegrid.com/hc/en-us/articles/45779393869069-REACTOR-App-FAQ)：App 條件、偏好學習與限制。\n14. [Amp & Effect List](https://help.positivegrid.com/hc/en-us/articles/44385072197261-Amp-Effect-List)：模型與效果清單。\n15. [REACTOR Control](https://www.positivegrid.com/pages/reactor-control)：專用腳控與配件資訊。\n16. [REACTOR Control 操作介紹](https://www.positivegrid.com/es-eu/blogs/positive-grid/reactor-control-the-best-ways-to-use-it)：模式與演奏操作。\n17. [MIDI Control Commands & Setup](https://help.positivegrid.com/hc/en-us/articles/44536008858509-MIDI-Control-Commands-Setup)：MIDI 通道與指令。\n18. [Technical Specifications](https://help.positivegrid.com/hc/en-us/articles/44385192965901-Technical-Specifications-for-REACTOR-50-100)：功率、尺寸與重量。\n\n文中的推薦、選型思路、五種調音流程與試機方法，屬於根據已查證功能提出的編輯分析與操作建議。文中沒有聲稱做過喇叭頻率響應、音壓、延遲、噪訊、電池續航或預設切換的量測，也沒有把官方對手感的描述當成本站的親身聽感。這些項目仍應以實機、當前韌體與實際使用條件確認。",
+          "caption": ""
+        },
+        {
+          "type": "video",
+          "value": "https://www.youtube.com/watch?v=gvOeES4SF6M",
+          "caption": "Kiki Wong × Positive Grid REACTOR 示範短片：在 YouTube 開啟（未實際驗證播放；片中 50／100 版本未判定）",
+          "displayMode": "link",
+          "embedVerified": false,
+          "playbackVerified": false,
+          "checkedAt": "2026-10-12"
+        }
+      ]
+    },
+    {
       "id": "post-ai-game-making-20261011",
       "kind": "post",
       "title": "跟GPT做遊戲很簡單喔",
