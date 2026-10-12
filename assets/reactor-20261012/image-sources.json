@@ -78,5 +78,29 @@
     ],
     "bytes": 111782,
     "path": "rig-ready.webp"
+  },
+  {
+    "name": "hero",
+    "sourceGitBlob": "3856b5c3157eceddec6d57e3d7082970138211ee",
+    "sourceType": "user-approved Bauhaus composite; not a product specification image",
+    "originalBytes": 181170,
+    "originalDimensions": [
+      1499,
+      1049
+    ],
+    "dimensions": [
+      1499,
+      1049
+    ],
+    "bytes": 148174,
+    "path": "hero.webp",
+    "editable": "hero.svg",
+    "logo": {
+      "source": "assets/column-icons/pedal-board-lab-256.webp",
+      "widthRatio": 0.07,
+      "rightMarginRatio": 0.056,
+      "bottomMarginRatio": 0.05,
+      "preserveAspectRatio": true
+    }
   }
 ]

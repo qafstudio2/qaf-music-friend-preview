@@ -25,8 +25,8 @@
       "blocks": [
         {
           "type": "image",
-          "value": "assets/reactor-20261012/01-push-smooth-heat.webp",
-          "caption": "包豪斯操作示意：Push／中央／Smooth 與 Heat 五狀態分開比較；不是內部電路圖或機械卡位示意。",
+          "value": "assets/reactor-20261012/hero.webp",
+          "caption": "Positive Grid REACTOR 50／100 包豪斯產品合成主視覺；合成示意，不作產品規格圖。右下使用原版地下樂手實驗室 Logo；面板細節以文中原廠實照與官方文件為準。",
           "placement": "full"
         },
         {
@@ -59,6 +59,12 @@
           "type": "text",
           "value": "## Heat 處理的是另一個維度\n\nHeat 有 Heat--、Heat-、Neutral、Heat+、Heat++ 五個狀態。原廠描述它會改變 feel、諧波與 gain／saturation，並避免音量出現顯著變化。往上增加時，方向是更快、更緊的 attack 與更豐富的諧波；降低時，則偏向柔和、帶彈性的反應。這裡說的是五個狀態，不表示它是具有五個機械卡位的旋鈕。\n\n把 Heat 與 Push／Smooth 放在一起看，面板的趣味才完整。一個可以拿來探索聲音的前景感與音頭性格，另一個讓你比較飽和與演奏反應。它們會互相影響最後結果，但不需要永遠往同一方向調。\n\n白話說，想要音符更清楚地站出來，不一定也想讓每一個音都更緊、更飽和。想讓反應柔一點，也不代表要放棄整段吉他的存在感。\n\n我會建議先把兩者都放在中性位置，選好音箱基底，再只調其中一個。先比較 Push、中央、Smooth，回到喜歡的位置之後，再逐步改 Heat。如此可以知道是哪個動作讓聲音更接近目標。一次把 Push 與 Heat++ 全開，雖然很容易得到明顯變化，卻未必能回答「我究竟需要哪一個」。\n\n如果後續仍覺得失真太多，應回頭檢查 Gain；如果只是聲音太大，則處理輸出音量。把問題分清楚，比繼續增加 Heat 更有用。以上是建議的比較方法，並非宣稱所有模型都有相同幅度的變化。\n\n功能依據：[原廠面板導覽](https://help.positivegrid.com/hc/en-us/articles/44414250927885-Panel-Overview)、[音色編輯說明](https://help.positivegrid.com/hc/en-us/articles/45696624667789-Editing-Your-Tone)。",
           "caption": ""
+        },
+        {
+          "type": "image",
+          "value": "assets/reactor-20261012/01-push-smooth-heat.webp",
+          "caption": "包豪斯操作示意：Push／中央／Smooth 與 Heat 五狀態分開比較；不是內部電路圖或機械卡位示意。",
+          "placement": "full"
         },
         {
           "type": "image",
