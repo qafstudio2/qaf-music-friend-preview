@@ -9,3 +9,5 @@
 .news-photo,.news-photo img,.news-logo,.shops-logo{background:#fff!important}
 .columns-directory .column-link .column-orb{background:#000!important;border-color:#000!important}
 .columns-directory .column-orb img{filter:brightness(0) invert(1)!important;mix-blend-mode:normal}
+
+.columns-directory .column-orb-qafdot img{filter:none!important}
