@@ -620,7 +620,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261011-pedal-optimized-embed-v15${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261014-pedal-link-v16${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261011-pedal-optimized-embed-v15' : name === 'columns' ? '20261011-games2' : name === 'column-qafdot' ? '20261012-collab1' : name === 'column-lab' ? '20261012-reactor1' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261014-pedal-link-v16' : name === 'columns' ? '20261011-games2' : name === 'column-qafdot' ? '20261012-collab1' : name === 'column-lab' ? '20261012-reactor1' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
@@ -1199,31 +1199,39 @@ function wireNewsCatalogue() {
       const demoUrl = `https://www.youtube.com/watch?v=${videoId}`;
       const demoTitle = demo.title || `${item.brand} ${item.product} 示範`;
       const demoSection = element('section', 'digest-reader-demo');
-      const player = element('div', 'digest-reader-demo-player');
-      const playButton = element('button', 'digest-reader-demo-play', '▶ 播放音色示範');
-      playButton.type = 'button';
-      playButton.setAttribute('aria-label', `播放 ${demoTitle}`);
-      player.append(playButton);
-      playButton.addEventListener('click', () => {
-        if (!dialog.open || readerState?.articleId !== item.id || !player.isConnected || player.querySelector('iframe')) return;
-        const frame = element('iframe', 'digest-reader-demo-frame');
-        frame.title = `${demoTitle} — YouTube 播放器`;
-        frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-        frame.allowFullscreen = true;
-        frame.referrerPolicy = 'strict-origin-when-cross-origin';
-        // No YouTube request, thumbnail, or iframe exists before this explicit play click.
-        frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
-        player.replaceChildren(frame);
-        frame.focus({preventScroll:true});
-      });
+      const canEmbed = demo.displayMode === 'embed' && demo.embedVerified === true && demo.playbackVerified === true;
+      const player = canEmbed ? element('div', 'digest-reader-demo-player') : null;
+      if (canEmbed) {
+        const playButton = element('button', 'digest-reader-demo-play', '▶ 播放音色示範');
+        playButton.type = 'button';
+        playButton.setAttribute('aria-label', `播放 ${demoTitle}`);
+        player.append(playButton);
+        playButton.addEventListener('click', () => {
+          if (!dialog.open || readerState?.articleId !== item.id || !player.isConnected || player.querySelector('iframe')) return;
+          const frame = element('iframe', 'digest-reader-demo-frame');
+          frame.title = `${demoTitle} — YouTube 播放器`;
+          frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+          frame.allowFullscreen = true;
+          frame.referrerPolicy = 'strict-origin-when-cross-origin';
+          // No YouTube request, thumbnail, or iframe exists before this explicit play click.
+          frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+          player.replaceChildren(frame);
+          frame.focus({preventScroll:true});
+        });
+      }
       demoSection.append(element('h3', '', 'YouTube 音色示範'),
         element('p', 'digest-reader-demo-title', demoTitle),
-        element('p', 'digest-reader-demo-channel', `${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}`),
-        player,
-        element('p', 'digest-reader-demo-help', '點擊後才會載入 YouTube 播放器。若無法播放，請使用下方連結到 YouTube 觀看。'),
+        element('p', 'digest-reader-demo-channel', `${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}`));
+      if (player) demoSection.append(player);
+      demoSection.append(element('p', 'digest-reader-demo-help', canEmbed ? '點擊後才會載入 YouTube 播放器。若無法播放，請使用下方連結到 YouTube 觀看。' : '請使用下方連結到 YouTube 觀看示範。'),
         link('在 YouTube 聽示範 ↗（另開分頁）', demoUrl, 'digest-reader-demo-link'));
       readerBody.append(demoSection);
       plainText.push(`YouTube 音色示範\n${demoTitle}\n${demo.channel || 'YouTube'}${demo.official ? ' · 官方頻道' : ' · 第三方示範'}\n${demoUrl}`);
+    } else {
+      const demoSection = element('section', 'digest-reader-demo');
+      demoSection.append(element('h3', '', 'YouTube 音色示範'), element('p', 'digest-reader-demo-help', '暫無可核實示範'));
+      readerBody.append(demoSection);
+      plainText.push('YouTube 音色示範\n暫無可核實示範');
     }
     const analysis = item.analysis;
     const sections = Array.isArray(analysis?.sections) ? analysis.sections : [
