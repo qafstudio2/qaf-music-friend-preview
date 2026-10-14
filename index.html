@@ -620,7 +620,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261014-pedal-link-v16${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261014-product-fit-v17${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261014-pedal-link-v16' : name === 'columns' ? '20261014-dotlogo2' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261012-reactor1' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261014-product-fit-v17' : name === 'columns' ? '20261014-dotlogo2' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261012-reactor1' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
@@ -1319,6 +1319,22 @@ function wireNewsCatalogue() {
     image.loading = position < eagerCount ? 'eager' : 'lazy';
     image.decoding = 'async';
     image.fetchPriority = position === 0 ? 'high' : 'auto';
+    const bounds = item.image.productBounds;
+    const width = item.image.width, height = item.image.height;
+    if (bounds && [width, height, bounds.x, bounds.y, bounds.width, bounds.height].every(Number.isFinite) &&
+        width > 0 && height > 0 && bounds.x >= 0 && bounds.y >= 0 && bounds.width > 0 && bounds.height > 0 &&
+        bounds.x + bounds.width <= width && bounds.y + bounds.height <= height) {
+      const extent = Math.max(bounds.width, bounds.height);
+      const viewport = element('span', 'digest-product-viewport');
+      image.style.position = 'absolute';
+      image.style.width = `${width / extent * 100}%`;
+      image.style.height = `${height / extent * 100}%`;
+      image.style.maxWidth = image.style.maxHeight = 'none';
+      image.style.left = `${50 - (bounds.x + bounds.width / 2) / extent * 100}%`;
+      image.style.top = `${50 - (bounds.y + bounds.height / 2) / extent * 100}%`;
+      viewport.append(image);
+      return viewport;
+    }
     return image;
   }
 
