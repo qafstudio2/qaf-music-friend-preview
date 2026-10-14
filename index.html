@@ -672,7 +672,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261014-pedal-link-v16' : name === 'columns' ? '20261014-dotlogo2' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261012-reactor1' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261014-pedal-link-v16' : name === 'columns' ? '20261014-dotlogo2' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261012-reactor1' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}`);
