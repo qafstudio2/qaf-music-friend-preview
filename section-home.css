@@ -1,5 +1,6 @@
 :root{font-family:Arial,"Noto Sans TC",sans-serif;color:#171717;background:#fff}
 *{box-sizing:border-box}
+html{scrollbar-gutter:stable}
 body{margin:0;min-width:320px}
 a{color:inherit;text-decoration:none}
 a:hover{opacity:.64;text-decoration:none}
@@ -63,8 +64,8 @@ footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid 
 @media(min-width:521px) and (max-width:760px){.brand-title{font-size:23px}}
 
 @media(prefers-reduced-motion:no-preference){
-  .page>main,.page>footer,.page>.footer,.brand-title,.section-home-link{transition:clip-path .46s ease,opacity .46s ease;clip-path:inset(0 0 0 0);opacity:1}
-  .home-arriving .page>main,.home-arriving .page>footer,.home-arriving .page>.footer,.home-arriving .brand-title,.home-arriving .section-home-link{clip-path:inset(0 100% 0 0);opacity:0}
-  .home-leaving .page>main,.home-leaving .page>footer,.home-leaving .page>.footer,.home-leaving .brand-title,.home-leaving .section-home-link{clip-path:inset(0 0 0 100%);opacity:0}
+  .page>main,.brand-title,.section-home-link{transition:clip-path .46s ease,opacity .46s ease;clip-path:inset(0 0 0 0);opacity:1}
+  .home-arriving .page>main,.home-arriving .brand-title,.home-arriving .section-home-link{clip-path:inset(0 100% 0 0);opacity:0}
+  .home-leaving .page>main,.home-leaving .brand-title,.home-leaving .section-home-link{clip-path:inset(0 0 0 100%);opacity:0}
 }
 
