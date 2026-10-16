@@ -66,6 +66,19 @@ footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid 
 @media(max-width:360px){body{min-width:0}.brand-title{font-size:18px;white-space:nowrap}.entry strong{font-size:clamp(33px,10.3vw,37px)}}
 @media(min-width:1301px) and (min-height:1001px){.page{padding-bottom:150px}.page>footer{position:fixed;z-index:50;top:calc(100dvh - 130px);left:max(clamp(22px,3.6vw,58px),calc((100% - 1520px)/2 + 58px));right:max(clamp(22px,3.6vw,58px),calc((100% - 1520px)/2 + 58px));width:auto;margin:0;background:#fff}}
 
+/* Keep section-home navigation typography in step with the main QAF homepage. */
+.entry small{margin-bottom:2px}
+@media(orientation:portrait) and (min-width:521px) and (max-width:1150px){
+  .entry{min-height:80px;padding:5px 0}
+  .entry small{font-size:12px}
+  .entry strong{font-size:clamp(40px,5.8vw,52px)}
+}
+@media(max-width:520px){
+  .entry{min-height:100px}
+  .entry strong{font-size:clamp(36px,9vw,47px)}
+}
+@media(max-width:360px){.entry strong{font-size:34px;letter-spacing:-.09em}}
+
 @media(prefers-reduced-motion:no-preference){
   .page>main,.brand-title,.section-home-link{transition:clip-path .46s ease,opacity .46s ease;clip-path:inset(0 0 0 0);opacity:1}
   .home-arriving .page>main,.home-arriving .brand-title,.home-arriving .section-home-link{clip-path:inset(0 100% 0 0);opacity:0}

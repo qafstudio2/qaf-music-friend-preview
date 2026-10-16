@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="QAF 吉他學習專區：每日記憶、學習節點、學習地圖與書籍觀點。">
   <link rel="canonical" href="https://qaf.tw/music/learning/">
-  <link rel="stylesheet" href="../section-home.css?v=20261016-frame5">
+  <link rel="stylesheet" href="../section-home.css">
   <title>吉他學習專區 — QAF</title>
   <script>(function(){
   const key = 'qaf-home-transition';
@@ -43,7 +43,7 @@
 <body>
   <div class="page">
     <header class="masthead">
-      <div class="brand"><a href="https://qaf.tw/" aria-label="回到 QAF 總首頁"><img src="../assets/qaf-main-logo.png" alt="QAF 標誌"></a><a class="brand-title" href="./?v=ca91a89">吉他學習專區</a></div>
+      <div class="brand"><a href="https://qaf.tw/" aria-label="回到 QAF 總首頁"><img src="../assets/qaf-main-logo.png" alt="QAF 標誌"></a><a class="brand-title" href="./">吉他學習專區</a></div>
       <a class="login" id="account-link" href="https://qaf.tw/account/start?next=music">LOGIN</a>
     </header>
     <main class="composition">
@@ -54,10 +54,10 @@
         <p class="credit">QAF.1 / GUITAR STUDY</p>
       </section>
       <nav class="entries" id="learning-entries" aria-label="吉他學習入口">
-        <a class="entry" href="../?v=20261015-section-home#memory"><small>每日記憶</small><strong>DAILY MEMORY</strong></a>
-        <a class="entry" href="../?v=20261015-section-home#nodes"><small>學習節點</small><strong>LEARNING NODES</strong></a>
-        <a class="entry" href="../?v=20261015-section-home#guide"><small>學習地圖</small><strong>LEARNING MAP</strong></a>
-        <a class="entry" href="../?v=20261015-section-home#viewpoints"><small>書籍觀點</small><strong>VIEWPOINTS</strong></a>
+        <a class="entry" href="../#memory"><small>每日記憶</small><strong>DAILY MEMORY</strong></a>
+        <a class="entry" href="../#nodes"><small>學習節點</small><strong>LEARNING NODES</strong></a>
+        <a class="entry" href="../#guide"><small>學習地圖</small><strong>LEARNING MAP</strong></a>
+        <a class="entry" href="../#viewpoints"><small>書籍觀點</small><strong>VIEWPOINTS</strong></a>
       </nav>
     </main>
     <footer><span>QAF.</span><span>GUITAR / LEARNING / PRACTICE</span></footer>
@@ -69,7 +69,7 @@
       if(typeof account.id!=='string'||!account.id)return;
       const login=document.getElementById('account-link');
       login.textContent='ID: '+account.id;
-      login.href='../?v=20261015-section-home#memory';
+      login.href='../#memory';
       const nav=document.getElementById('learning-entries');
       for(const [route,label,title] of [
         ['band','練習曲','PRACTICE SONGS'],
@@ -77,7 +77,7 @@
         ['my-music','我的音樂','MY MUSIC']
       ].reverse()){
         const link=document.createElement('a');link.className='entry';
-        link.href='../?v=20261015-section-home#'+route;
+        link.href='../#'+route;
         const small=document.createElement('small');small.textContent=label;
         const strong=document.createElement('strong');strong.textContent=title;
         link.append(small,strong);nav.prepend(link);
@@ -86,3 +86,4 @@
   </script>
 </body>
 </html>
+
