@@ -661,6 +661,10 @@ fetch('/account/whoami',{credentials:'same-origin',cache:'no-store'}).then(async
   const account=await response.json();
   if(typeof account.id!=='string'||!account.id)return;
   signedIn=true;
+  if(routeFromHash()==='my-music'){
+    location.assign('/private/music');
+    return;
+  }
   const link=document.getElementById('qaf-account-link');
   link.textContent='LOG OUT';
   link.href='#';
@@ -718,6 +722,10 @@ function showNewsLoadError() {
 let routeRequestId = 0;
 async function showRoute(forceReload = false) {
   const route = routeFromHash();
+  if(route==='my-music' && signedIn){
+    location.assign('/private/music');
+    return;
+  }
   if (route === current && forceReload !== true) {
     if (route === 'news' && (location.hash === '#news' || location.hash.startsWith('#news/'))) { window.friendNewsRoute?.(); return; }
     if (route === 'column/column-qaf') window.friendColumnRoute?.();
