@@ -71,6 +71,9 @@ footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid 
 .entry small{margin-bottom:0}
 @media(orientation:landscape) and (min-width:901px) and (max-width:1300px){.entry{min-height:76px;padding:8px 0}}
 @media(min-width:1301px) and (max-height:950px){.entry{min-height:clamp(80px,5vw,88px);padding:8px 0}}
+@media(min-width:900px) and (max-height:700px){.entry{min-height:clamp(54px,5vw,74px);padding:2px 0}.entry small{font-size:10px}.entry strong{font-size:clamp(30px,3vw,42px)}}
+@media(min-width:900px) and (min-height:621px) and (max-height:700px){.entry{min-height:clamp(62px,5vw,74px)}}
+@media(min-width:900px) and (max-height:620px){.entry{gap:1px}.entry small{font-size:9px}.entry strong{font-size:clamp(26px,2.3vw,34px)}}
 @media(orientation:portrait) and (min-width:521px) and (max-width:1150px){
   .entry{min-height:80px;padding:5px 0}
   .entry small{font-size:12px}
