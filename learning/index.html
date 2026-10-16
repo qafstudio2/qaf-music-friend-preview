@@ -68,8 +68,18 @@
       const account=await response.json();
       if(typeof account.id!=='string'||!account.id)return;
       const login=document.getElementById('account-link');
-      login.textContent='ID: '+account.id;
-      login.href='../#memory';
+      login.textContent='LOG OUT';
+      login.href='#';
+      login.title='登出';
+      login.setAttribute('aria-label','登出');
+      login.addEventListener('click',async event=>{
+        event.preventDefault();
+        try{
+          const result=await fetch('/api/session/logout',{method:'POST',credentials:'same-origin'});
+          if(!result.ok)throw Error();
+          location.assign('https://qaf.tw/music/learning/');
+        }catch{alert('登出失敗，請重試');}
+      });
       const nav=document.getElementById('learning-entries');
       for(const [route,label,title] of [
         ['band','練習曲','PRACTICE SONGS'],
