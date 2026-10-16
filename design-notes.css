@@ -1,19 +1,20 @@
-.design-notes{border-top:1px solid #222;margin:18px 0 28px;padding:15px 0 0;max-width:100%}
+.design-notes{margin:18px 0 28px;padding:0;max-width:100%}
 .design-notes h2{font-size:clamp(20px,2vw,25px);line-height:1.2;margin:0 0 4px}
 .design-notes p{margin:0 0 10px}
 .design-notes .design-notes-hint{font-size:13px;color:#666}
-.design-notes textarea{box-sizing:border-box;width:100%;min-height:100px;resize:vertical;border:1px solid #aaa;border-radius:0;background:#fff;color:#222;font:inherit;font-size:16px;line-height:1.5;padding:10px}
+.design-notes textarea{box-sizing:border-box;width:100%;min-height:100px;resize:vertical;border:0;border-radius:0;background:#fff;color:#222;font:inherit;font-size:16px;line-height:1.5;padding:10px 0}
 .design-notes-actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin:9px 0}
-.design-notes-actions label,.design-notes-actions button{display:inline-flex;align-items:center;min-height:34px;padding:5px 10px;border:1px solid #666;border-radius:0;background:#fff;color:#222;font:inherit;font-size:14px;cursor:pointer}
-.design-notes-actions button{background:#222;color:#fff}
-.design-notes-actions label:focus-within,.design-notes-actions button:focus-visible{outline:2px solid #222;outline-offset:2px}
+.design-notes-actions label,.design-notes-actions button{display:inline-flex;align-items:center;min-height:34px;padding:5px 0;border:0;border-radius:0;background:none;color:#222;font:inherit;font-size:14px;cursor:pointer}
+.design-notes-actions button{font-weight:700}
+.design-notes-actions label:hover,.design-notes-actions button:hover{background:none;color:#111}
+.design-notes-actions label:focus-within,.design-notes-actions button:focus-visible{font-weight:700}
 .design-notes-actions input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 .design-notes-selection,.design-notes-status{font-size:13px;color:#555;overflow-wrap:anywhere}
-.design-notes-list{border-top:1px solid #ddd;margin-top:14px}
-.design-notes-entry{border-bottom:1px solid #ddd;padding:12px 0}
+.design-notes-list{margin-top:14px}
+.design-notes-entry{padding:12px 0}
 .design-notes-entry time{display:block;font-size:12px;color:#666;margin-bottom:5px}
 .design-notes-entry p{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.5}
 .design-notes-files{display:flex;flex-wrap:wrap;gap:10px;margin-top:9px}
-.design-notes-files a{display:block;max-width:min(180px,45vw);font-size:13px;overflow-wrap:anywhere;color:#222;text-decoration:none;border-bottom:1px solid #777}
-.design-notes-files img{display:block;width:min(180px,45vw);height:120px;object-fit:contain;border:1px solid #ddd;margin-bottom:4px;background:#fff}
-@media(max-width:600px){.design-notes{margin:12px 0 22px;padding-top:10px}.design-notes-actions{gap:6px}.design-notes-actions label,.design-notes-actions button{font-size:13px;padding:4px 8px}}
+.design-notes-files a{display:block;max-width:min(180px,45vw);font-size:13px;overflow-wrap:anywhere;color:#222;text-decoration:none}
+.design-notes-files img{display:block;width:min(180px,45vw);height:120px;object-fit:contain;margin-bottom:4px;background:#fff}
+@media(max-width:600px){.design-notes{margin:12px 0 22px}.design-notes-actions{gap:14px}.design-notes-actions label,.design-notes-actions button{font-size:13px;padding:4px 0}}
