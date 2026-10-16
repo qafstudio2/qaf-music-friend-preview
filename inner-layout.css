@@ -13,7 +13,7 @@ body::before{content:"";position:fixed;z-index:40;top:0;left:0;right:0;height:ca
 .site-tagline,.utility-nav{display:none!important}
 .qaf-login{position:static;flex:none;margin-left:auto;font:700 12px/1.4 Arial,sans-serif;letter-spacing:.12em;color:#171717;max-width:38vw;overflow:hidden;text-overflow:ellipsis}
 #main{grid-column:1;grid-row:2;width:100%;max-width:none;min-width:0;min-height:calc(100dvh - 206px);margin:24px 0 28px;padding:0;overflow-wrap:anywhere}
-#friend-main-nav{grid-column:2;grid-row:2;align-self:start;position:fixed;right:max(clamp(18px,3.6vw,58px),calc((100% - 1520px)/2 + 58px));bottom:72px;display:flex;flex-direction:column;gap:0;width:clamp(170px,21vw,245px);max-width:none;min-width:0;height:auto;margin:0;padding:0;overflow:visible;white-space:normal;border:0;background:#fff;z-index:9}
+#friend-main-nav{grid-column:2;grid-row:2;align-self:start;position:fixed;top:auto;right:max(clamp(18px,3.6vw,58px),calc((100% - 1520px)/2 + 58px));bottom:72px;display:flex;flex-direction:column;gap:0;width:clamp(170px,21vw,245px);max-width:none;min-width:0;height:auto;margin:0;padding:0;overflow:visible;white-space:normal;border:0;background:#fff;z-index:9}
 #friend-main-nav a{display:flex;flex-direction:column;justify-content:center;flex:none;min-height:34px;margin:0;padding:2px 0;border:0;border-top:1px solid #bcbcbc;color:#171717;text-decoration:none;white-space:normal}
 #friend-main-nav a:first-child{border-top:0}
 #friend-main-nav a[aria-current=page]{border-bottom:0;color:#171717}
