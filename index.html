@@ -662,7 +662,7 @@ fetch('/account/whoami',{credentials:'same-origin',cache:'no-store'}).then(async
   if(typeof account.id!=='string'||!account.id)return;
   signedIn=true;
   if(routeFromHash()==='my-music'){
-    location.assign('/private/music');
+    location.assign('/private/music#my-music');
     return;
   }
   const link=document.getElementById('qaf-account-link');
@@ -723,7 +723,7 @@ let routeRequestId = 0;
 async function showRoute(forceReload = false) {
   const route = routeFromHash();
   if(route==='my-music' && signedIn){
-    location.assign('/private/music');
+    location.assign('/private/music#my-music');
     return;
   }
   if (route === current && forceReload !== true) {
