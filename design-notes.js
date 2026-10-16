@@ -9,7 +9,7 @@
   }
   function showNotes(list,notes){
     list.replaceChildren();
-    if(!notes.length){list.append(element('p',{class:'design-notes-hint'},'還沒有筆記。'));return;}
+    if(!notes.length)return;
     for(const note of notes){
       const entry=element('article',{class:'design-notes-entry'});
       entry.append(element('time',{datetime:note.createdAt},new Date(note.createdAt).toLocaleString('zh-TW')));
@@ -31,7 +31,7 @@
   window.designNotesMount=function(main){
     if(location.hostname!=='qaf.tw')return;
     const box=element('section',{class:'design-notes','aria-label':'吉他設計筆記'});
-    box.append(element('h2',{},'吉他設計筆記'),element('p',{class:'design-notes-hint'},'直接記錄討論，拍照或加入影片、PDF、Word、Excel；筆記會公開留在本站。'));
+    box.append(element('h2',{},'吉他記憶筆記'));
     const form=element('form'),textarea=element('textarea',{placeholder:'記錄今天討論的設計、尺寸、修改意見…','aria-label':'筆記文字'});
     textarea.value=localStorage.getItem(draftKey)||'';
     textarea.addEventListener('input',()=>localStorage.setItem(draftKey,textarea.value));
