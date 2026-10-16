@@ -44,7 +44,7 @@
   <div class="page">
     <header class="masthead">
       <div class="brand"><a href="https://qaf.tw/" aria-label="回到 QAF 總首頁"><img src="../assets/qaf-main-logo.png" alt="QAF 標誌"></a><a class="brand-title" href="./?v=ca91a89">吉他學習專區</a></div>
-      <a class="login" href="https://qaf.tw/account/start">LOGIN</a>
+      <a class="login" id="account-link" href="https://qaf.tw/account/start?next=music">LOGIN</a>
     </header>
     <main class="composition">
       <section class="art" aria-labelledby="title">
@@ -53,7 +53,7 @@
         <img src="../assets/qaf-guitar-lineart.png" alt="QAF.1 雙向電吉他的黑白線稿">
         <p class="credit">QAF.1 / GUITAR STUDY</p>
       </section>
-      <nav class="entries" aria-label="吉他學習入口">
+      <nav class="entries" id="learning-entries" aria-label="吉他學習入口">
         <a class="entry" href="../?v=20261015-section-home#memory"><small>每日記憶</small><strong>DAILY MEMORY</strong></a>
         <a class="entry" href="../?v=20261015-section-home#nodes"><small>學習節點</small><strong>LEARNING NODES</strong></a>
         <a class="entry" href="../?v=20261015-section-home#guide"><small>學習地圖</small><strong>LEARNING MAP</strong></a>
@@ -62,5 +62,27 @@
     </main>
     <footer><span>QAF.</span><span>GUITAR / LEARNING / PRACTICE</span></footer>
   </div>
+  <script>
+    fetch('/account/whoami',{credentials:'same-origin',cache:'no-store'}).then(async response=>{
+      if(!response.ok)return;
+      const account=await response.json();
+      if(typeof account.id!=='string'||!account.id)return;
+      const login=document.getElementById('account-link');
+      login.textContent='ID: '+account.id;
+      login.href='../?v=20261015-section-home#memory';
+      const nav=document.getElementById('learning-entries');
+      for(const [route,label,title] of [
+        ['band','練習曲','PRACTICE SONGS'],
+        ['magazines','雜誌／教材','MATERIALS'],
+        ['my-music','我的音樂','MY MUSIC']
+      ].reverse()){
+        const link=document.createElement('a');link.className='entry';
+        link.href='../?v=20261015-section-home#'+route;
+        const small=document.createElement('small');small.textContent=label;
+        const strong=document.createElement('strong');strong.textContent=title;
+        link.append(small,strong);nav.prepend(link);
+      }
+    }).catch(()=>{});
+  </script>
 </body>
 </html>
