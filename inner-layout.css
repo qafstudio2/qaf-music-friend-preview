@@ -14,11 +14,11 @@ body::before{content:"";position:fixed;z-index:40;top:0;left:0;right:0;height:ca
 .qaf-login{position:static;flex:none;margin-left:auto;font:700 12px/1.4 Arial,sans-serif;letter-spacing:.12em;color:#171717;max-width:38vw;overflow:hidden;text-overflow:ellipsis}
 #main{grid-column:1;grid-row:2;width:100%;max-width:none;min-width:0;min-height:calc(100dvh - 206px);margin:24px 0 28px;padding:0;overflow-wrap:anywhere}
 #friend-main-nav{grid-column:2;grid-row:2;align-self:start;position:fixed;top:auto;right:max(clamp(18px,3.6vw,58px),calc((100% - 1520px)/2 + 58px));bottom:72px;display:flex;flex-direction:column;gap:0;width:clamp(170px,21vw,245px);max-width:none;min-width:0;height:auto;margin:0;padding:0;overflow:visible;white-space:normal;border:0;background:#fff;z-index:9}
-#friend-main-nav a{display:flex;flex-direction:column;justify-content:center;flex:none;min-height:34px;margin:0;padding:2px 0;border:0;border-top:1px solid #bcbcbc;color:#171717;text-decoration:none;white-space:normal}
+#friend-main-nav a{display:flex;flex-direction:column;justify-content:center;flex:none;gap:3px;min-height:40px;margin:0;padding:4px 0 9px;border:0;border-top:1px solid #bcbcbc;color:#171717;text-decoration:none;white-space:normal}
 #friend-main-nav a:first-child{border-top:0}
 #friend-main-nav a[aria-current=page]{border-bottom:0;color:#171717}
-#friend-main-nav a small{display:block;position:relative;top:2px;font:700 9px/1.2 Arial,"Microsoft JhengHei",sans-serif!important;letter-spacing:.01em;color:#171717!important}
-#friend-main-nav a strong{display:block;position:relative;top:7px;font:700 clamp(15px,1.55vw,22px)/1 Arial,sans-serif;letter-spacing:-.05em;white-space:nowrap}
+#friend-main-nav a small{display:block;position:static;font:700 9px/1.2 Arial,"Microsoft JhengHei",sans-serif!important;letter-spacing:.01em;color:#171717!important}
+#friend-main-nav a strong{display:block;position:static;font:700 clamp(15px,1.55vw,22px)/1 Arial,sans-serif;letter-spacing:-.05em;white-space:nowrap}
 #friend-main-nav a:hover strong,#friend-main-nav a[aria-current=page] strong{text-decoration:none}
 #friend-main-nav a[aria-current=page] strong::after{content:"■";display:inline-block;margin-left:.4em;font-size:.36em;vertical-align:.28em;letter-spacing:0}
 #friend-nav-toggle{display:none}
@@ -54,3 +54,9 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 @media(max-width:430px){.site-footer{font-size:9px!important;letter-spacing:.06em}}
 @media(max-width:520px){footer.site-footer{top:calc(100dvh - 100px);bottom:auto;box-sizing:border-box;height:100px;padding:7px 0 0;align-content:flex-start}}
 @media(prefers-reduced-motion:reduce){.qaf-route-leaving #main,.qaf-route-leaving #friend-main-nav{transition:none}.qaf-route-arriving #main,.qaf-route-arriving #friend-main-nav{animation:none}}
+
+/* Keep the frame compact while preserving the same page structure. */
+@media(max-width:700px){body{padding-top:77px;padding-bottom:72px}body::before{height:75px}.site-header{top:10px;min-height:65px}.site-header::before{height:10px}#main{min-height:0;margin-bottom:12px}}
+@media(orientation:landscape) and (max-width:899px) and (max-height:500px){body{padding-top:66px;padding-bottom:50px}body::before{height:58px}.site-header{top:6px;left:18px;right:18px;min-height:52px;padding-bottom:5px}.site-header::before{height:6px}}@media(max-width:700px){.site-logo{width:70px!important}#qaf-site-title{font-size:clamp(12px,3.5vw,16px)!important}footer.site-footer{top:calc(100dvh - 56px);height:56px;padding:6px 0 0}body.friend-layout-mobile #friend-nav-toggle{bottom:calc(68px + env(safe-area-inset-bottom))!important}}
+@media(orientation:landscape) and (max-width:899px) and (max-height:500px){.site-logo{width:70px!important}#qaf-site-title{font-size:16px!important}.site-footer{top:auto!important;bottom:0!important;min-height:0;height:38px;padding:6px 0}body.friend-layout-mobile #friend-nav-toggle{bottom:48px!important}}
+@media(orientation:landscape) and (min-width:701px) and (max-width:899px) and (max-height:500px){#friend-main-nav{bottom:45px}#friend-main-nav a{min-height:30px;gap:0;padding:1px 0 2px}#friend-main-nav a small{font-size:8px!important}#friend-main-nav a strong{font-size:14px}}
