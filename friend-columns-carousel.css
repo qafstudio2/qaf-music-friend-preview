@@ -1,7 +1,7 @@
 /* The ticker meets the navigation rule without changing the article/card layout. */
-main.columns-ticker-main{margin-top:24px!important;padding-top:0!important}
-.columns-carousel-ticker{position:sticky;top:calc(clamp(22px,3.6vw,58px) + 82px);z-index:39;min-width:0;max-width:100%;margin:0;padding:1px 0;border-top:1px solid var(--line,#e0e3dd);border-bottom:1px solid var(--line,#e0e3dd);background:#fff;color:#333}
-@media (orientation:landscape) and (min-width:900px) and (max-width:1300px){.columns-carousel-ticker{top:73px}}
+main.columns-ticker-main{margin-top:0!important;padding-top:0!important}
+.columns-carousel-ticker{position:sticky;top:calc(clamp(22px,3.6vw,58px) + 80px);z-index:39;min-width:0;max-width:100%;margin:0;padding:1px 0;border-top:1px solid var(--line,#e0e3dd);border-bottom:1px solid var(--line,#e0e3dd);background:#fff;color:#333}
+@media (orientation:landscape) and (min-width:900px) and (max-width:1300px){.columns-carousel-ticker{top:71px}}
 @media(max-width:700px){.columns-carousel-ticker{top:99px}}
 .columns-carousel-viewport{overflow:hidden;width:100%;min-height:37.390625px;display:flex;align-items:center}
 .columns-carousel-track{display:flex;width:max-content;will-change:transform}
@@ -21,3 +21,9 @@ main.columns-ticker-main{margin-top:24px!important;padding-top:0!important}
 .columns-directory .column-tile p{margin-top:8px}
 .columns-directory+.columns-stories{padding-top:14px}
 .columns-directory+.columns-stories .columns-stories-heading{margin-bottom:16px}
+
+@media(max-width:700px) and (orientation:portrait){.columns-carousel-ticker{top:75px}}
+@media(orientation:landscape) and (max-width:899px) and (max-height:500px){.columns-carousel-ticker{top:58px}}
+
+@media(max-width:700px) and (orientation:portrait){main.columns-ticker-main{margin-top:-2px!important}}
+@media(orientation:landscape) and (max-width:899px) and (max-height:500px){main.columns-ticker-main{margin-top:-8px!important}}

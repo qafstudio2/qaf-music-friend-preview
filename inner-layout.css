@@ -60,3 +60,27 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 @media(orientation:landscape) and (max-width:899px) and (max-height:500px){body{padding-top:66px;padding-bottom:50px}body::before{height:58px}.site-header{top:6px;left:18px;right:18px;min-height:52px;padding-bottom:5px}.site-header::before{height:6px}}@media(max-width:700px){.site-logo{width:70px!important}#qaf-site-title{font-size:clamp(12px,3.5vw,16px)!important}footer.site-footer{top:calc(100dvh - 56px);height:56px;padding:6px 0 0}body.friend-layout-mobile #friend-nav-toggle{bottom:calc(68px + env(safe-area-inset-bottom))!important}}
 @media(orientation:landscape) and (max-width:899px) and (max-height:500px){.site-logo{width:70px!important}#qaf-site-title{font-size:16px!important}.site-footer{top:auto!important;bottom:0!important;min-height:0;height:38px;padding:6px 0}body.friend-layout-mobile #friend-nav-toggle{bottom:48px!important}}
 @media(orientation:landscape) and (min-width:701px) and (max-width:899px) and (max-height:500px){#friend-main-nav{bottom:45px}#friend-main-nav a{min-height:30px;gap:0;padding:1px 0 2px}#friend-main-nav a small{font-size:8px!important}#friend-main-nav a strong{font-size:14px}}
+
+/* Guitar-design subnavigation sits directly beneath the fixed header. */
+#main:has(> .design-projects){margin-top:0;padding-top:0}
+#main > .design-projects{position:sticky;top:calc(clamp(22px,3.6vw,58px) + 80px);z-index:39;margin:0 0 12px!important;padding-top:0;background:#fff}
+@media(orientation:landscape) and (min-width:900px) and (max-width:1300px){#main > .design-projects{top:71px}}
+@media(max-width:700px) and (orientation:portrait){#main > .design-projects{top:75px}}
+@media(orientation:landscape) and (max-width:899px) and (max-height:500px){#main > .design-projects{top:58px}}
+@media(max-width:700px) and (orientation:portrait){#main:has(> .design-projects){margin-top:-2px}}
+@media(orientation:landscape) and (max-width:899px) and (max-height:500px){#main:has(> .design-projects){margin-top:-8px}}
+
+/* Narrow landscape keeps content, side navigation, and footer on the header grid. */
+@media(orientation:landscape) and (min-width:701px) and (max-width:899px) and (max-height:500px){
+  body{padding-left:18px;padding-right:18px}
+  #friend-main-nav{right:18px}
+  #friend-main-nav a{min-height:35px;gap:3px;padding:2px 0 6px}
+  .site-footer{left:18px;right:18px}
+}
+@media(max-width:360px){body.friend-layout-mobile #friend-main-nav a{min-width:0}body.friend-layout-mobile #friend-main-nav a strong{font-size:clamp(12px,4vw,14px);white-space:normal;overflow-wrap:anywhere}}
+
+/* Short landscape screens cannot fit every signed-in learning label at once. */
+@media(orientation:landscape) and (min-width:701px) and (max-width:899px) and (max-height:405px){
+  #friend-main-nav{top:66px;bottom:45px;max-height:calc(100dvh - 111px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+  #friend-main-nav a{flex-shrink:0}
+}
