@@ -17,8 +17,8 @@ body::before{content:"";position:fixed;z-index:40;top:0;left:0;right:0;height:ca
 #friend-main-nav a{display:flex;flex-direction:column;justify-content:center;flex:none;min-height:34px;margin:0;padding:2px 0;border:0;border-top:1px solid #bcbcbc;color:#171717;text-decoration:none;white-space:normal}
 #friend-main-nav a:first-child{border-top:0}
 #friend-main-nav a[aria-current=page]{border-bottom:0;color:#171717}
-#friend-main-nav a small{display:block;font:700 9px/1.2 Arial,"Microsoft JhengHei",sans-serif!important;letter-spacing:.01em;color:#171717!important}
-#friend-main-nav a strong{display:block;font:700 clamp(15px,1.55vw,22px)/1 Arial,sans-serif;letter-spacing:-.05em;white-space:nowrap}
+#friend-main-nav a small{display:block;position:relative;top:2px;font:700 9px/1.2 Arial,"Microsoft JhengHei",sans-serif!important;letter-spacing:.01em;color:#171717!important}
+#friend-main-nav a strong{display:block;position:relative;top:7px;font:700 clamp(15px,1.55vw,22px)/1 Arial,sans-serif;letter-spacing:-.05em;white-space:nowrap}
 #friend-main-nav a:hover strong,#friend-main-nav a[aria-current=page] strong{text-decoration:none}
 #friend-main-nav a[aria-current=page] strong::after{content:"■";display:inline-block;margin-left:.4em;font-size:.36em;vertical-align:.28em;letter-spacing:0}
 #friend-nav-toggle{display:none}
