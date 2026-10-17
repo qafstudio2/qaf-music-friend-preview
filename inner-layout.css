@@ -109,6 +109,7 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 /* Footer layout chooser follows the same single-rule control treatment. */
 .site-footer select{background:#fff!important;border:0!important;border-bottom:1px solid #777!important;border-radius:0!important;box-shadow:none!important}
 .site-footer select:focus{outline:none!important;border-bottom-color:#171717!important}
+.site-footer select,#main select{padding-block:3px!important;line-height:1.25!important}
 
 /* Remove the remaining pale-green fills in legacy learning and news sections. */
 #main :is(.hub-video,.guide-hero,.guide-toc,.visual-toast,.news-prompt pre,.chord-flow span,.guide-table th,.signature-table th,.mods-article tr:first-child){background:#fff!important}
