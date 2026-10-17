@@ -60,7 +60,7 @@ function chooseSeventh(type){
 }
 function seventhSection(){
  currentSeventh='Cmaj7';activeShape=null;
- return '<article id="memory-sevenths"><h2>03 七和弦琶音總表：全指板 × CAGED</h2><p>紅點 <b>1＝根音C</b>，黑點為其他和弦音，點內是音程。標準調弦，一弦在上、六弦在下。</p><p>點選形名，查看該形的逐弦音點；外框沿指型外圍保留空間，必要處以斜邊收起；音點依各弦指型顯示。點空白處或「顯示全部」恢復全指板；+12 是高八度同形。</p><div id="seventh-shapes" class="shape-buttons" role="group" aria-label="選擇琶音指型">'+shapeButtons()+'</div><div class="arp-board" id="seventh-board">'+seventhBoard('Cmaj7')+'</div><div class="seventh-buttons">'+Object.keys(seventhTypes).map(t=>'<button data-seventh="'+t+'" aria-pressed="'+(t==='Cmaj7')+'" onclick="chooseSeventh(\''+t+'\')">'+t+'</button>').join('')+'</div><p id="seventh-summary" aria-live="polite">Cmaj7：C · E · G · B。</p><p class="muted">五形依 Craig Agnew《CAGED 7th Chord Arpeggios》（2012，CC BY 3.0）重繪。原圖數字為指法，本圖改標音程；Am7 移調為 Cm7，開放把位省略琴枕外的音。減七和弦依提供的六個位置圖整理，使用 ♭♭7，不以6代替，也不套用五個大和弦形名。</p><p><b>每天練法：</b>先找紅色根音，沿所選指型由低音到高音彈奏並說出音程，再連接相鄰形。</p><p><span>Fretboard Mastery－五形定位－PDF第96頁</span> · <span>七和弦琶音－PDF第103頁</span> · <span>減七和弦－PDF第116頁</span></p></article>';
+ return '<article id="memory-sevenths"><h2>03 七和弦琶音總表：全指板 × CAGED</h2><div id="seventh-shapes" class="shape-buttons" role="group" aria-label="選擇琶音指型">'+shapeButtons()+'</div><div class="arp-board" id="seventh-board">'+seventhBoard('Cmaj7')+'</div><div class="seventh-buttons">'+Object.keys(seventhTypes).map(t=>'<button data-seventh="'+t+'" aria-pressed="'+(t==='Cmaj7')+'" onclick="chooseSeventh(\''+t+'\')">'+t+'</button>').join('')+'</div><p id="seventh-summary" aria-live="polite">Cmaj7：C · E · G · B。</p><p><b>每天練法：</b>先找紅色根音，沿所選指型由低音到高音彈奏並說出音程，再連接相鄰形。</p></article>';
 }
 
 
