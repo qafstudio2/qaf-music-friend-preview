@@ -112,3 +112,12 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 /* Remove the remaining pale-green fills in legacy learning and news sections. */
 #main :is(.hub-video,.guide-hero,.guide-toc,.visual-toast,.news-prompt pre,.chord-flow span,.guide-table th,.signature-table th,.mods-article tr:first-child){background:#fff!important}
 #qaf-workbook :is(.dropzone,.round-summary,dialog){background:#fff!important}
+
+/* One unframed treatment for section tabs and menu choices across music pages. */
+#main :is(.subnav a,.subnav button,.book-filters button,.fifths-mode-tabs button,.friend-model-tabs button,.friend-reader-tabs a,.column-tabs button,.mods-tabs a,[role="tab"]),
+#main :is(.subnav a,.subnav button,.book-filters button,.fifths-mode-tabs button,.friend-model-tabs button,.friend-reader-tabs a,.column-tabs button,.mods-tabs a,[role="tab"]):hover{
+  background:#fff!important;color:#171717!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-decoration:none!important;
+}
+#main :is(.book-filters button,.fifths-mode-tabs button,.friend-model-tabs button,.column-tabs button,[role="tab"]):is([aria-pressed="true"],[aria-selected="true"]),
+#main .friend-reader-tabs a[aria-current="page"]{font-weight:700!important}
+#main :is(.subnav,.book-filters,.fifths-mode-tabs,.friend-model-tabs,.friend-reader-tabs,.column-tabs){background:#fff!important}
