@@ -75,7 +75,7 @@
       login.addEventListener('click',async event=>{
         event.preventDefault();
         try{
-          const result=await fetch('/api/session/logout',{method:'POST',credentials:'same-origin'});
+          const result=await fetch('/api/session/logout',{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':account.csrf}});
           if(!result.ok)throw Error();
           location.assign('https://qaf.tw/music/learning/');
         }catch{alert('登出失敗，請重試');}
