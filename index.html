@@ -751,7 +751,7 @@ async function showRoute(forceReload = false) {
     const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261017-lore-v20' : name === 'columns' ? '20261014-lablogo3' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261014-brandheader2' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
-    const response = await fetch(`qaf-page-${name}.html?v=${pageVersion}-noarrows1`);
+    const response = await fetch(name === 'memory' ? 'qaf-page-memory.html' : `qaf-page-${name}.html?v=${pageVersion}-noarrows1`, {cache:'no-store'});
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const total = pageSizes[name] || 0;
     const reader = response.body?.getReader();
