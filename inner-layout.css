@@ -131,5 +131,4 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 #main:has(> .memory-top-tabs){margin-top:0;padding-top:0}
 #main>.memory-top-tabs{display:flex;flex-wrap:wrap;align-items:center;gap:4px 25px;margin:0 0 16px;padding:7px 0 9px;border:0;border-bottom:1px solid #bcbcbc;background:#fff}
 #main>.memory-top-tabs a,#main>.memory-top-tabs a:hover{display:inline-block;padding:1px 0;background:#fff!important;border:0!important;box-shadow:none!important;color:#171717!important;text-decoration:none!important;font-size:var(--qaf-body-size)!important;line-height:var(--qaf-body-leading)!important;white-space:nowrap}
-#main>[id^="memory-"],#main :is(article,section)[id^="memory-"]{scroll-margin-top:110px}
 @media(max-width:700px){#main>.memory-top-tabs{gap:3px 17px;padding:6px 0 8px;margin-bottom:12px}}
