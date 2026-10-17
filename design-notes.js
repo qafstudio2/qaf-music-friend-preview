@@ -30,6 +30,10 @@
   }
   window.designNotesMount=function(main){
     if(location.hostname!=='qaf.tw')return;
+    if(location.hash.split('?')[0]!=='#design/notes')return;
+    main.querySelector('.design-entrances')?.remove();
+    const active=main.querySelector('.design-projects a[aria-current]');active?.removeAttribute('aria-current');
+    main.querySelector('.design-projects a[href="#design/notes"]')?.setAttribute('aria-current','page');
     const box=element('section',{class:'design-notes','aria-label':'吉他設計筆記'});
     box.append(element('h2',{},'吉他記憶筆記'));
     const form=element('form'),textarea=element('textarea',{placeholder:'記錄今天討論的設計、尺寸、修改意見…','aria-label':'筆記文字'});

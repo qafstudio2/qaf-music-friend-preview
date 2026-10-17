@@ -593,7 +593,7 @@ const routes = new Map([
   ['shops','shops'], ['design','design'], ['games','games'],
   ['design/qaf1','design-qaf1'], ['design/qaf2','design-qaf2'],
   ['design/wiring','design-wiring'], ['design/setup','design-setup'],
-  ['design/instagram','design-instagram'],
+  ['design/instagram','design-instagram'], ['design/notes','design'],
 ]);
 const main = document.getElementById('main');
 let current = '';
@@ -830,7 +830,7 @@ async function showRoute(forceReload = false) {
     if (route === 'column/column-qaf') window.friendColumnRoute?.();
     if (route === 'column/column-qafdot') window.friendQafdotRoute?.();
     if (route === 'design/qaf2') wireQaf2Gallery();
-    if (route === 'design' || route.startsWith('design/')) window.designNotesMount?.(main);
+    if (route === 'design/notes') window.designNotesMount?.(main);
     if (route === 'viewpoints') await wireViewpoints();
     const anchor = route === 'news' ? '' : decodeURIComponent(location.hash.slice(1));
     if (route === 'news') { /* Preserve the reader's locked list position. */ }
