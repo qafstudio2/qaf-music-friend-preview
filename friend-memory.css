@@ -23,3 +23,19 @@
 #main .fifths-notes span{display:inline;min-width:0;height:auto;padding:0 2px;border:0;border-radius:0;background:#fff}
 #main :is(.shape-buttons,.seventh-buttons) button,#main :is(.shape-buttons,.seventh-buttons) button:hover{background:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:#171717!important}
 #main :is(.shape-buttons,.seventh-buttons) button[aria-pressed="true"]{font-weight:700!important}
+
+/* Memory choices follow the site-wide unframed label rule. Diagram circles keep
+   their instructional colors; only the surrounding controls lose their boxes. */
+#main :is(.fifths-patterns,.fifths-free-actions,.memory-triad-qualities,.world-scale-buttons,.world-scale-actions) button,
+#main :is(.fifths-patterns,.fifths-free-actions,.memory-triad-qualities,.world-scale-buttons,.world-scale-actions) button:hover{
+  background:#fff!important;
+  color:#171717!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+#main :is(.fifths-patterns,.memory-triad-qualities,.world-scale-buttons) button[aria-pressed="true"]{
+  font-weight:700!important;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
