@@ -39,3 +39,24 @@
   text-decoration:underline;
   text-underline-offset:4px;
 }
+#main .fifths-mode-tabs button,
+#main .fifths-mode-tabs button:hover{
+  background:#fff!important;
+  color:#171717!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+#main .fifths-mode-tabs button[aria-pressed="true"]{
+  font-weight:700!important;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+#main .memory-basic-interactive select,
+#main .fifths-scale-controls select{
+  background:#fff!important;
+  border:0!important;
+  border-bottom:1px solid #222!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
