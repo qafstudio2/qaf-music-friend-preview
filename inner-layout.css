@@ -103,4 +103,4 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 #main .news-logo{min-height:88px;padding:2px!important}
 #main .news-logo img{display:block;width:100%;max-width:180px;height:84px;object-fit:contain}
 @media(max-width:900px){#main .news-logos{column-gap:10px}}
-@media(max-width:500px){#main .news-logos{column-gap:8px;row-gap:8px}#main .news-logo{min-height:70px}#main .news-logo img{height:66px}}
+@media(max-width:500px){#main .news-logos{column-gap:8px;row-gap:8px}#main .news-logo{min-height:70px}#main .news-logo img{height:66px}#main .news-logo:last-child:nth-child(3n+1){grid-column:2}}
