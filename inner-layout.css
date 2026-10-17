@@ -131,4 +131,9 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 #main:has(> .memory-top-tabs){margin-top:0;padding-top:0}
 #main>.memory-top-tabs{display:flex;flex-wrap:wrap;align-items:center;gap:4px 25px;margin:0 0 16px;padding:7px 0 9px;border:0;border-bottom:1px solid #bcbcbc;background:#fff}
 #main>.memory-top-tabs a,#main>.memory-top-tabs a:hover{display:inline-block;padding:1px 0;background:#fff!important;border:0!important;box-shadow:none!important;color:#171717!important;text-decoration:none!important;font-size:var(--qaf-body-size)!important;line-height:var(--qaf-body-leading)!important;white-space:nowrap}
+#main:has(> .memory-top-tabs) :is(article,section)[id]{scroll-margin-top:0!important}
+html:has(#main>.memory-top-tabs){scroll-padding-top:calc(clamp(22px,3.6vw,58px) + 92px)}
+@media(orientation:landscape) and (min-width:900px) and (max-width:1300px){html:has(#main>.memory-top-tabs){scroll-padding-top:85px}}
+@media(max-width:700px){html:has(#main>.memory-top-tabs){scroll-padding-top:90px}}
+@media(orientation:landscape) and (max-width:899px) and (max-height:500px){html:has(#main>.memory-top-tabs){scroll-padding-top:72px}}
 @media(max-width:700px){#main>.memory-top-tabs{gap:3px 17px;padding:6px 0 8px;margin-bottom:12px}}
