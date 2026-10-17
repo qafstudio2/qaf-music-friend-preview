@@ -122,3 +122,6 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 #main :is(.book-filters button,.fifths-mode-tabs button,.friend-model-tabs button,.column-tabs button,[role="tab"]):is([aria-pressed="true"],[aria-selected="true"]),
 #main .friend-reader-tabs a[aria-current="page"]{font-weight:700!important}
 #main :is(.subnav,.book-filters,.fifths-mode-tabs,.friend-model-tabs,.friend-reader-tabs,.column-tabs){background:#fff!important}
+
+/* Daily-memory jump labels and footer utilities keep the white site canvas. */
+#main .memory-jumps,.site-footer .footer-tools{background:#fff!important}
