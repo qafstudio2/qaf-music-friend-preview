@@ -95,8 +95,9 @@ body.friend-layout-mobile.friend-nav-open #friend-nav-toggle::before{transform:n
 #main :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),textarea,select){background:#fff!important;border:0!important;border-bottom:1px solid #777!important;border-radius:0!important;box-shadow:none!important}
 #main :is(input,textarea,select):focus{outline:none!important;border-bottom-color:#171717!important}
 #main input[type="file"]::file-selector-button{border:0;background:#fff;color:#171717;box-shadow:none}
-:is(#back-to-top,#friend-nav-toggle,.qaf-arrow,.carousel-arrow,.slider-arrow){background:#fff!important;border:0!important;box-shadow:none!important;border-radius:0!important}
-:is(#back-to-top,#friend-nav-toggle,.qaf-arrow,.carousel-arrow,.slider-arrow):hover{background:#fff!important;color:#171717!important}
+/* Existing floating circular controls keep their original outline. */
+:is(#back-to-top,#friend-nav-toggle,.qaf-arrow,.carousel-arrow,.slider-arrow){background:#fff!important;color:#171717!important}
+:is(#back-to-top,#friend-nav-toggle){border:1px solid #c8c8c8!important;border-radius:50%!important;box-shadow:0 2px 8px #0001!important}
 
 /* News sources: let the artwork use each column instead of spending its width on padding. */
 #main .news-logos{column-gap:7px;row-gap:12px;margin:12px 0 24px}
