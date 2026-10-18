@@ -17,6 +17,8 @@
 #main .memory-major-legend p{margin:0}
 #main .memory-major-label strong{color:#276d82}
 #main .memory-minor-label strong{color:#b06532}
+#memory-major-figure .memory-basic-figure{max-width:720px;overflow-x:auto;overflow-y:hidden}
+#memory-major-figure .memory-basic-figure svg{min-width:720px;box-sizing:border-box}
 #main .fifths-relative-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:12px 0 18px;background:#fff}
 #main .fifths-relative-pair strong{font-weight:700;color:#171717}
 #main .fifths-relative-pair p{margin:4px 0;letter-spacing:.035em}
