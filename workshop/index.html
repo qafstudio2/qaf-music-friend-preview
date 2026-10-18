@@ -44,7 +44,7 @@
   <div class="page">
     <header class="masthead">
       <div class="brand"><a href="https://qaf.tw/" aria-label="回到 QAF 總首頁"><img src="../assets/qaf-main-logo.png" alt="QAF 標誌"></a><a class="brand-title" href="./">吉他實驗工坊</a></div>
-      <a class="login" href="https://qaf.tw/account/start">LOGIN</a>
+      <a class="login" id="account-link" href="https://qaf.tw/account/start?next=music">LOGIN</a>
     </header>
     <main class="composition">
       <section class="art" aria-labelledby="title">
@@ -62,6 +62,26 @@
     </main>
     <footer><span>QAF.</span><span>GUITAR / DESIGN / RESEARCH</span></footer>
   </div>
+  <script>
+    fetch('/account/whoami',{credentials:'same-origin',cache:'no-store'}).then(async response=>{
+      if(!response.ok)return;
+      const account=await response.json();
+      if(typeof account.id!=='string'||!account.id)return;
+      const login=document.getElementById('account-link');
+      login.textContent='LOG OUT';
+      login.href='#';
+      login.title='登出';
+      login.setAttribute('aria-label','登出');
+      login.addEventListener('click',async event=>{
+        event.preventDefault();
+        try{
+          const result=await fetch('/api/session/logout',{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':account.csrf}});
+          if(!result.ok)throw Error();
+          location.assign('https://qaf.tw/music/workshop/');
+        }catch{alert('登出失敗，請重試');}
+      });
+    }).catch(()=>{});
+  </script>
 </body>
 </html>
 
