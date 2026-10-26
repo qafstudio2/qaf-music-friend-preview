@@ -687,7 +687,7 @@ async function loadPublicNewsDigest() {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const refresh = attempt ? `&refresh=${Date.now()}` : '';
-      const response = await fetch(`friend-news-digest.html?v=20261025-rk2000-v28${refresh}`, {cache:'no-store'});
+      const response = await fetch(`friend-news-digest.html?v=20261026-gladio-v29${refresh}`, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markup = await response.text();
       const match = markup.match(/<script id="news-digest-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -748,7 +748,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261025-rk2000-v28' : name === 'columns' ? '20261014-lablogo3' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261014-brandheader2' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261026-gladio-v29' : name === 'columns' ? '20261014-lablogo3' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261014-brandheader2' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(name === 'memory' ? 'qaf-page-memory.html' : `qaf-page-${name}.html?v=${pageVersion}-noarrows1`, {cache:'no-store'});
