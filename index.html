@@ -577,7 +577,7 @@ body { background:#fff; color:#292929; }
 <link rel="stylesheet" href="friend-memory.css?v=20261018-minor-first">
   <script src="friend-qafdot.js?v=20261011-columns3"></script>
   <script>
-const pageSizes = {"column-qafdot":102041,"band":7780,"column-lab":226708,"column-qaf":48375,"columns":6818,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":171714,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":21531};
+const pageSizes = {"column-qafdot":102041,"band":7780,"column-lab":226708,"column-qaf":48375,"columns":6818,"design-instagram":1837474,"design-qaf1":44496,"design-qaf2":1874737,"design-setup":469,"design-wiring":148180,"design":727,"guide":25127,"home":158443,"magazines-book":508093,"magazines-magazine":266230,"magazines-score":482777,"magazines-video":2550216,"memory":79907,"my-music":19516,"news":171714,"nodes":14157,"overview":6309,"shops":175146,"viewpoints":37021};
 const routes = new Map([
   ['home','home'], ['my-music','my-music'], ['overview','overview'],
   ['memory','memory'], ['nodes','nodes'], ['guide','guide'],
@@ -748,7 +748,7 @@ async function showRoute(forceReload = false) {
   const name = routes.get(route);
   main.innerHTML = loadingMarkup();
   try {
-    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261029-bc-v33' : name === 'columns' ? '20261014-lablogo3' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261014-brandheader2' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
+    const pageVersion = name === 'games' ? '20261010-nut5' : name === 'home' ? '20261009-games1' : name === 'news' ? '20261029-bc-v33' : name === 'viewpoints' ? '20261029-tonal11-v36' : name === 'columns' ? '20261014-lablogo3' : name === 'column-qafdot' ? '20261014-dotlogo2' : name === 'column-lab' ? '20261014-brandheader2' : name === 'column-qaf' ? '20261014-brandheader1' : '20261005-column-reader';
     // Request the current public digest in parallel, only for the news route.
     const publicDigestRequest = name === 'news' ? loadPublicNewsDigest() : null;
     const response = await fetch(name === 'memory' ? 'qaf-page-memory.html' : `qaf-page-${name}.html?v=${pageVersion}-noarrows1`, {cache:'no-store'});
