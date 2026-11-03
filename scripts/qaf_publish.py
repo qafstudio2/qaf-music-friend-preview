@@ -14,6 +14,12 @@ def git(repo,*args):
  p=subprocess.run(['git','-C',str(repo),*args],capture_output=True)
  if p.returncode:raise RuntimeError('git '+args[0]+' failed; no automatic retry: '+p.stderr.decode('utf8','replace')[-1500:])
  return p.stdout.decode('utf8').strip()
+def base_bytes(repo,ref,name):
+ p=subprocess.run(['git','-C',str(repo),'show',ref+':'+name],capture_output=True)
+ if p.returncode:
+  if not (Path(repo)/name).exists():return b''
+  raise RuntimeError('cannot read canonical base blob: '+name)
+ return p.stdout
 def news(b):
  m=re.search(rb'<script id="news-digest-data" type="application/json">(.*?)</script>',b,re.S)
  if not m:raise ValueError('news data missing')
@@ -88,7 +94,7 @@ class Publisher:
     allowed=(bool(re.fullmatch(r'scripts/qaf[-_a-z0-9]+\.(py|cjs|md)',name)) if kind=='maintenance' else name in ('friend-news-digest.html','qaf-page-viewpoints.html') and name==('friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html') or kind=='news' and bool(re.fullmatch(r'assets/news-[a-z0-9-]+\.(png|jpg|jpeg|webp)',name)))
     if not allowed:raise ValueError('out-of-scope file: '+name)
     if name in changes:raise ValueError('duplicate file path')
-    old=dest.read_bytes() if dest.exists() else b''
+    old=base_bytes(stage,base,name)
     if sha(old)!=entry['beforeSha256']:raise ValueError('file base hash mismatch: '+name)
     source=Path(entry['source']).resolve();data=source.read_bytes()
     if sha(data)!=entry['sha256']:raise ValueError('source hash mismatch')
@@ -110,13 +116,13 @@ class Publisher:
        if not file.is_file():raise ValueError('missing product image')
        im=Image.open(file);im.load()
      # Updating only common cache/size fields, never product-specific CSS.
-    index=(stage/'index.html').read_bytes();label='news' if kind=='news' else 'viewpoints'
+    index=base_bytes(stage,base,'index.html');label='news' if kind=='news' else 'viewpoints'
     index,count=re.subn(rb'("'+label.encode()+rb'":)\d+',lambda m:m[1]+str(len(changes[page])).encode(),index,count=1)
     if count!=1:raise ValueError('cache size mapping not found')
     index,count=re.subn(rb"(name === '"+label.encode()+rb"' \? ')[^']+(')",lambda m:m[1]+('guard-'+op).encode()+m[2],index,count=1)
     if count!=1:raise ValueError('cache version mapping not found')
-    originals['index.html']=(stage/'index.html').read_bytes();changes['index.html']=index
-   marker=stage/'qaf-publication.json';originals['qaf-publication.json']=marker.read_bytes() if marker.exists() else b''
+    originals['index.html']=base_bytes(stage,base,'index.html');changes['index.html']=index
+   originals['qaf-publication.json']=base_bytes(stage,base,'qaf-publication.json')
    changes['qaf-publication.json']=encode({'operation':op,'base':base,'planHash':fingerprint,'kind':kind})
    backup=self.state/(op+'-backup');backup.mkdir()
    for name,data in originals.items():

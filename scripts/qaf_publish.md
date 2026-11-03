@@ -15,7 +15,9 @@ these entries; unrelated writers and other computers cannot be controlled by it.
 Prepare a JSON plan with `operation` (unique, 8–100 letters/digits/hyphens), `kind`
 (`news`, `viewpoints` or maintenance), `base` (reviewed main SHA), `message`, and
 `files`. Each file has repository `path`, local `source`, `beforeSha256` (SHA256
-of existing bytes, or empty bytes for a new file), and `sha256` of source bytes.
+of canonical Git base-blob bytes, or empty bytes for a new file), and `sha256` of source bytes.
+Windows checkout CRLF is not used as the base hash; comparisons and backups use
+the exact base commit's blobs, and public readback uses committed artifact bytes.
 Only the target content page and news assets are permitted for article writers.
 The common index cache/version is updated by the entry. Maintenance is restricted
 to `scripts/qaf*.py`, `.cjs`, `.md`. All paths are checked before staging.

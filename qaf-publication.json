@@ -1,6 +1,6 @@
 {
-  "base": "2d0a5739d60ec7f4a11bf3fee48deb72845da629",
+  "base": "f981062c38b938483d3840626bc75231506973e6",
   "kind": "maintenance",
-  "operation": "QAF-MAINT-GUARD-20261103-A",
-  "planHash": "86b8508ae784eb45c7420d54d2ed4ad8e2154e49396440b31cf9df482c7b86c5"
+  "operation": "QAF-MAINT-EOL-20261103-B",
+  "planHash": "f22a51e5de95c75cdcb008c452e41f36bf409f2570a3484595eaef94f44bdd74"
 }
