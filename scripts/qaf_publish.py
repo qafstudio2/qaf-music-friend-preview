@@ -25,6 +25,19 @@ def news(b):
  if not m:raise ValueError('news data missing')
  return json.loads(m[1])['items']
 def articles(b):return re.findall(rb'<article\b.*?</article>',b,re.S)
+def update_cache(index,kind,page_bytes,shell_bytes,op):
+ label='news' if kind=='news' else 'viewpoints'
+ # pageSizes measures the route shell stream, not the parallel digest request.
+ size=len(shell_bytes) if kind=='news' else len(page_bytes)
+ index,count=re.subn(rb'("'+label.encode()+rb'":)\d+',lambda m:m[1]+str(size).encode(),index,count=1)
+ if count!=1:raise ValueError('cache size mapping not found')
+ version=('guard-'+op).encode()
+ index,count=re.subn(rb"(name === '"+label.encode()+rb"' \? ')[^']+(')",lambda m:m[1]+version+m[2],index,count=1)
+ if count!=1:raise ValueError('cache version mapping not found')
+ if kind=='news':
+  index,count=re.subn(rb'(friend-news-digest\.html\?v=)[^$`]+(?=\$\{refresh\})',lambda m:m[1]+version,index,count=1)
+  if count!=1:raise ValueError('digest cache version not found')
+ return index
 def title(a):
  m=re.search(rb'<h3[^>]*>(.*?)</h3>',a,re.S);return m[1] if m else b''
 class Safe(HTMLParser):
@@ -116,11 +129,7 @@ class Publisher:
        if not file.is_file():raise ValueError('missing product image')
        im=Image.open(file);im.load()
      # Updating only common cache/size fields, never product-specific CSS.
-    index=base_bytes(stage,base,'index.html');label='news' if kind=='news' else 'viewpoints'
-    index,count=re.subn(rb'("'+label.encode()+rb'":)\d+',lambda m:m[1]+str(len(changes[page])).encode(),index,count=1)
-    if count!=1:raise ValueError('cache size mapping not found')
-    index,count=re.subn(rb"(name === '"+label.encode()+rb"' \? ')[^']+(')",lambda m:m[1]+('guard-'+op).encode()+m[2],index,count=1)
-    if count!=1:raise ValueError('cache version mapping not found')
+    index=update_cache(base_bytes(stage,base,'index.html'),kind,changes[page],base_bytes(stage,base,'qaf-page-news.html') if kind=='news' else b'',op)
     originals['index.html']=base_bytes(stage,base,'index.html');changes['index.html']=index
    originals['qaf-publication.json']=base_bytes(stage,base,'qaf-publication.json')
    changes['qaf-publication.json']=encode({'operation':op,'base':base,'planHash':fingerprint,'kind':kind})
