@@ -1,6 +1,6 @@
 {
-  "base": "f57419fdb4c1f624ade5335292308ef86cbe36c0",
-  "kind": "maintenance",
-  "operation": "QAF-MAINT-CACHE-20261103-C",
-  "planHash": "96661a4bdad4ad5ac02d0faeface89dd5ec0be3c64c909af7ce73df142f02179"
+  "base": "904de78029934cf5db880b67a54cd7797ec643a2",
+  "kind": "news",
+  "operation": "QAF-NEWS-20261103-ABC-C",
+  "planHash": "a45b0eff11352013190a6699137df884788d18bc16f95f6a1a6da84254e39efa"
 }
