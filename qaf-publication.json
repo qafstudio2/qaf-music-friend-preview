@@ -1,6 +1,6 @@
 {
-  "base": "6f1b5c0c703160ce6ed2caeb33c334c398c9954d",
-  "kind": "viewpoints",
-  "operation": "QAF-VIEWPOINTS-20261104-ABC",
-  "planHash": "3bcd57a940ef321f35d174a7fb19c37039c275539d9042643630fc4c0b19aa0a"
+  "base": "c24f3fed3b2811d0ca42e95e920c169959c4085b",
+  "kind": "maintenance",
+  "operation": "QAF-MAINT-LIFECYCLE-20261104-A",
+  "planHash": "bb672d257e02bb7f39238ef5c5025c6a6f1e2dc43ccc32e8cda8d7d58fc945e1"
 }

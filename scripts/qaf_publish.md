@@ -68,3 +68,27 @@ after verifying owner and remote outcome; do not delete unknown locks.
 This tool does not prevent a separately privileged user from bypassing it or
 forcing a branch. GitHub roles, branch protection, credentials and schedules are
 not changed. Historical one-off scripts are not safe recurring writers.
+
+## Explicit viewpoint lifecycle (single stable ID)
+
+Viewpoint plans may supply `viewpointLifecycle` with action modify/remove/restore,
+stable ID, pageSha256, historySha256, articleSha256, and (modify only)
+replacementBase64. The same plan must carry the exact target page and
+`data/viewpoint-history.json`. The publisher recomputes both from canonical
+base blobs and refuses any candidate that changes unrelated content.
+
+Original and revised article bytes are retained in content-addressed versions
+with a chained event log. Removal is recoverable public unlisting, not erasure:
+Git history and the JSON archive retain the formerly public text. No purge
+command is provided. Never place private material in this public archive.
+
+Modification retains stable ID and original publication/prepared dates. Restore
+requires the outstanding removed version, no ID/title collision and an unchanged
+neighbor anchor. Stale page/history/target hashes stop the plan. Legacy articles
+without stable IDs require a separately reviewed nonvisible ID migration; the
+entry does not infer identity from title or automatically migrate old articles.
+
+The existing lease, newest-main check, backup, isolated worktree, normal push,
+exact-commit deployment and formal/browser acceptance remain mandatory.
+Lifecycle installation is not authorization to modify or unlist arbitrary articles.
+No new credentials, host settings, permissions or schedule are involved.

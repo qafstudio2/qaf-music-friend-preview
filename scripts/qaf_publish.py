@@ -105,6 +105,7 @@ class Publisher:
    for entry in plan['files']:
     name=entry['path'];dest=stage/name
     allowed=(bool(re.fullmatch(r'scripts/qaf[-_a-z0-9]+\.(py|cjs|md)',name)) if kind=='maintenance' else name in ('friend-news-digest.html','qaf-page-viewpoints.html') and name==('friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html') or kind=='news' and bool(re.fullmatch(r'assets/news-[a-z0-9-]+\.(png|jpg|jpeg|webp)',name)))
+    if kind=='viewpoints' and plan.get('viewpointLifecycle') and name=='data/viewpoint-history.json':allowed=True
     if not allowed:raise ValueError('out-of-scope file: '+name)
     if name in changes:raise ValueError('duplicate file path')
     old=base_bytes(stage,base,name)
@@ -117,7 +118,14 @@ class Publisher:
     page='friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html'
     if page not in changes:raise ValueError('missing target page')
     day=datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).date().isoformat()
-    r['added']=validate(kind,originals[page],changes[page],day)
+    if kind=='viewpoints' and plan.get('viewpointLifecycle'):
+     from qaf_viewpoint_lifecycle import apply
+     history='data/viewpoint-history.json'
+     if history not in changes:raise ValueError('lifecycle history required')
+     expected_page,expected_history=apply(originals[page],originals[history],plan['viewpointLifecycle'],op)
+     if changes[page]!=expected_page or changes[history]!=expected_history:raise ValueError('candidate differs from explicit lifecycle operation')
+     r['added']=[];r['lifecycle']=plan['viewpointLifecycle']['action']
+    else:r['added']=validate(kind,originals[page],changes[page],day)
     if kind=='news':
      from PIL import Image
      for i in news(changes[page]):
