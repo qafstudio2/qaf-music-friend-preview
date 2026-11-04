@@ -122,3 +122,33 @@ including recoverably removed articles. Remove/restore does not reset daily quot
 This is recoverable unlisting, not privacy erasure. No purge, credentials,
 permission changes, new service, scheduler or alternate deployment route exists.
 Actual article changes still require specific task authorization and review.
+
+## Viewpoint dates, dedupe, daily goal and reviewed backfill
+
+Every ordinary viewpoint append and explicit lifecycle plan now generates
+data/viewpoint-publication-ledger.json internally from canonical base blobs and
+existing version history. Caller-supplied empty ledgers are not allowed. The
+ledger is backed up and committed with the page/history in the same worktree.
+It is first materialized by the next article operation; maintenance installation
+does not edit existing content or guess unknown original publication dates.
+
+New articles require stable IDs and an ISO publication date equal to Taiwan
+today, derived from an aware system clock. Prepared dates can be older but not
+in the future. Existing approved historical batches and unknown dates remain.
+ID, normalized title and identical body fingerprints are checked against active
+and archived records. The same book/PDF page can support distinct viewpoints;
+semantic overlap still needs editorial review.
+
+Three new articles per Taiwan day is the ordinary daily goal, not an absolute
+backlog ceiling. A reviewed authorized backlog batch may supply viewpointBackfill
+with ids listing EXACTLY all new article IDs and a short public reason. Such a
+batch can exceed three; it cannot bypass date/dedupe or change prior dates. This
+field scopes a reviewed publication plan, not a grant of user authorization.
+Do not place private conversation or approval evidence in the public plan/ledger.
+
+Removal never releases the original daily count. Modify/restore record no new
+publication; restored content must match an outstanding archived removal.
+Ledger/ID mapping changes require a separately reviewed merge once a ledger
+exists; do not revert IDs used by publication history. No schedule or permissions
+are changed. Existing lease, latest-main SHA, ordinary push and exact formal
+acceptance remain required.

@@ -120,6 +120,7 @@ class Publisher:
     page='friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html'
     if page not in changes:raise ValueError('missing target page')
     day=datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).date().isoformat()
+    if kind=='viewpoints' and plan.get('viewpointIdMigration') and base_bytes(stage,base,'data/viewpoint-publication-ledger.json'):raise ValueError('ID migration with existing publication ledger requires separately reviewed mapping')
     if sum(bool(plan.get(k)) for k in ('viewpointLifecycle','viewpointIdMigration','newsLifecycle'))>1:raise ValueError('one explicit operation per plan')
     if kind=='news' and plan.get('newsLifecycle'):
      from qaf_news_lifecycle import apply
@@ -149,6 +150,14 @@ class Publisher:
       from qaf_news_lifecycle import validate_additions
       history=base_bytes(stage,base,'data/news-history.json')
       validate_additions(originals[page],changes[page],history,day)
+    if kind=='viewpoints' and not plan.get('viewpointIdMigration'):
+     from qaf_viewpoint_guard import guard
+     ledger='data/viewpoint-publication-ledger.json';history='data/viewpoint-history.json'
+     oldledger=base_bytes(stage,base,ledger);oldhistory=base_bytes(stage,base,history)
+     spec=plan.get('viewpointLifecycle') or {}
+     newledger=guard(originals[page],changes[page],oldledger,oldhistory,changes.get(history,oldhistory),datetime.datetime.now(datetime.timezone.utc),op,spec.get('action','append'),spec.get('id'),plan.get('viewpointBackfill'))
+     originals[ledger]=oldledger;changes[ledger]=newledger
+     r['viewpointDailyGoal']=3;r['viewpointBackfill']=bool(plan.get('viewpointBackfill'))
     if kind=='news':
      from PIL import Image
      for i in news(changes[page]):
