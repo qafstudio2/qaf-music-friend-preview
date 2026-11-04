@@ -92,3 +92,14 @@ The existing lease, newest-main check, backup, isolated worktree, normal push,
 exact-commit deployment and formal/browser acceptance remain mandatory.
 Lifecycle installation is not authorization to modify or unlist arbitrary articles.
 No new credentials, host settings, permissions or schedule are involved.
+
+## Nonvisible legacy stable-ID migration
+
+An explicit `viewpointIdMigration` plan supplies action migrate/revert,
+pageSha256, manifestSha256 and expectedCount (migrate). Both the target page
+and data/viewpoint-id-map.json are required. IDs derive from original article
+SHA256; collisions stop. Only the new data-viewpoint-id attribute may differ.
+The mapping stores before/after hashes and is committed with the page.
+Exact reversal is supported only before any later page edits; otherwise stop
+and review a new merge, never overwrite later work. Existing IDs remain unchanged.
+Migration is not article publication and cannot combine with lifecycle actions.

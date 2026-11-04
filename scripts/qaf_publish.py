@@ -106,6 +106,7 @@ class Publisher:
     name=entry['path'];dest=stage/name
     allowed=(bool(re.fullmatch(r'scripts/qaf[-_a-z0-9]+\.(py|cjs|md)',name)) if kind=='maintenance' else name in ('friend-news-digest.html','qaf-page-viewpoints.html') and name==('friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html') or kind=='news' and bool(re.fullmatch(r'assets/news-[a-z0-9-]+\.(png|jpg|jpeg|webp)',name)))
     if kind=='viewpoints' and plan.get('viewpointLifecycle') and name=='data/viewpoint-history.json':allowed=True
+    if kind=='viewpoints' and plan.get('viewpointIdMigration') and name=='data/viewpoint-id-map.json':allowed=True
     if not allowed:raise ValueError('out-of-scope file: '+name)
     if name in changes:raise ValueError('duplicate file path')
     old=base_bytes(stage,base,name)
@@ -118,7 +119,15 @@ class Publisher:
     page='friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html'
     if page not in changes:raise ValueError('missing target page')
     day=datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).date().isoformat()
-    if kind=='viewpoints' and plan.get('viewpointLifecycle'):
+    if plan.get('viewpointLifecycle') and plan.get('viewpointIdMigration'):raise ValueError('one explicit operation per plan')
+    if kind=='viewpoints' and plan.get('viewpointIdMigration'):
+     from qaf_viewpoint_ids import apply
+     mapping='data/viewpoint-id-map.json'
+     if mapping not in changes:raise ValueError('ID mapping required')
+     expected_page,expected_map=apply(originals[page],originals[mapping],plan['viewpointIdMigration'],op)
+     if changes[page]!=expected_page or changes[mapping]!=expected_map:raise ValueError('candidate differs from explicit ID migration')
+     r['added']=[];r['idMigration']=plan['viewpointIdMigration']['action']
+    elif kind=='viewpoints' and plan.get('viewpointLifecycle'):
      from qaf_viewpoint_lifecycle import apply
      history='data/viewpoint-history.json'
      if history not in changes:raise ValueError('lifecycle history required')
