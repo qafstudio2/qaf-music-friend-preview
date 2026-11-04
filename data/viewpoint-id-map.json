@@ -1,0 +1,134 @@
+{
+  "active": true,
+  "entries": [
+    {
+      "afterSha256": "f818b75b8dba9e876145b50671647c3bad1847cdb123b11ec7f72c9d78cd9320",
+      "beforeSha256": "6ccfccdceb82213941e47192106f863d9bdbf997294ff489825b4ab90242f497",
+      "id": "legacy-6ccfccdceb82213941e47192"
+    },
+    {
+      "afterSha256": "c0242a69566037551f734dfef647ba06b56b6e3d2b7821c0454c44c4053650b7",
+      "beforeSha256": "f95bbd2a28dae733d145892dd69f2bec6c285f148a56d3b0a32a47b05ba2ec50",
+      "id": "legacy-f95bbd2a28dae733d145892d"
+    },
+    {
+      "afterSha256": "701216f25c015c1e7f55b932ed15afed0b1b577db2296fc1cf5861216421860e",
+      "beforeSha256": "8a998120e7320d0d6c2f2bdf4154b3e9afd869172a2ebf255957a0adb2aef1aa",
+      "id": "legacy-8a998120e7320d0d6c2f2bdf"
+    },
+    {
+      "afterSha256": "457ebd670dbd0fbc4731ae75c84ebc64634477a1ec9686154a18c130f28f2d5f",
+      "beforeSha256": "7330fe1be998b89c8c085c9c58685df8e20d7d95fb9c11f171f0e4a1aaab969d",
+      "id": "legacy-7330fe1be998b89c8c085c9c"
+    },
+    {
+      "afterSha256": "45767589fadb2ba2d41468427df6048814c523e9a7721eaa61a94ce9121f541c",
+      "beforeSha256": "dc8d3554543e937abe7c7038d030bfffdb269d63cba1ed15f8aa4926b0e76db8",
+      "id": "legacy-dc8d3554543e937abe7c7038"
+    },
+    {
+      "afterSha256": "50f0c4f3e5856ba1c53bcc0b2fbcec4df8b2cc8780a95dc79bb7423b2e51ee84",
+      "beforeSha256": "7466d6f4eddd2e91d0a58e093c9ff3daa289c896a9f0a74acb71de8c930cb091",
+      "id": "legacy-7466d6f4eddd2e91d0a58e09"
+    },
+    {
+      "afterSha256": "86930c0050429fb36e24e7ec18c58a67513f1277b26d3dc71d10b809c79464a3",
+      "beforeSha256": "034283722e5f7dd951484606eafe7394dcf8feaf73abaf731c6123c2dd76532a",
+      "id": "legacy-034283722e5f7dd951484606"
+    },
+    {
+      "afterSha256": "4cb299283cf9c443c2fa7fe7df02a0df54b34b58989b3004ed89e045465530fc",
+      "beforeSha256": "39b606209c41c3e8ccb30251d36ce36bbb19b63474d68958e56b9f1c9d2ec41b",
+      "id": "legacy-39b606209c41c3e8ccb30251"
+    },
+    {
+      "afterSha256": "3f701515cf4aed588c9f3f4f99ce9d2aa85d7ff838a8329273c2c6e913425f9b",
+      "beforeSha256": "89730e849c03b7945fd1a58497c5eefca3f63dc65d8f63c87f21d502dd812ee6",
+      "id": "legacy-89730e849c03b7945fd1a584"
+    },
+    {
+      "afterSha256": "8e359c60a935b443e05b9c9dc41b0162e3b87ff3b2f6bf1a457864265758c58d",
+      "beforeSha256": "e84d36e72082866d39dcc4431b5e1ad4903c548c5aa1b30bca83d25be5fb5728",
+      "id": "legacy-e84d36e72082866d39dcc443"
+    },
+    {
+      "afterSha256": "ecf4d07fb616358e63c34c6f2762b08437bc0059ed11d33824363ff9652094b5",
+      "beforeSha256": "0ff9387d075108de75334f33eed999c392f77fb8ea1fbb12ca8c98b139764db4",
+      "id": "legacy-0ff9387d075108de75334f33"
+    },
+    {
+      "afterSha256": "8814511cd5172a00e01ebb2ad7df57438f7abe175686fcba287635804567ec44",
+      "beforeSha256": "f344a0381238620f216499f6ee8e6338f649700f8998d1d9ce67303c42d6c1fe",
+      "id": "legacy-f344a0381238620f216499f6"
+    },
+    {
+      "afterSha256": "78916dbeccde66c444d45c2eb81c361f0aefb09b25c6187b949b92c67480d55d",
+      "beforeSha256": "9671237ea9bab0e84752b3d53c333943babbd7ba1c30a4c0628c22ae4feb4f27",
+      "id": "legacy-9671237ea9bab0e84752b3d5"
+    },
+    {
+      "afterSha256": "deee7ceb5197e4164cfd8db9029178895ff4c36610ff8ad728108229b1b604a4",
+      "beforeSha256": "f971ca1d40719ca7d7b1c0e125583ea7c82539b126da0418bce9f30cc690ac94",
+      "id": "legacy-f971ca1d40719ca7d7b1c0e1"
+    },
+    {
+      "afterSha256": "10301793888aee543a4ce84dcf18f4ed789c7acf231c98c493226d9513beeb59",
+      "beforeSha256": "fabc77bab1a42dc1f41c07c5731954fab8dcd2879cb64d4a14072c0cafbd86c5",
+      "id": "legacy-fabc77bab1a42dc1f41c07c5"
+    },
+    {
+      "afterSha256": "161bae0bad0f13e4868a393145f828a43cace9b3b78278ab72a6453992acf445",
+      "beforeSha256": "ac4084018e364349c34613d3ace1180e88a52adf9e2fb5e3cc14ab745d864574",
+      "id": "legacy-ac4084018e364349c34613d3"
+    },
+    {
+      "afterSha256": "0fcfcfbc2f79ff3e0b3de1aa8973c3d817cadc9b644e5812905158906eeca39e",
+      "beforeSha256": "d02178131ec961ed7ee6c8e452ec2c58c5c6441b0c751783e8eedcedd4c9896a",
+      "id": "legacy-d02178131ec961ed7ee6c8e4"
+    },
+    {
+      "afterSha256": "d89e734e975ff8c01e19807a25dd25278518f76600ba95d4d7ed71af6d5d0925",
+      "beforeSha256": "e6146f2a99a76ee8ce7396574fce6685909d6737c7bd12143da5823c7b0103d3",
+      "id": "legacy-e6146f2a99a76ee8ce739657"
+    },
+    {
+      "afterSha256": "a1cbae9512ce4c7e19a4cfec2afb8e8ae2e59be385b7fa103b12a9b30a5f2623",
+      "beforeSha256": "7eecce7049db152841e90acda9db0c37e88fed8c86235f4e358dcfddf1ab5ab6",
+      "id": "legacy-7eecce7049db152841e90acd"
+    },
+    {
+      "afterSha256": "07e7fe34b24fda09a2a17dcfb0cdd2f22ec6de155a57e6aeb1c54863469237ad",
+      "beforeSha256": "1926fc298ab68d72b13a3bff2f1fddf216cfff85d9f267dc2f1fc47310c3ddcf",
+      "id": "legacy-1926fc298ab68d72b13a3bff"
+    },
+    {
+      "afterSha256": "a3ad0a313dbc47a6c779d096e1bf5a2d8b5a6dd36a262f53fed9b03cfa5e78f7",
+      "beforeSha256": "458ef8352de54cb201fd88a57d7f1f33bac2ed871d7822d1aba11f5df21ffa60",
+      "id": "legacy-458ef8352de54cb201fd88a5"
+    },
+    {
+      "afterSha256": "0b082da81507ef316a742fa3011929f45aee2362e7cb4f2650340028afe29bd7",
+      "beforeSha256": "f74da6c42ac86e78c1f427e3f7a656870c03f579499767411a982a035ee0d261",
+      "id": "legacy-f74da6c42ac86e78c1f427e3"
+    },
+    {
+      "afterSha256": "d74f7500194f23d02d45cc88a6c53fafcd5a18551185c75be789bb1ae9602c74",
+      "beforeSha256": "07543e57976110dddab6e6b257c08047815a59255496e9c6a827584b97bc3316",
+      "id": "legacy-07543e57976110dddab6e6b2"
+    },
+    {
+      "afterSha256": "5ea409eb20e11b249da5e53a3b49c5c56b85e544a504349cb4e3a2c5781b9f8b",
+      "beforeSha256": "27bfdd33faf5dcbe28785a47c31382a26a0cc24d732486dfd88faca02ecd9bd9",
+      "id": "legacy-27bfdd33faf5dcbe28785a47"
+    },
+    {
+      "afterSha256": "29546e4ef9d0daf7b0663d31752c93dcca2504bf1bc3fc7d927d7642b92f24df",
+      "beforeSha256": "a4a0a7f3e66508cb93c24daf13c0e96e9a9c03e2f5e5cfc91b10477b789ab539",
+      "id": "legacy-a4a0a7f3e66508cb93c24daf"
+    }
+  ],
+  "operation": "QAF-VIEWPOINT-ID25-20261104-A",
+  "pageAfterSha256": "2d83bf43dd556c885a0c30ec9785d6d66ecd97c6460d914e623aa586aed8a4f8",
+  "pageBeforeSha256": "384dd27be36c5836dc168d40852e797f737415a496dc0f97a2832d7b7deee29e",
+  "schema": 1
+}
