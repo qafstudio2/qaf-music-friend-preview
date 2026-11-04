@@ -103,3 +103,22 @@ The mapping stores before/after hashes and is committed with the page.
 Exact reversal is supported only before any later page edits; otherwise stop
 and review a new merge, never overwrite later work. Existing IDs remain unchanged.
 Migration is not article publication and cannot combine with lifecycle actions.
+
+## Explicit recoverable news lifecycle
+
+A news plan may provide `newsLifecycle` with modify/remove/restore, stable id,
+pageSha256, historySha256, itemSha256 and replacement object (modify only).
+It must supply only friend-news-digest.html and data/news-history.json. The
+entry recomputes both, rejects unrelated changes, then updates shared cache.
+News IDs and digest dates are immutable. Existing image files are retained;
+asset updates use a separately reviewed ordinary news plan.
+
+The public history archive retains full item versions, chained operation events,
+neighbor IDs and an immutable publication-date catalog. Restore requires an
+outstanding removal, matching version and a surviving neighbor; collisions stop.
+Ordinary additions also check archived IDs/products/source URLs and daily counts
+including recoverably removed articles. Remove/restore does not reset daily quota.
+
+This is recoverable unlisting, not privacy erasure. No purge, credentials,
+permission changes, new service, scheduler or alternate deployment route exists.
+Actual article changes still require specific task authorization and review.

@@ -107,6 +107,7 @@ class Publisher:
     allowed=(bool(re.fullmatch(r'scripts/qaf[-_a-z0-9]+\.(py|cjs|md)',name)) if kind=='maintenance' else name in ('friend-news-digest.html','qaf-page-viewpoints.html') and name==('friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html') or kind=='news' and bool(re.fullmatch(r'assets/news-[a-z0-9-]+\.(png|jpg|jpeg|webp)',name)))
     if kind=='viewpoints' and plan.get('viewpointLifecycle') and name=='data/viewpoint-history.json':allowed=True
     if kind=='viewpoints' and plan.get('viewpointIdMigration') and name=='data/viewpoint-id-map.json':allowed=True
+    if kind=='news' and plan.get('newsLifecycle') and name=='data/news-history.json':allowed=True
     if not allowed:raise ValueError('out-of-scope file: '+name)
     if name in changes:raise ValueError('duplicate file path')
     old=base_bytes(stage,base,name)
@@ -119,8 +120,16 @@ class Publisher:
     page='friend-news-digest.html' if kind=='news' else 'qaf-page-viewpoints.html'
     if page not in changes:raise ValueError('missing target page')
     day=datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).date().isoformat()
-    if plan.get('viewpointLifecycle') and plan.get('viewpointIdMigration'):raise ValueError('one explicit operation per plan')
-    if kind=='viewpoints' and plan.get('viewpointIdMigration'):
+    if sum(bool(plan.get(k)) for k in ('viewpointLifecycle','viewpointIdMigration','newsLifecycle'))>1:raise ValueError('one explicit operation per plan')
+    if kind=='news' and plan.get('newsLifecycle'):
+     from qaf_news_lifecycle import apply
+     history='data/news-history.json'
+     if history not in changes:raise ValueError('news lifecycle history required')
+     if set(changes)!={page,history}:raise ValueError('news lifecycle only target page and history; stage asset updates separately')
+     expected_page,expected_history=apply(originals[page],originals[history],plan['newsLifecycle'],op,day)
+     if changes[page]!=expected_page or changes[history]!=expected_history:raise ValueError('candidate differs from explicit news lifecycle')
+     r['added']=[];r['newsLifecycle']=plan['newsLifecycle']['action']
+    elif kind=='viewpoints' and plan.get('viewpointIdMigration'):
      from qaf_viewpoint_ids import apply
      mapping='data/viewpoint-id-map.json'
      if mapping not in changes:raise ValueError('ID mapping required')
@@ -134,7 +143,12 @@ class Publisher:
      expected_page,expected_history=apply(originals[page],originals[history],plan['viewpointLifecycle'],op)
      if changes[page]!=expected_page or changes[history]!=expected_history:raise ValueError('candidate differs from explicit lifecycle operation')
      r['added']=[];r['lifecycle']=plan['viewpointLifecycle']['action']
-    else:r['added']=validate(kind,originals[page],changes[page],day)
+    else:
+     r['added']=validate(kind,originals[page],changes[page],day)
+     if kind=='news':
+      from qaf_news_lifecycle import validate_additions
+      history=base_bytes(stage,base,'data/news-history.json')
+      validate_additions(originals[page],changes[page],history,day)
     if kind=='news':
      from PIL import Image
      for i in news(changes[page]):
