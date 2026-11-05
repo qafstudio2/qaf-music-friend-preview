@@ -1,6 +1,6 @@
 {
-  "base": "6c249d85b683a8a6f2ff431b75108e291464ff18",
-  "kind": "maintenance",
-  "operation": "QAF-MAINT-VIEWPOINT-GUARD-20261104-A",
-  "planHash": "4b62e8831c29172555343d2a86d87ff89541fccaf86366f6d09a77858c414a86"
+  "base": "e871ec96bcc03389f1fdb9592bd614749402dd25",
+  "kind": "news",
+  "operation": "QAF-NEWS-20261105-ABC",
+  "planHash": "f7d0c90555deaaa77d6a5cbd51323f5cc58bb296083da9abd839e29f947bd1e3"
 }
