@@ -406,6 +406,30 @@
         "小調六七級的走向是傾向,不是禁令"
       ]
     },
+    "tonal7-open-close-measure": {
+      "bodies": [
+        "db179a50fc3a05872bcf21347d056b1fdf4c08a94e1a8d0cd68915f8571c7c12"
+      ],
+      "publicationDate": "2026-11-06",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "開放或密集配置,要量女高音到男高音"
+      ]
+    },
+    "tonal7-score-voice-identity": {
+      "bodies": [
+        "9859a3e1b5411e3555e787191649c1c25e22b7230a8db6f97c69443809fe7470"
+      ],
+      "publicationDate": "2026-11-06",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "縮譜可以共用譜表,聲部身分不能跟著音高換"
+      ]
+    },
     "tonal7-seventh-quality": {
       "bodies": [
         "c9818be9ba4f975742ca5d48a2ed01fdd2ddff52d13d43f8f86ff15f4dc1f5fd"
@@ -416,6 +440,18 @@
       ],
       "titles": [
         "七和弦分兩層讀:三和弦種類與七度"
+      ]
+    },
+    "tonal7-spacing-crossing-range": {
+      "bodies": [
+        "354a26435bb405f7b6e8b32f3c0e94b181b8b5317b549fe74249037d1a5ae277"
+      ],
+      "publicationDate": "2026-11-06",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "音距、交叉、音域是三張不同的檢查表"
       ]
     },
     "tonal7-texture-inventory": {
@@ -471,6 +507,22 @@
       "previous": null,
       "reviewedBackfill": null,
       "taiwanDate": "2026-11-05"
+    },
+    {
+      "action": "append",
+      "afterPageSha256": "0635a7cc78404e8d2a88636cba81b7499e37407ec1ad43c2dc0d921973c32273",
+      "beforePageSha256": "d953b4a5be49f787dbec2f3ba2c11eb1cbed3dc5d59a91775451e95776a6e047",
+      "dailyGoal": 3,
+      "hash": "0b90b17fe4f88034fe43033eb62389821c7f933ebe56a4c47b3e14696b5c9e2d",
+      "newPublicationIDs": [
+        "tonal7-open-close-measure",
+        "tonal7-score-voice-identity",
+        "tonal7-spacing-crossing-range"
+      ],
+      "operation": "QAF-VIEWPOINTS-20261106-ABC",
+      "previous": "df6c2cf3735761b112d0cf92226cdb72d071a203fa3ca07ff5dd48f2a6071ecd",
+      "reviewedBackfill": null,
+      "taiwanDate": "2026-11-06"
     }
   ],
   "schema": 1
