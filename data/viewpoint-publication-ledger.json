@@ -406,6 +406,18 @@
         "小調六七級的走向是傾向,不是禁令"
       ]
     },
+    "tonal7-motion-pair-matrix": {
+      "bodies": [
+        "ec64a317853eba3eebdf2a342faf0732e6af0543f1c5bdc981c1b205fa3d2f32"
+      ],
+      "publicationDate": "2026-11-07",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "四個聲部要查六組關係,不能只看最高音和低音"
+      ]
+    },
     "tonal7-open-close-measure": {
       "bodies": [
         "db179a50fc3a05872bcf21347d056b1fdf4c08a94e1a8d0cd68915f8571c7c12"
@@ -416,6 +428,18 @@
       ],
       "titles": [
         "開放或密集配置,要量女高音到男高音"
+      ]
+    },
+    "tonal7-parallels-same-voices": {
+      "bodies": [
+        "2bbf7d50f3962df6ce20e02f71129d6337e36e4f442b9f9743b20763235d4381"
+      ],
+      "publicationDate": "2026-11-07",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "連續五度先追同一對聲部,移八度也不一定修好"
       ]
     },
     "tonal7-score-voice-identity": {
@@ -478,6 +502,18 @@
         "三和弦先保留字母骨架,再校音程"
       ]
     },
+    "tonal7-unequal-direct-conditions": {
+      "bodies": [
+        "e55be1f9f0346195736106f721277a92e2cd890faecb2c9c2b7bea729298f8d6"
+      ],
+      "publicationDate": "2026-11-07",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "不等五度與隱伏五度,要把聲部位置和旋律步幅一起查"
+      ]
+    },
     "tonal7-visible-beat": {
       "bodies": [
         "9792f404eb32a3d601db2bfedcd4373d28e10764b432c77f6cf84af3d85ff826"
@@ -523,6 +559,22 @@
       "previous": "df6c2cf3735761b112d0cf92226cdb72d071a203fa3ca07ff5dd48f2a6071ecd",
       "reviewedBackfill": null,
       "taiwanDate": "2026-11-06"
+    },
+    {
+      "action": "append",
+      "afterPageSha256": "81d663fb8bdc247bc22d70677aa30ef8605cbaa9e461b6640d78de0f749c2292",
+      "beforePageSha256": "98f428b18df6068eab71a8edf508bbc5ff44ba2ffdd3c0ca018d6316c0a782f8",
+      "dailyGoal": 3,
+      "hash": "844ae4e853d325cf269e04676494442501ae79e682875632fb6995fa0d17d257",
+      "newPublicationIDs": [
+        "tonal7-motion-pair-matrix",
+        "tonal7-parallels-same-voices",
+        "tonal7-unequal-direct-conditions"
+      ],
+      "operation": "QAF-VIEWPOINTS-20261107-ABC",
+      "previous": "0b90b17fe4f88034fe43033eb62389821c7f933ebe56a4c47b3e14696b5c9e2d",
+      "reviewedBackfill": null,
+      "taiwanDate": "2026-11-07"
     }
   ],
   "schema": 1
