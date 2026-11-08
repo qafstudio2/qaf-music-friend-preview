@@ -298,6 +298,18 @@
         "數字低音從低音量,不能當作吉他品格"
       ]
     },
+    "tonal7-fourth-fifth-three-methods": {
+      "bodies": [
+        "7a95dea2bd71f8e56cf1c877038ec403b7dc263d187de94e0924a75ddcc7777c"
+      ],
+      "publicationDate": "2026-11-08",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "根音相距四五度,先選連接方法,再追每個聲部"
+      ]
+    },
     "tonal7-lead-sheet": {
       "bodies": [
         "16be5600220c02f0b2129862edb442bfd3a418dc2cca19f10fd79963307d407a"
@@ -442,6 +454,18 @@
         "連續五度先追同一對聲部,移八度也不一定修好"
       ]
     },
+    "tonal7-repeated-root-doubling": {
+      "bodies": [
+        "667def3e0a77e53eebb4767cc066f180fa052ca18e0dfe7ef3bdb75fcc1bd86f"
+      ],
+      "publicationDate": "2026-11-08",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "同一和弦再出現,可以重排音域,仍要交代重複了誰"
+      ]
+    },
     "tonal7-score-voice-identity": {
       "bodies": [
         "9859a3e1b5411e3555e787191649c1c25e22b7230a8db6f97c69443809fe7470"
@@ -488,6 +512,18 @@
       ],
       "titles": [
         "先去重找和弦根,再回原譜找低音"
+      ]
+    },
+    "tonal7-three-part-essential-tones": {
+      "bodies": [
+        "9ffa9747ccffb5c3d2e8b3a98f8d0a173b6f3958cc4a3c7ee4344a67dc226c1d"
+      ],
+      "publicationDate": "2026-11-08",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "三部織度先保根與三音,別把四部寫法直接刪一部"
       ]
     },
     "tonal7-triad-spelling": {
@@ -575,6 +611,22 @@
       "previous": "0b90b17fe4f88034fe43033eb62389821c7f933ebe56a4c47b3e14696b5c9e2d",
       "reviewedBackfill": null,
       "taiwanDate": "2026-11-07"
+    },
+    {
+      "action": "append",
+      "afterPageSha256": "0b2de64ff35fd4bb3390111174379fdb547a6a2f4607c4484015836083591e1e",
+      "beforePageSha256": "14ac030136a753072052d17f11e1bdea478eb80476764ade0c042f9c81de83a3",
+      "dailyGoal": 3,
+      "hash": "94ceafae93e7fc52206ecb66fb4650957c42b5f12082d738e3e74a0f5fe5667d",
+      "newPublicationIDs": [
+        "tonal7-fourth-fifth-three-methods",
+        "tonal7-repeated-root-doubling",
+        "tonal7-three-part-essential-tones"
+      ],
+      "operation": "QAF-VIEWPOINTS-20261108-ABC",
+      "previous": "844ae4e853d325cf269e04676494442501ae79e682875632fb6995fa0d17d257",
+      "reviewedBackfill": null,
+      "taiwanDate": "2026-11-08"
     }
   ],
   "schema": 1

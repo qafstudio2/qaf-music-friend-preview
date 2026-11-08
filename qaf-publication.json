@@ -1,6 +1,6 @@
 {
-  "base": "6c5eebdbc8ab7a92d6b473106e2e8c2ea7c90a93",
-  "kind": "news",
-  "operation": "QAF-NEWS-20261108-AB",
-  "planHash": "f4ce0e315a1a396612ee8f5b533db6168efcba516c15ccb46281d93f33574c9c"
+  "base": "cec63bb75cb0362f907b6ca7c28c6493cfe188d3",
+  "kind": "viewpoints",
+  "operation": "QAF-VIEWPOINTS-20261108-ABC",
+  "planHash": "657ef09ed7c3f050d1cfb1006082e5997f797dc9782e5becc8ecc625e4e977dd"
 }
