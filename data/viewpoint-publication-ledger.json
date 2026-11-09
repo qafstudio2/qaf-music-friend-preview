@@ -286,6 +286,18 @@
         "複拍號先讀細分,再找主拍"
       ]
     },
+    "tonal7-deceptive-third-leading-tone": {
+      "bodies": [
+        "d3b7d59c7a53405754bf1a0d3eb3b2d1ed05947c12299492bc3f5657fafe9b32"
+      ],
+      "publicationDate": "2026-11-09",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "v走向vi或vi時,重複三音常是導音解決的結果"
+      ]
+    },
     "tonal7-figured-bass": {
       "bodies": [
         "17ba8b7d16405170245dca6fab3efa5b9ae6a82bc4d5f70386c216b50c10ccc8"
@@ -478,6 +490,18 @@
         "縮譜可以共用譜表,聲部身分不能跟著音高換"
       ]
     },
+    "tonal7-second-root-contrary": {
+      "bodies": [
+        "81909b4e190d167496eeb1e792e57266e2bff4cdb7f065972cf0dfc9a049beec"
+      ],
+      "publicationDate": "2026-11-09",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "根音走二度沒有共同音,上方聲部先試反向近移"
+      ]
+    },
     "tonal7-seventh-quality": {
       "bodies": [
         "c9818be9ba4f975742ca5d48a2ed01fdd2ddff52d13d43f8f86ff15f4dc1f5fd"
@@ -512,6 +536,18 @@
       ],
       "titles": [
         "先去重找和弦根,再回原譜找低音"
+      ]
+    },
+    "tonal7-third-sixth-common-tones": {
+      "bodies": [
+        "d7d385f0bbe858f9cf89d05e75fc62723b7d5e0b05e8d89f718f09d3fb569ebd"
+      ],
+      "publicationDate": "2026-11-09",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "根音相距三六度,先留兩個共同音,也要防省音誤認"
       ]
     },
     "tonal7-three-part-essential-tones": {
@@ -627,6 +663,22 @@
       "previous": "844ae4e853d325cf269e04676494442501ae79e682875632fb6995fa0d17d257",
       "reviewedBackfill": null,
       "taiwanDate": "2026-11-08"
+    },
+    {
+      "action": "append",
+      "afterPageSha256": "bcf92c814d88ac5d58603790505b4a33e96d36a3628a82b3ebf241a9a9084ae2",
+      "beforePageSha256": "daefe567aaccc8000942c5a904de26b1e4c3c5cbccc6eef712e9bd19ad6bf996",
+      "dailyGoal": 3,
+      "hash": "7d37a8e2741d65c840ead73cb0fc65f75e24249e883f6503de5c27aa3fbda2c3",
+      "newPublicationIDs": [
+        "tonal7-deceptive-third-leading-tone",
+        "tonal7-second-root-contrary",
+        "tonal7-third-sixth-common-tones"
+      ],
+      "operation": "QAF-VIEWPOINTS-20261109-ABC",
+      "previous": "94ceafae93e7fc52206ecb66fb4650957c42b5f12082d738e3e74a0f5fe5667d",
+      "reviewedBackfill": null,
+      "taiwanDate": "2026-11-09"
     }
   ],
   "schema": 1
