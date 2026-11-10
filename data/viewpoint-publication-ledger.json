@@ -298,6 +298,18 @@
         "v走向vi或vi時,重複三音常是導音解決的結果"
       ]
     },
+    "tonal7-ensemble-score-parts-workflow": {
+      "bodies": [
+        "18e732f99494a0378b526fbae4ce0d5c69f108f9afec55f33fc1deb15b8ba76d"
+      ],
+      "publicationDate": "2026-11-10",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "先用實音安排合奏,再把音域與移調帶進各自分譜"
+      ]
+    },
     "tonal7-figured-bass": {
       "bodies": [
         "17ba8b7d16405170245dca6fab3efa5b9ae6a82bc4d5f70386c216b50c10ccc8"
@@ -320,6 +332,18 @@
       ],
       "titles": [
         "根音相距四五度,先選連接方法,再追每個聲部"
+      ]
+    },
+    "tonal7-given-melody-constraints": {
+      "bodies": [
+        "face27c86dbe2c99a71a46e4c78dcae545dfd473779a08242f12542d249026a6"
+      ],
+      "publicationDate": "2026-11-10",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "給定旋律不配合慣用連接時,先說清楚哪個條件卡住"
       ]
     },
     "tonal7-lead-sheet": {
@@ -597,6 +621,18 @@
       "titles": [
         "時值算對,還要讓拍界看得見"
       ]
+    },
+    "tonal7-written-sounding-pitch": {
+      "bodies": [
+        "93ee8e0a09612a87a920f174281d6c3b877cef3d314cb2c37e54fc08c54dd7ec"
+      ],
+      "publicationDate": "2026-11-10",
+      "sourceDocuments": [
+        "document457"
+      ],
+      "titles": [
+        "移調先標清楚:現在寫的是記譜音,還是實際發聲音"
+      ]
     }
   },
   "events": [
@@ -679,6 +715,22 @@
       "previous": "94ceafae93e7fc52206ecb66fb4650957c42b5f12082d738e3e74a0f5fe5667d",
       "reviewedBackfill": null,
       "taiwanDate": "2026-11-09"
+    },
+    {
+      "action": "append",
+      "afterPageSha256": "fe861778a40f5c5df947bc4cf51cba8f6d1b536eab6768553b51a6ba74cc99d9",
+      "beforePageSha256": "266402501048af4662e0365a623faa6996f64f342f46dffcc6e155114772e9f6",
+      "dailyGoal": 3,
+      "hash": "7551f049e20a4cf5b44b1d29c671669b5f53f6a17732fdb2fd099f2fa58feee5",
+      "newPublicationIDs": [
+        "tonal7-ensemble-score-parts-workflow",
+        "tonal7-given-melody-constraints",
+        "tonal7-written-sounding-pitch"
+      ],
+      "operation": "QAF-VIEWPOINTS-20261110-ABC",
+      "previous": "7d37a8e2741d65c840ead73cb0fc65f75e24249e883f6503de5c27aa3fbda2c3",
+      "reviewedBackfill": null,
+      "taiwanDate": "2026-11-10"
     }
   ],
   "schema": 1
